@@ -2,7 +2,10 @@ package nguyen.huy.moneylover;
 
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,23 +13,28 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import nguyen.huy.moneylover.MainLayout.TabAdapter;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private FloatingActionButton fabAdd;
     private NavigationView navigationView;
-
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        addControls();
         createNavigationDrawer();
+        createTabLayout();
+        addControls();
         addEvent();
     }
+
 
     private void createNavigationDrawer() {
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -38,8 +46,33 @@ public class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
     }
 
+    private void createTabLayout() {
+        viewPager = findViewById(R.id.view_pager);
+        tabLayout = findViewById(R.id.tablayout_header);
+        TabAdapter adapter = new TabAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
     private void addControls() {
         fabAdd = findViewById(R.id.fabAdd);
+
     }
 
     private void addEvent() {
