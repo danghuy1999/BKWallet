@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "258266911961",
+    "firebase_url": "https://moneylover-905ab.firebaseio.com",
+    "project_id": "moneylover-905ab",
+    "storage_bucket": "moneylover-905ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258266911961:android:71a6dbf9ed63edb2",
+        "android_client_info": {
+          "package_name": "nguyen.huy.moneylover"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "258266911961-8s1c9misdrl5hg660qld3gmpsosar6kd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nguyen.huy.moneylover",
+            "certificate_hash": "a423573313ad7c6ac772ade326108ad2bf9f42cf"
+          }
+        },
+        {
+          "client_id": "258266911961-rb93cu1lf65pr4q1075a6jlj5p26ghu9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2urxaGdBBUvaYvM18v4LyI98f76QNEW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "258266911961-rb93cu1lf65pr4q1075a6jlj5p26ghu9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
