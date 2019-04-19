@@ -4,4 +4,17 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorFloatButton">#4CAF50</color>
+    <color name="colorChonVi">#15811B</color>
+    <color name="colorbackground">#BDBCBD</color>
+    <color name="colorbackgroundlayoutdau">#FDFBFD</color>
+    <color name="colorbackgroundlayoutthuhai">#FDFBFD</color>
+    <color name="colorbackgroundlayoutthuba">#FDFBFD</color>
+    <color name="colorbackgroundlayoutthutu">#FDFBFD</color>
+    <color name="colorbackgroundlayoutthunam">#FDFBFD</color>
+    <color name="colorbackgroundchonsukien">#FDFBFD</color>
+    <color name="colorChonViHint">#15811B</color>
+    <color name="colorLayoutTaskbar">#F1EFEF</color>
+    <color name="colorbackgroundBack">#FFFFFF</color>
+    <color name="colorbackgroundLuu">#FFFFFF</color>
+    <color name="colorTabIn">#82C886</color>
 </resources>

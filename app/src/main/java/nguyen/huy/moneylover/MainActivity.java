@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import nguyen.huy.moneylover.MainLayout.TabAdapter;
 import nguyen.huy.moneylover.MainTruong.MainKeHoach;
+import nguyen.huy.moneylover.MinhLayout.ThuChiActivity;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -125,7 +126,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void doQuanLyThuChi() {
         //them thu chi (+)
-        Toast.makeText(this,"Thu chi",Toast.LENGTH_SHORT).show();
+        Intent intent=new Intent(MainActivity.this, ThuChiActivity.class);
+        startActivity(intent);
     }
 
     private void doTietKiem() {
