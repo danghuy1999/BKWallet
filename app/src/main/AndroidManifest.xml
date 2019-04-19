@@ -16,6 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainTruong.MainKeHoach"
+            android:theme="@style/Theme.AppCompat.Light"/>
+        <activity android:name=".MainTruong.ThemKeHoach"
+            android:theme="@style/Theme.AppCompat.Light" />
+        <activity android:name=".MainTruong.ChonNhomActivity"
+            android:theme="@style/Base.Theme.AppCompat.Light.Dialog"/>
     </application>
 
 </manifest>

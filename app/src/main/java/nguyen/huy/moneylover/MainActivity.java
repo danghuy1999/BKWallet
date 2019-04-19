@@ -1,5 +1,6 @@
 package nguyen.huy.moneylover;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -17,6 +18,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import nguyen.huy.moneylover.MainLayout.TabAdapter;
+import nguyen.huy.moneylover.MainTruong.MainKeHoach;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -127,12 +129,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void doTietKiem() {
-        Toast.makeText(this,"Tiet kiem",Toast.LENGTH_SHORT).show();
-        //quan ly tiet kiem
+
     }
 
     private void doSuKien() {
-        Toast.makeText(this,"SuKien",Toast.LENGTH_SHORT).show();
-        //quan ly su kien
+        Intent intent=new Intent(MainActivity.this, MainKeHoach.class);
+        startActivity(intent);
     }
 }
