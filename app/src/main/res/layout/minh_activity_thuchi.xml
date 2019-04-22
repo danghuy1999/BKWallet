@@ -142,7 +142,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="5dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:onClick="xuLyHienThiNgay">
 
                     <ImageView
                         android:id="@+id/imageView3"
@@ -155,6 +156,8 @@
                         app:srcCompat="@drawable/calendar_picture" />
 
                     <EditText
+                        android:onClick="xuLyHienThiNgay"
+                        android:focusable="false"
                         android:id="@+id/edtChonNgay"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"

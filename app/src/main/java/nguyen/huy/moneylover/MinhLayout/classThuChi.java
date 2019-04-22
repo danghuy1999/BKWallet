@@ -10,10 +10,9 @@ public class classThuChi {
     private String DatNhacNho;
     private String ChonSuKien;
 
-    public String getNhapSoTien() {
-        return NhapSoTien;
-    }
+    public classThuChi(){
 
+    }
     public classThuChi(String nhapSoTien, String chonNhom, String themGhiChu, String chonNgay, String chonVi, String themBan, String datNhacNho, String chonSuKien) {
         NhapSoTien = nhapSoTien;
         ChonNhom = chonNhom;
@@ -23,6 +22,20 @@ public class classThuChi {
         ThemBan = themBan;
         DatNhacNho = datNhacNho;
         ChonSuKien = chonSuKien;
+    }
+
+    public classThuChi(String nhapSoTien, String chonNhom, String themGhiChu, String chonVi, String themBan, String datNhacNho, String chonSuKien) {
+        NhapSoTien = nhapSoTien;
+        ChonNhom = chonNhom;
+        ThemGhiChu = themGhiChu;
+        ChonVi = chonVi;
+        ThemBan = themBan;
+        DatNhacNho = datNhacNho;
+        ChonSuKien = chonSuKien;
+    }
+
+    public String getNhapSoTien() {
+        return NhapSoTien;
     }
 
     public void setNhapSoTien(String nhapSoTien) {
@@ -85,9 +98,5 @@ public class classThuChi {
         ChonSuKien = chonSuKien;
     }
 
-    @Override
-    public String toString() {
-        return "Số tiền: "+NhapSoTien+"--"+"Nhóm: "+ChonNhom+"\n"+"Ghi chú: "+ThemGhiChu+"--"+"Ngày: "+ ChonNgay+"\n"
-                +"Ví: "+ChonVi+"--"+"Tên bạn bè: "+ThemBan+"\n"+"Nhắc nhở: "+DatNhacNho+"--"+"Sự kiện: "+ChonSuKien;
-    }
+
 }
