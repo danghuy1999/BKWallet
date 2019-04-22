@@ -12,6 +12,7 @@ import nguyen.huy.moneylover.R;
 
 public class FragmentFuture extends Fragment {
     public FragmentFuture() {
+
     }
 
     @Nullable

@@ -10,14 +10,12 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import nguyen.huy.moneylover.MainActivity;
+import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
 
 public class ThuChiActivity extends AppCompatActivity {
@@ -61,7 +59,7 @@ public class ThuChiActivity extends AppCompatActivity {
         String NhacNho=edtDatNhacNho.getText().toString();
         String SuKien=edtChonSuKien.getText().toString();
         //Khoi tao ngay moi
-        classThuChi ngay1=new classThuChi(SoTien,Nhom,GhiChu,Vi,Banbe,NhacNho,SuKien);
+        ThuChi ngay1=new ThuChi(SoTien,Nhom,GhiChu,Vi,Banbe,NhacNho,SuKien);
         //Lấy ra tháng từ trong chuỗi
         String[] result=xuLyChuoi();
         //Xu ly luu vao database

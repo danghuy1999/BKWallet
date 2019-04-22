@@ -1,6 +1,6 @@
-package nguyen.huy.moneylover.MinhLayout;
+package nguyen.huy.moneylover.Model;
 
-public class classThuChi {
+public class ThuChi {
     private String NhapSoTien;
     private String ChonNhom;
     private String ThemGhiChu;
@@ -10,10 +10,10 @@ public class classThuChi {
     private String DatNhacNho;
     private String ChonSuKien;
 
-    public classThuChi(){
+    public ThuChi(){
 
     }
-    public classThuChi(String nhapSoTien, String chonNhom, String themGhiChu, String chonNgay, String chonVi, String themBan, String datNhacNho, String chonSuKien) {
+    public ThuChi(String nhapSoTien, String chonNhom, String themGhiChu, String chonNgay, String chonVi, String themBan, String datNhacNho, String chonSuKien) {
         NhapSoTien = nhapSoTien;
         ChonNhom = chonNhom;
         ThemGhiChu = themGhiChu;
@@ -24,7 +24,7 @@ public class classThuChi {
         ChonSuKien = chonSuKien;
     }
 
-    public classThuChi(String nhapSoTien, String chonNhom, String themGhiChu, String chonVi, String themBan, String datNhacNho, String chonSuKien) {
+    public ThuChi(String nhapSoTien, String chonNhom, String themGhiChu, String chonVi, String themBan, String datNhacNho, String chonSuKien) {
         NhapSoTien = nhapSoTien;
         ChonNhom = chonNhom;
         ThemGhiChu = themGhiChu;
