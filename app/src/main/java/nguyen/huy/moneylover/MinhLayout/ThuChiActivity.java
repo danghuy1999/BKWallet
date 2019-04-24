@@ -59,11 +59,11 @@ public class ThuChiActivity extends AppCompatActivity {
         String NhacNho=edtDatNhacNho.getText().toString();
         String SuKien=edtChonSuKien.getText().toString();
         //Khoi tao ngay moi
-        ThuChi ngay1=new ThuChi(SoTien,Nhom,GhiChu,Vi,Banbe,NhacNho,SuKien);
+        ThuChi giaodich=new ThuChi(SoTien,Nhom,GhiChu,Vi,Banbe,NhacNho,SuKien);
         //Lấy ra tháng từ trong chuỗi
         String[] result=xuLyChuoi();
         //Xu ly luu vao database
-        MainActivity.databaseReference.child("user 1").child("Thu chi").child(result[0]).child(result[1]).child("Mục 1").setValue(ngay1);
+        MainActivity.databaseReference.child("user 1").child("Thu chi").child(result[0]).child("Ngày").child(result[1]).push().setValue(giaodich);
 
         //Chuyển hình chọn nhóm về ban đầu
         Resources res=getResources();

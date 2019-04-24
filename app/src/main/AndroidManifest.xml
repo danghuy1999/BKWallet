@@ -17,6 +17,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MinhLayout.DocActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
         <activity
             android:name=".MainTruong.MainKeHoach"
             android:theme="@style/Theme.AppCompat.Light" />
