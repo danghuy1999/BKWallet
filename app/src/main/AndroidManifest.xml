@@ -16,6 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainHoang.ThemTietKiemActivity"></activity>
+        <activity android:name=".MainHoang.TietKiemActivity" />
         <activity android:name=".MinhLayout.DocActivity"
             android:theme="@style/Base.Theme.AppCompat"/>
         <activity
