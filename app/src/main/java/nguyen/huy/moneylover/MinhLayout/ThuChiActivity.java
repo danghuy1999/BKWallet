@@ -5,11 +5,21 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,14 +28,18 @@ import nguyen.huy.moneylover.MainActivity;
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
 
-public class ThuChiActivity extends AppCompatActivity {
+public class ThuChiActivity extends AppCompatActivity{
 
-    EditText edtNhapSoTien,edtThemGhiChu,edtChonNgay,edtChonVi,edtThemBan,edtDatNhacNho,edtChonSuKien;
+    EditText edtNhapSoTien,edtThemGhiChu,edtChonVi,edtThemBan,edtDatNhacNho,edtChonSuKien;
     public static EditText edtChonNhom;
     public static ImageView imgchonNhom;
+    public static EditText edtChonNgay;
+    DatabaseReference databaseReference;
     //Tao data time picker
-    Calendar calendar=Calendar.getInstance();
-    SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
+    public  static Calendar calendar=Calendar.getInstance();
+    public static SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
+    //Số giao dịch trong ngày
+    int sogiaodich;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +49,46 @@ public class ThuChiActivity extends AppCompatActivity {
 
         //Khởi tạo ngày mặc định cho mục chọn ngày
         edtChonNgay.setText(simpleDateFormat.format(calendar.getTime()));
+    }
+    //Xử lý đọc số giao dịch và thêm giao dịch
+    private void readDatabase() {
+        final String[] result=xuLyChuoi();
+        //Xu ly luu vao database
+        databaseReference=FirebaseDatabase.getInstance().getReference().child("user 1").child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("số giao dịch");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                xuLySnapshot(dataSnapshot,result);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void xuLySnapshot(DataSnapshot dataSnapshot,String[] result) {
+        if(dataSnapshot.getValue()==null){
+            sogiaodich=1;
+            xuLyTruocKhiLuu(result);
+        }
+        else {
+            sogiaodich=dataSnapshot.getValue(Integer.class);
+            sogiaodich=sogiaodich+1;
+            xuLyTruocKhiLuu(result);
+        }
+    }
+
+
+    private void xuLyLuuVaoDatabase(ThuChi giaodich,String[] result,int sogiaodich){
+        databaseReference=FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("user 1").child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").child("Giao dịch "+sogiaodich).setValue(giaodich);
+    }
+
+    private void setSogiaodich(int sogiaodich,String[] result){
+        databaseReference=FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("user 1").child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("số giao dịch").setValue(sogiaodich);
     }
 
     private void addControls() {
@@ -49,7 +103,22 @@ public class ThuChiActivity extends AppCompatActivity {
         imgchonNhom=findViewById(R.id.imgChonNhom);
     }
 
+    private  void xuLyTruocKhiLuu(String[] result){
+        setSogiaodich(sogiaodich,result);
+        xuLyLuuVaoDatabase(TaoGiaoDich(),result,sogiaodich);
+    }
     public void xuLyLuu(View view) {
+        readDatabase();
+
+        //Chuyển hình chọn nhóm về ban đầu
+        Resources res=getResources();
+        Drawable drawable=res.getDrawable(R.drawable.question2);
+        imgchonNhom.setImageDrawable(drawable);
+
+        finish();
+    }
+
+    private ThuChi TaoGiaoDich(){
         String SoTien=edtNhapSoTien.getText().toString();
         String Nhom=edtChonNhom.getText().toString();
         String GhiChu=edtThemGhiChu.getText().toString();
@@ -58,19 +127,9 @@ public class ThuChiActivity extends AppCompatActivity {
         String Banbe=edtThemBan.getText().toString();
         String NhacNho=edtDatNhacNho.getText().toString();
         String SuKien=edtChonSuKien.getText().toString();
-        //Khoi tao ngay moi
+        //Khởi tạo giao dịch mới
         ThuChi giaodich=new ThuChi(SoTien,Nhom,GhiChu,Vi,Banbe,NhacNho,SuKien);
-        //Lấy ra tháng từ trong chuỗi
-        String[] result=xuLyChuoi();
-        //Xu ly luu vao database
-        MainActivity.databaseReference.child("user 1").child("Thu chi").child(result[0]).child("Ngày").child(result[1]).push().setValue(giaodich);
-
-        //Chuyển hình chọn nhóm về ban đầu
-        Resources res=getResources();
-        Drawable drawable=res.getDrawable(R.drawable.question2);
-        imgchonNhom.setImageDrawable(drawable);
-
-        finish();
+        return giaodich;
     }
 
     private String[]  xuLyChuoi(){

@@ -5,13 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <ListView
+        android:id="@+id/listGiaoDichThuChi"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="FragmentTwo" />
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnToast"
-        android:text="Test"/>
+        android:layout_height="match_parent" />
 </LinearLayout>
