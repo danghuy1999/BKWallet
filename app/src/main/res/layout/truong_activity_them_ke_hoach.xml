@@ -29,7 +29,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:hint="Tên kế hoạch"
-            android:inputType="textPersonName" />
+            android:inputType="textCapWords" />
     </LinearLayout>
 
     <TextView

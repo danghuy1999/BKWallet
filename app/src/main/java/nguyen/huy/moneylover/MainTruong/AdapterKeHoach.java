@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import nguyen.huy.moneylover.MainTruong.MainKeHoach;
+import nguyen.huy.moneylover.Model.KeHoach;
 import nguyen.huy.moneylover.R;
 
 public class AdapterKeHoach extends ArrayAdapter<KeHoach> {

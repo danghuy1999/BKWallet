@@ -1,4 +1,4 @@
-package nguyen.huy.moneylover.MainTruong;
+package nguyen.huy.moneylover.Model;
 
 public class KeHoach {
     private String tenkehoach;

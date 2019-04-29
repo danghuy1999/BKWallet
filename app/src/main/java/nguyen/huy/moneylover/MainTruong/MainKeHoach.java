@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -19,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+import nguyen.huy.moneylover.Model.KeHoach;
 import nguyen.huy.moneylover.R;
 
 public class MainKeHoach extends AppCompatActivity implements ChildEventListener {
@@ -56,6 +58,18 @@ public class MainKeHoach extends AppCompatActivity implements ChildEventListener
                 xuLyThemKeHoach();
             }
         });
+
+        lvkeHoach.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                xuLyClickKeHoach();
+            }
+        });
+    }
+
+    private void xuLyClickKeHoach() {
+        Intent intent=new Intent(MainKeHoach.this,DetailKeHoachActivity.class);
+        startActivity(intent);
     }
 
     /*@Override
