@@ -15,7 +15,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import nguyen.huy.moneylover.R;
@@ -31,7 +35,12 @@ public class ThemKeHoach extends AppCompatActivity {
 
     Button btnLuu;
 
+    FirebaseDatabase database=FirebaseDatabase.getInstance();
+    DatabaseReference myRef=database.getReference();
 
+    ArrayList<KeHoach> arrKeHoach= new ArrayList<KeHoach>();
+
+    static int dem=-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,16 +104,22 @@ public class ThemKeHoach extends AppCompatActivity {
     }
 
     private void xuLyLuuKeHoach() {
+
         KeHoach kh=new KeHoach();
         kh.setTenkehoach(edittenKeHoach.getText().toString());
         kh.setThoigian(txtChonthoigian.getText().toString());
         kh.setDiadiem(editnhapDiaDiem.getText().toString());
         kh.setNhom(txtChonnhom.getText().toString());
         kh.setNhacnho(txtDatnhacnho.getText().toString());
+        arrKeHoach.add(kh);
+        myRef = myRef.child("user 1").child("Sự kiện").child("Đang áp dụng");
+        String key = myRef.push().getKey();
 
-        Intent intent = getIntent();
-        intent.putExtra("KEHOACH",kh.getTenkehoach());
-        setResult(04,intent);
+        myRef.child(key).setValue(kh);
+
+        //Intent intent = getIntent();
+        //intent.putExtra("KEHOACH",kh.getTenkehoach());
+        //setResult(04,intent);
         finish();
 
     }
