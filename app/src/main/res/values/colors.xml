@@ -17,4 +17,5 @@
     <color name="colorbackgroundBack">#FFFFFF</color>
     <color name="colorbackgroundLuu">#FFFFFF</color>
     <color name="colorTabIn">#82C886</color>
+    <color name="colorbackgroundListView">#D4D3D4</color>
 </resources>

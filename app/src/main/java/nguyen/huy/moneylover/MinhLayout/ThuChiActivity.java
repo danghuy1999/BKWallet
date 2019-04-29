@@ -80,12 +80,12 @@ public class ThuChiActivity extends AppCompatActivity{
         }
     }
 
-
+    //Lưu giao dịch mới vào Database
     private void xuLyLuuVaoDatabase(ThuChi giaodich,String[] result,int sogiaodich){
         databaseReference=FirebaseDatabase.getInstance().getReference();
         databaseReference.child("user 1").child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").child("Giao dịch "+sogiaodich).setValue(giaodich);
     }
-
+    //Cập nhật số giao dịch
     private void setSogiaodich(int sogiaodich,String[] result){
         databaseReference=FirebaseDatabase.getInstance().getReference();
         databaseReference.child("user 1").child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("số giao dịch").setValue(sogiaodich);
@@ -110,6 +110,8 @@ public class ThuChiActivity extends AppCompatActivity{
     public void xuLyLuu(View view) {
         readDatabase();
 
+        String[] result=xuLyChuoi();
+        xuLyTienVaoRa(result);
         //Chuyển hình chọn nhóm về ban đầu
         Resources res=getResources();
         Drawable drawable=res.getDrawable(R.drawable.question2);
@@ -128,7 +130,7 @@ public class ThuChiActivity extends AppCompatActivity{
         String NhacNho=edtDatNhacNho.getText().toString();
         String SuKien=edtChonSuKien.getText().toString();
         //Khởi tạo giao dịch mới
-        ThuChi giaodich=new ThuChi(SoTien,Nhom,GhiChu,Vi,Banbe,NhacNho,SuKien);
+        ThuChi giaodich=new ThuChi(SoTien,Nhom,GhiChu,Ngay,Vi,Banbe,NhacNho,SuKien);
         return giaodich;
     }
 
@@ -163,4 +165,51 @@ public class ThuChiActivity extends AppCompatActivity{
         DatePickerDialog dialog=new DatePickerDialog(ThuChiActivity.this,callBack,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
         dialog.show();
     }
+
+    //Xử lý tiền vào tiền ra
+
+    private void xuLyTienVaoRa(final String [] result){
+        databaseReference=FirebaseDatabase.getInstance().getReference().child("user 1").child("Thu chi").child(result[0]);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("Tiền vào").getValue()==null || dataSnapshot.child("Tiền ra").getValue()==null){
+                    if (edtChonNhom.getText().toString().equals("Gửi tiền") || edtChonNhom.getText().toString().equals("Tiền lãi")) {
+                         long tienvao = Long.parseLong(edtNhapSoTien.getText().toString());
+                        CapNhatTienVao(result, tienvao);
+                    } else if (edtChonNhom.getText().toString().equals("Rút tiền")) {
+                        long tienra = Long.parseLong(edtNhapSoTien.getText().toString());
+                        CapNhatTienRa(result, tienra);
+                    }
+                }
+                else {
+                    long tienvao = (long) dataSnapshot.child("Tiền vào").getValue();
+                    long tienra = (long) dataSnapshot.child("Tiền ra").getValue();
+                    if (edtChonNhom.getText().toString().equals("Gửi tiền") || edtChonNhom.getText().toString().equals("Tiền lãi")) {
+                        tienvao = tienvao + Long.parseLong(edtNhapSoTien.getText().toString());
+                        CapNhatTienVao(result, tienvao);
+                    } else if (edtChonNhom.getText().toString().equals("Rút tiền")) {
+                        tienra = tienra - Long.parseLong(edtNhapSoTien.getText().toString());
+                        CapNhatTienRa(result, tienra);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    //Cập nhật lại tiền vào
+    private void CapNhatTienVao(String[] result,long tienvao){
+        databaseReference=FirebaseDatabase.getInstance().getReference().child("user 1").child("Thu chi").child(result[0]).child("Tiền vào");
+        databaseReference.setValue(tienvao);
+    }
+    //Cập nhật lại tiền re
+    private void CapNhatTienRa(String[] result,long tienra){
+        databaseReference=FirebaseDatabase.getInstance().getReference().child("user 1").child("Thu chi").child(result[0]).child("Tiền ra");
+        databaseReference.setValue(tienra);
+    }
+
 }
