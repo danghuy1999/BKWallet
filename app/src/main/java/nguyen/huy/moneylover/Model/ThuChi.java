@@ -1,101 +1,101 @@
 package nguyen.huy.moneylover.Model;
 
 public class ThuChi {
-    private String NhapSoTien;
-    private String ChonNhom;
-    private String ThemGhiChu;
-    private String ChonNgay;
-    private String ChonVi;
-    private String ThemBan;
-    private String DatNhacNho;
-    private String ChonSuKien;
+    private String sotien;
+    private String nhom;
+    private String ghichu;
+    private String ngay;
+    private String vi;
+    private String banbe;
+    private String nhacnho;
+    private String sukien;
 
     public ThuChi(){
 
     }
-    public ThuChi(String nhapSoTien, String chonNhom, String themGhiChu, String chonNgay, String chonVi, String themBan, String datNhacNho, String chonSuKien) {
-        NhapSoTien = nhapSoTien;
-        ChonNhom = chonNhom;
-        ThemGhiChu = themGhiChu;
-        ChonNgay = chonNgay;
-        ChonVi = chonVi;
-        ThemBan = themBan;
-        DatNhacNho = datNhacNho;
-        ChonSuKien = chonSuKien;
+    public ThuChi(String sotien, String nhom, String ghichu, String ngay, String vi, String banbe, String nhacnho, String sukien) {
+        this.sotien = sotien;
+        this.nhom = nhom;
+        this.ghichu = ghichu;
+        this.ngay = ngay;
+        this.vi = vi;
+        this.banbe = banbe;
+        this.nhacnho = nhacnho;
+        this.sukien = sukien;
     }
 
-    public ThuChi(String nhapSoTien, String chonNhom, String themGhiChu, String chonVi, String themBan, String datNhacNho, String chonSuKien) {
-        NhapSoTien = nhapSoTien;
-        ChonNhom = chonNhom;
-        ThemGhiChu = themGhiChu;
-        ChonVi = chonVi;
-        ThemBan = themBan;
-        DatNhacNho = datNhacNho;
-        ChonSuKien = chonSuKien;
+    public ThuChi(String sotien, String nhom, String ghichu, String vi, String banbe, String nhacnho, String sukien) {
+        this.sotien = sotien;
+        this.nhom = nhom;
+        this.ghichu = ghichu;
+        this.vi = vi;
+        this.banbe = banbe;
+        this.nhacnho = nhacnho;
+        this.sukien = sukien;
     }
 
-    public String getNhapSoTien() {
-        return NhapSoTien;
+    public String getSotien() {
+        return sotien;
     }
 
-    public void setNhapSoTien(String nhapSoTien) {
-        NhapSoTien = nhapSoTien;
+    public void setSotien(String sotien) {
+        this.sotien = sotien;
     }
 
-    public String getChonNhom() {
-        return ChonNhom;
+    public String getNhom() {
+        return nhom;
     }
 
-    public void setChonNhom(String chonNhom) {
-        ChonNhom = chonNhom;
+    public void setNhom(String nhom) {
+        this.nhom = nhom;
     }
 
-    public String getThemGhiChu() {
-        return ThemGhiChu;
+    public String getGhichu() {
+        return ghichu;
     }
 
-    public void setThemGhiChu(String themGhiChu) {
-        ThemGhiChu = themGhiChu;
+    public void setGhichu(String ghichu) {
+        this.ghichu = ghichu;
     }
 
-    public String getChonNgay() {
-        return ChonNgay;
+    public String getNgay() {
+        return ngay;
     }
 
-    public void setChonNgay(String chonNgay) {
-        ChonNgay = chonNgay;
+    public void setNgay(String ngay) {
+        this.ngay = ngay;
     }
 
-    public String getChonVi() {
-        return ChonVi;
+    public String getVi() {
+        return vi;
     }
 
-    public void setChonVi(String chonVi) {
-        ChonVi = chonVi;
+    public void setVi(String vi) {
+        this.vi = vi;
     }
 
-    public String getThemBan() {
-        return ThemBan;
+    public String getBanbe() {
+        return banbe;
     }
 
-    public void setThemBan(String themBan) {
-        ThemBan = themBan;
+    public void setBanbe(String banbe) {
+        this.banbe = banbe;
     }
 
-    public String getDatNhacNho() {
-        return DatNhacNho;
+    public String getNhacnho() {
+        return nhacnho;
     }
 
-    public void setDatNhacNho(String datNhacNho) {
-        DatNhacNho = datNhacNho;
+    public void setNhacnho(String nhacnho) {
+        this.nhacnho = nhacnho;
     }
 
-    public String getChonSuKien() {
-        return ChonSuKien;
+    public String getSukien() {
+        return sukien;
     }
 
-    public void setChonSuKien(String chonSuKien) {
-        ChonSuKien = chonSuKien;
+    public void setSukien(String sukien) {
+        this.sukien = sukien;
     }
 
 
