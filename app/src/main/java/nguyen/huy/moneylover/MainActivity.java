@@ -17,9 +17,11 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import nguyen.huy.moneylover.Authentication.LogInActivity;
 import nguyen.huy.moneylover.MainLayout.TabAdapter;
 import nguyen.huy.moneylover.MainTruong.MainKeHoach;
 import nguyen.huy.moneylover.MinhLayout.ThuChiActivity;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private FirebaseAuth firebaseAuth;
     //Tạo firebase database
     //FirebaseDatabase firebaseDatabase;
     public static DatabaseReference databaseReference;
@@ -81,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void addControls() {
         fabAdd = findViewById(R.id.fabAdd);
-
+        firebaseAuth = FirebaseAuth.getInstance();
     }
 
     private void addEvent() {
@@ -114,6 +117,12 @@ public class MainActivity extends AppCompatActivity {
         switch (itemId){
             case R.id.nav_TietKiem : doTietKiem() ; break;
             case R.id.nav_SuKien : doSuKien() ; break;
+            case R.id.nav_logout :
+            {
+                firebaseAuth.signOut();
+                startActivity(new Intent(MainActivity.this, LogInActivity.class));
+                finish();
+            } break;
         }
     }
 

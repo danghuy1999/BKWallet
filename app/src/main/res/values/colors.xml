@@ -18,4 +18,10 @@
     <color name="colorbackgroundLuu">#FFFFFF</color>
     <color name="colorTabIn">#82C886</color>
     <color name="colorbackgroundListView">#D4D3D4</color>
+
+    <color name="transparentBackgroundLogin">#668A97E4</color>
+    <color name="textLoginColor">#FFFFFF</color>
+    <color name="backgroundLoginGoogle">#46B3E6</color>
+    <color name="cardFragmentToolbarBackground">#5314d0</color>
+
 </resources>

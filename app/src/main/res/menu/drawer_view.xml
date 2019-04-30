@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"
+        android:id="@+id/group1">
         <item
             android:id="@+id/nav_TietKiem"
             android:icon="@drawable/ic_settings_black_24dp"
@@ -10,5 +11,12 @@
             android:id="@+id/nav_SuKien"
             android:icon="@drawable/ic_help_black_24dp"
             android:title="Sự kiện" />
+    </group>
+    <group android:checkableBehavior="single"
+        android:id="@+id/group2">
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_eject_black_24dp"
+            android:title="@string/nav_logout" />
     </group>
 </menu>
