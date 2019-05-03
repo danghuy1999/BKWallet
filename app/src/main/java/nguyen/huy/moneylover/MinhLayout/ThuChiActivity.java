@@ -6,15 +6,15 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +24,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import nguyen.huy.moneylover.MainActivity;
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
 
@@ -34,7 +33,12 @@ public class ThuChiActivity extends AppCompatActivity{
     public static EditText edtChonNhom;
     public static ImageView imgchonNhom;
     public static EditText edtChonNgay;
+
     DatabaseReference databaseReference;
+    //Lấy user
+
+    public static FirebaseAuth mAuth=FirebaseAuth.getInstance();
+    public static String user=mAuth.getCurrentUser().getUid();
     //Tao data time picker
     public  static Calendar calendar=Calendar.getInstance();
     public static SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
@@ -54,7 +58,7 @@ public class ThuChiActivity extends AppCompatActivity{
     private void readDatabase() {
         final String[] result=xuLyChuoi();
         //Xu ly luu vao database
-        databaseReference=FirebaseDatabase.getInstance().getReference().child("user 1").child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("số giao dịch");
+        databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("số giao dịch");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -83,12 +87,13 @@ public class ThuChiActivity extends AppCompatActivity{
     //Lưu giao dịch mới vào Database
     private void xuLyLuuVaoDatabase(ThuChi giaodich,String[] result,int sogiaodich){
         databaseReference=FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("user 1").child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").child("Giao dịch "+sogiaodich).setValue(giaodich);
+        giaodich.setThuchiID(sogiaodich);
+        databaseReference.child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").child("Giao dịch "+sogiaodich).setValue(giaodich);
     }
     //Cập nhật số giao dịch
     private void setSogiaodich(int sogiaodich,String[] result){
         databaseReference=FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("user 1").child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("số giao dịch").setValue(sogiaodich);
+        databaseReference.child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("số giao dịch").setValue(sogiaodich);
     }
 
     private void addControls() {
@@ -108,6 +113,18 @@ public class ThuChiActivity extends AppCompatActivity{
         xuLyLuuVaoDatabase(TaoGiaoDich(),result,sogiaodich);
     }
     public void xuLyLuu(View view) {
+        if(TextUtils.isEmpty(edtNhapSoTien.getText().toString())){
+            edtNhapSoTien.setError("Bạn chưa nhập số tiền");
+            return;
+        }
+        if(TextUtils.isEmpty(edtChonNhom.getText().toString())){
+            Toast.makeText(getApplicationContext(),"Bạn chưa chọn nhóm",Toast.LENGTH_LONG);
+            return;
+        }
+        if(TextUtils.isEmpty(edtChonVi.getText().toString())){
+            edtChonVi.setError("Bạn chưa chọn ví");
+            return;
+        }
         readDatabase();
 
         String[] result=xuLyChuoi();
@@ -169,13 +186,13 @@ public class ThuChiActivity extends AppCompatActivity{
     //Xử lý tiền vào tiền ra
 
     private void xuLyTienVaoRa(final String [] result){
-        databaseReference=FirebaseDatabase.getInstance().getReference().child("user 1").child("Thu chi").child(result[0]);
+        databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.child("Tiền vào").getValue()==null || dataSnapshot.child("Tiền ra").getValue()==null){
                     if (edtChonNhom.getText().toString().equals("Gửi tiền") || edtChonNhom.getText().toString().equals("Tiền lãi")) {
-                         long tienvao = Long.parseLong(edtNhapSoTien.getText().toString());
+                        long tienvao = Long.parseLong(edtNhapSoTien.getText().toString());
                         CapNhatTienVao(result, tienvao);
                     } else if (edtChonNhom.getText().toString().equals("Rút tiền")) {
                         long tienra = Long.parseLong(edtNhapSoTien.getText().toString());
@@ -189,7 +206,7 @@ public class ThuChiActivity extends AppCompatActivity{
                         tienvao = tienvao + Long.parseLong(edtNhapSoTien.getText().toString());
                         CapNhatTienVao(result, tienvao);
                     } else if (edtChonNhom.getText().toString().equals("Rút tiền")) {
-                        tienra = tienra - Long.parseLong(edtNhapSoTien.getText().toString());
+                        tienra = tienra + Long.parseLong(edtNhapSoTien.getText().toString());
                         CapNhatTienRa(result, tienra);
                     }
                 }
@@ -203,12 +220,12 @@ public class ThuChiActivity extends AppCompatActivity{
     }
     //Cập nhật lại tiền vào
     private void CapNhatTienVao(String[] result,long tienvao){
-        databaseReference=FirebaseDatabase.getInstance().getReference().child("user 1").child("Thu chi").child(result[0]).child("Tiền vào");
+        databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Tiền vào");
         databaseReference.setValue(tienvao);
     }
-    //Cập nhật lại tiền re
+    //Cập nhật lại tiền ra
     private void CapNhatTienRa(String[] result,long tienra){
-        databaseReference=FirebaseDatabase.getInstance().getReference().child("user 1").child("Thu chi").child(result[0]).child("Tiền ra");
+        databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Tiền ra");
         databaseReference.setValue(tienra);
     }
 

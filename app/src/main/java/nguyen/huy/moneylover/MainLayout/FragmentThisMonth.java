@@ -1,5 +1,6 @@
 package nguyen.huy.moneylover.MainLayout;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nguyen.huy.moneylover.MinhLayout.AdapterThuChi;
+import nguyen.huy.moneylover.MinhLayout.DocActivity;
 import nguyen.huy.moneylover.MinhLayout.ThuChiActivity;
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
@@ -56,9 +59,23 @@ public class FragmentThisMonth extends Fragment {
 
         readTienVaoTienRa(result);
 
+        addEvents();
+
         return view;
 
     }
+
+    private void addEvents() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent(getActivity(), DocActivity.class);
+                intent.putExtra("Item",adapterThuChi.getItem(position));
+                startActivity(intent);
+            }
+        });
+    }
+
     //Chuyen tu dd/MM/yyyy -> dd+MM+yyyy
     private String[] xuLyChuoiThisMonth(String string){
         String[] words=string.split("[/]");
@@ -77,7 +94,7 @@ public class FragmentThisMonth extends Fragment {
     }
 
     private void readAllDayinThisMonth(String thang){
-        databaseReference=FirebaseDatabase.getInstance().getReference().child("user 1").child("Thu chi").child(thang).child("Ngày");
+        databaseReference=FirebaseDatabase.getInstance().getReference().child(ThuChiActivity.user).child("Thu chi").child(thang).child("Ngày");
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -111,7 +128,7 @@ public class FragmentThisMonth extends Fragment {
 
     private void hienThiTungNgayLenListView(String ngay){
         String[] result= xuLyChuoiThisMonth2(ngay);
-        databaseReference= FirebaseDatabase.getInstance().getReference().child("user 1").child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch");
+        databaseReference= FirebaseDatabase.getInstance().getReference().child(ThuChiActivity.user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch");
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -145,11 +162,11 @@ public class FragmentThisMonth extends Fragment {
     }
     //Đọc lây tiền vào tiền ra
     private void readTienVaoTienRa(String[] result){
-        databaseReference=FirebaseDatabase.getInstance().getReference().child("user 1").child("Thu chi").child(result[0]);
+        databaseReference=FirebaseDatabase.getInstance().getReference().child(ThuChiActivity.user).child("Thu chi").child(result[0]);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child("Tiền vào").getValue()!=null) {
+                if(dataSnapshot.child("Tiền vào").getValue()!=null && dataSnapshot.child("Tiền ra").getValue()!=null) {
                     txtSoTienVao.setText(dataSnapshot.child("Tiền vào").getValue().toString()+" đ");
                     txtSoTienRa.setText(dataSnapshot.child("Tiền ra").getValue().toString()+" đ");
                     long sodu = Long.parseLong(dataSnapshot.child("Tiền vào").getValue().toString()) - Long.parseLong(dataSnapshot.child("Tiền ra").getValue().toString());
@@ -157,6 +174,19 @@ public class FragmentThisMonth extends Fragment {
                     txtSoTienVao.setTextColor(Color.BLUE);
                     txtSoTienRa.setTextColor(Color.RED);
                     txtSoDu.setTextColor(Color.BLACK);
+                }
+                /*else if(dataSnapshot.child("Tiền vào").getValue()!=null && dataSnapshot.child("Tiền ra").getValue()==null){
+                    txtSoTienVao.setText(dataSnapshot.child("Tiê"));
+                }*/
+                else{
+                    txtSoTienRa.setText("0 đ");
+                    txtSoTienVao.setText("0 đ");
+                    txtSoDu.setText("0 đ");
+                    txtSoTienVao.setTextColor(Color.BLUE);
+                    txtSoTienRa.setTextColor(Color.RED);
+                    txtSoDu.setTextColor(Color.BLACK);
+                    databaseReference.child("Tiền vào").setValue(0);
+                    databaseReference.child("Tiền ra").setValue(0);
                 }
             }
 
