@@ -25,6 +25,7 @@ import nguyen.huy.moneylover.Authentication.LogInActivity;
 import nguyen.huy.moneylover.MainLayout.TabAdapter;
 import nguyen.huy.moneylover.MainTruong.MainKeHoach;
 import nguyen.huy.moneylover.MinhLayout.ThuChiActivity;
+import nguyen.huy.moneylover.MainTietKiem.MainTietKiem;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -146,7 +147,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void doTietKiem() {
-
+        Intent intent=new Intent(MainActivity.this, MainTietKiem.class);
+        startActivity(intent);
     }
 
     private void doSuKien() {

@@ -28,8 +28,11 @@
         </activity>
         <activity android:name=".MainActivity">
         </activity>
-        <activity android:name=".MainHoang.ThemTietKiemActivity" />
-        <activity android:name=".MainHoang.TietKiemActivity" />
+        <activity android:name=".MainTietKiem.ThemTietKiem"
+            android:theme="@style/Theme.AppCompat.Light"/>
+        <activity android:name=".MainTietKiem.MainTietKiem"
+            android:theme="@style/Theme.AppCompat.Light"/>
+        <activity android:name=".MainTietKiem.detail_tietkiem" />
         <activity
             android:name=".MinhLayout.DocActivity"
             android:theme="@style/Base.Theme.AppCompat" />
