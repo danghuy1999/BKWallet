@@ -71,36 +71,6 @@
 
         <!--android:drawableTint="@color/transparentBackgroundLogin"-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:paddingTop="20dp">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@color/textLoginColor" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:text="@string/Or"
-                android:textColor="@color/textLoginColor" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@color/textLoginColor" />
-        </LinearLayout>
-
         <!--<Button-->
         <!--android:id="@+id/btnLoginFacebook"-->
         <!--android:layout_width="match_parent"-->
@@ -121,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="15dp"
             android:layout_marginRight="5dp"
             android:background="@color/backgroundLoginGoogle"
             android:drawableLeft="@drawable/icon_google"
@@ -135,7 +105,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="10dp"
             android:orientation="horizontal">
 
