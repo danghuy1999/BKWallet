@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         databaseReference= FirebaseDatabase.getInstance().getReference();
         createNavigationDrawer();
         createTabLayout();
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tablayout_header);
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(1);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
