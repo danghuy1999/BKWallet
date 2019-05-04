@@ -3,7 +3,7 @@
     package="nguyen.huy.moneylover">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.CAMERA" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,14 +11,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MainTruong.DetailKeHoachActivity"></activity>
-        <activity android:name=".Authentication.SplashScreenActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
-        <activity android:name=".Authentication.ForgetPasswordActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
-        <activity android:name=".Authentication.SignUpActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
-        <activity android:name=".Authentication.LogInActivity"
+        <activity android:name=".QRCodeModule.QRCodeScannerActivity"></activity>
+        <activity android:name=".MainTruong.DetailKeHoachActivity" />
+        <activity
+            android:name=".Authentication.SplashScreenActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".Authentication.ForgetPasswordActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".Authentication.SignUpActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".Authentication.LogInActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,12 +31,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
-        </activity>
-        <activity android:name=".MainTietKiem.ThemTietKiem"
-            android:theme="@style/Theme.AppCompat.Light"/>
-        <activity android:name=".MainTietKiem.MainTietKiem"
-            android:theme="@style/Theme.AppCompat.Light"/>
+        <activity android:name=".MainActivity"></activity>
+        <activity
+            android:name=".MainTietKiem.ThemTietKiem"
+            android:theme="@style/Theme.AppCompat.Light" />
+        <activity
+            android:name=".MainTietKiem.MainTietKiem"
+            android:theme="@style/Theme.AppCompat.Light" />
         <activity android:name=".MainTietKiem.detail_tietkiem" />
         <activity
             android:name=".MinhLayout.DocActivity"
