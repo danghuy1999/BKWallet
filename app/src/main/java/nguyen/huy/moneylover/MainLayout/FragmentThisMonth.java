@@ -28,6 +28,8 @@ import java.util.List;
 import nguyen.huy.moneylover.MinhLayout.AdapterThuChi;
 import nguyen.huy.moneylover.MinhLayout.DocActivity;
 import nguyen.huy.moneylover.MinhLayout.ThuChiActivity;
+import nguyen.huy.moneylover.MinhLayout.XuLyChuoiThuChi;
+import nguyen.huy.moneylover.MinhLayout.XuLyThuChi;
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
 
@@ -39,6 +41,8 @@ public class FragmentThisMonth extends Fragment {
     ListView listView;
     DatabaseReference databaseReference;
     TextView txtSoTienVao,txtSoTienRa,txtSoDu;
+    XuLyChuoiThuChi xuLyChuoiThuChi=new XuLyChuoiThuChi();
+    XuLyThuChi xuLyThuChi=new XuLyThuChi();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,9 +52,9 @@ public class FragmentThisMonth extends Fragment {
         listThuChi=new ArrayList<>();
         adapterThuChi=new AdapterThuChi(getActivity(),R.layout.minh_custom_listview,listThuChi);
         listView.setAdapter(adapterThuChi);
-        String ngaythangnam=ThuChiActivity.simpleDateFormat.format(ThuChiActivity.calendar.getTime());
+        String ngaythangnam=xuLyThuChi.getSimpleDateFormat().format(xuLyThuChi.getCalendar().getTime());
 
-        String[] result= xuLyChuoiThisMonth(ngaythangnam);
+        String[] result= xuLyChuoiThuChi.chuyenDinhDangNgay(ngaythangnam);
         readAllDayinThisMonth(result[0]);
 
         txtSoTienVao=view.findViewById(R.id.txtSoTienVaoListView);
@@ -76,25 +80,8 @@ public class FragmentThisMonth extends Fragment {
         });
     }
 
-    //Chuyen tu dd/MM/yyyy -> dd+MM+yyyy
-    private String[] xuLyChuoiThisMonth(String string){
-        String[] words=string.split("[/]");
-        String[] result=new String[2];
-        result[0]=words[1]+ "+" + words[2];
-        result[1]= words[0]+ "+" +words[1]+ "+" + words[2];
-        return result;
-    }
-    //Tách chuối từ dd+MM+yyyy đê lấy MM+yyyy
-    private String[] xuLyChuoiThisMonth2(String string){
-        String[] words=string.split("[+]");
-        String[] result=new String[2];
-        result[0]=words[1]+ "+" + words[2];
-        result[1]= words[0]+ "+" +words[1]+ "+" + words[2];
-        return result;
-    }
-
     private void readAllDayinThisMonth(String thang){
-        databaseReference=FirebaseDatabase.getInstance().getReference().child(ThuChiActivity.user).child("Thu chi").child(thang).child("Ngày");
+        databaseReference=FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(thang).child("Ngày");
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -111,7 +98,10 @@ public class FragmentThisMonth extends Fragment {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
+                /*if(dataSnapshot.getKey()!=null) {
+                    String ngay = dataSnapshot.getKey();
+                    hienThiTungNgayLenListView(ngay);
+                }*/
             }
 
             @Override
@@ -127,8 +117,8 @@ public class FragmentThisMonth extends Fragment {
     }
 
     private void hienThiTungNgayLenListView(String ngay){
-        String[] result= xuLyChuoiThisMonth2(ngay);
-        databaseReference= FirebaseDatabase.getInstance().getReference().child(ThuChiActivity.user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch");
+        String[] result= xuLyChuoiThuChi.chuyenDinhDangNgayLayThang(ngay);
+        databaseReference= FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch");
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -146,7 +136,10 @@ public class FragmentThisMonth extends Fragment {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
+                /*ThuChi thuChi=dataSnapshot.getValue(ThuChi.class);
+                listThuChi.remove(thuChi);
+                adapterThuChi.notifyDataSetChanged();
+                listView.invalidateViews();*/
             }
 
             @Override
@@ -162,7 +155,7 @@ public class FragmentThisMonth extends Fragment {
     }
     //Đọc lây tiền vào tiền ra
     private void readTienVaoTienRa(String[] result){
-        databaseReference=FirebaseDatabase.getInstance().getReference().child(ThuChiActivity.user).child("Thu chi").child(result[0]);
+        databaseReference=FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

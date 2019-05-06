@@ -4,13 +4,198 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MinhLayout.DocActivity"
-    android:orientation="vertical">
-    <Button
-        android:layout_width="wrap_content"
+    android:background="@color/colorbackgroundBack"
+    android:orientation="vertical"
+    tools:context=".MinhLayout.DocActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnXoaThuChi"
-        android:onClick="xuLyXoaThuChi"
-        android:text="Xóa"/>
+        android:background="@color/colorbackgroundActionbar"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imgViewFinish"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:onClick="xuLyThoat"
+            app:srcCompat="@drawable/minh_finish" />
+
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:onClick="xuLyLuu"
+                android:id="@+id/imgViewSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/minh_save" />
+
+            <ImageView
+                android:id="@+id/imgViewEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="15dp"
+                android:layout_weight="1"
+                android:onClick="xuLySua"
+                android:scaleType="center"
+                app:srcCompat="@drawable/minh_edit" />
+
+            <ImageView
+                android:id="@+id/imgViewDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_weight="1"
+                android:onClick="hienThiAlertLogTruocKhiXoa"
+                app:srcCompat="@drawable/minh_delete" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imgViewEditNhom"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:focusable="false"
+            app:srcCompat="@drawable/question2" />
+
+        <EditText
+            android:id="@+id/edtEditNhom"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:onClick="xuLyChonNhom"
+            android:text="Nhóm"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="7dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="5dp"
+                app:srcCompat="@drawable/minh_dollar" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/edtEditSoTien"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:text="Số tiền"
+            android:textColor="@color/cardFragmentToolbarBackground"
+            android:textColorHighlight="@color/backgroundLoginGoogle"
+            android:textColorLink="@color/backgroundLoginGoogle" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="đ"
+            android:textColor="@color/cardFragmentToolbarBackground"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/calendar_picture" />
+
+        <TextView
+            android:id="@+id/txtEditNgay"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:onClick="xuLyHienThiNgay"
+            android:text="TextView"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/wallet_picture" />
+
+        <TextView
+            android:id="@+id/txtEditVi"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="TextView"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+    </LinearLayout>
 
 </LinearLayout>

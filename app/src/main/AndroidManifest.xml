@@ -42,7 +42,7 @@
             android:theme="@style/Theme.AppCompat.Light"/>
         <activity
             android:name=".MinhLayout.DocActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".MainTruong.MainKeHoach"
             android:theme="@style/Theme.AppCompat.Light" />
@@ -54,6 +54,7 @@
             android:theme="@style/Base.Theme.AppCompat.Light.Dialog" />
         <activity android:name=".MinhLayout.ThuChiActivity" />
         <activity android:name=".MinhLayout.ChonNhomActivity" />
+        <activity android:name=".MinhLayout.EditThuChiActivity"/>
     </application>
 
 </manifest>

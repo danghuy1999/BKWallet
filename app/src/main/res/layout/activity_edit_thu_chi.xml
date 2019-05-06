@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/colorbackground"
     android:orientation="vertical"
-    tools:context=".MinhLayout.ThuChiActivity">
+    tools:context=".MinhLayout.EditThuChiActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Thêm giao dịch"
+            android:text="Sửa giao dịch"
             android:textSize="18sp" />
 
         <TextView
@@ -70,9 +70,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginBottom="10dp"
-                    android:ems="10"
-                    android:hint="0"
                     android:inputType="number"
+                    android:text="0"
                     android:textColor="@color/colorChonVi"
                     android:textColorHint="@color/colorChonViHint"
                     android:textSize="24sp" />
