@@ -3,6 +3,7 @@ package nguyen.huy.moneylover.Model;
 
 
 public class tietKiem {
+    private String TietKiemID;
     private String MucDichTietKiem;
     private String MucTieuTietKiem;
     private String SoTienHienCo;
@@ -29,6 +30,14 @@ public class tietKiem {
         MucTieuTietKiem = mucTieuTietKiem;
         SoTienHienCo = soTienHienCo;
         NgayThangNam = ngayThangNam;
+    }
+
+    public String getTietKiemID() {
+        return TietKiemID;
+    }
+
+    public void setTietKiemID(String tietKiemID) {
+        TietKiemID = tietKiemID;
     }
 
     public String getMucDichTietKiem() {

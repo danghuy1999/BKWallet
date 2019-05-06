@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +15,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -33,6 +36,10 @@ public class ThemTietKiem extends AppCompatActivity {
     SimpleDateFormat sdf1=new SimpleDateFormat("dd/MM/yyyy");
 
     Button btnLuuTietKiem;
+
+    public static FirebaseAuth mAuth=FirebaseAuth.getInstance();
+    public static String user=mAuth.getCurrentUser().getUid();
+
 
     FirebaseDatabase database=FirebaseDatabase.getInstance();
     DatabaseReference myRef=database.getReference();
@@ -112,14 +119,26 @@ public class ThemTietKiem extends AppCompatActivity {
     private void xuLyLuuTietKiem() {
 
         tietKiem tk =new tietKiem();
+        if(TextUtils.isEmpty(edtMucDichTietKiem.getText().toString())) {
+            Toast.makeText(this, "Vui Lòng Nhập Mục Đích Tiết Kiệm Lại ", Toast.LENGTH_SHORT).show();
+            return;
+        }
         tk.setMucDichTietKiem(edtMucDichTietKiem.getText().toString());
+        if(TextUtils.isEmpty(edtMucTieuTietKiem.getText().toString())) {
+            Toast.makeText(this, "Vui Lòng Nhập Mục Tiêu Tiết Kiệm Lại ", Toast.LENGTH_SHORT).show();
+            return;
+        }
         tk.setMucTieuTietKiem(edtMucTieuTietKiem.getText().toString());
+        if(TextUtils.isEmpty(edtTienHienTai.getText().toString())) {
+            Toast.makeText(this, "Vui Lòng Nhập Số Tiền Hiện Tại Lại", Toast.LENGTH_SHORT).show();
+            return;
+        }
         tk.setSoTienHienCo(edtTienHienTai.getText().toString());
         tk.setNgayThangNam(tvNgayThangNam.getText().toString());
         arrTietKiem.add(tk);
-        myRef = myRef.child("user 1").child("Tiết kiệm").child("Đang áp dụng");
+        myRef = myRef.child(user).child("Tiết kiệm").child("Đang áp dụng");
         String key = myRef.push().getKey();
-
+        tk.setTietKiemID(key);
         myRef.child(key).setValue(tk);
 
         finish();

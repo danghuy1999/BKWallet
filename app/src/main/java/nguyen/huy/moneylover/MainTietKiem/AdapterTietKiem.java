@@ -30,10 +30,13 @@ public class AdapterTietKiem extends ArrayAdapter<tietKiem> {
         LayoutInflater inflater=this.context.getLayoutInflater();
         convertView=inflater.inflate(this.resource,null);
 
-        TextView txtkeHoach= convertView.<TextView>findViewById(R.id.txtMucDichTietKiem);
+        TextView txtTietKiem= convertView.<TextView>findViewById(R.id.txtMucDichTietKiem);
+        TextView txtSoTienConThieu = convertView.<TextView>findViewById(R.id.txtSoTienConThieu);
 
         tietKiem tk=this.objects.get(position);
-        txtkeHoach.setText(tk.getMucDichTietKiem());
+        txtTietKiem.setText(tk.getMucDichTietKiem());
+        int soThieu = Integer.parseInt(tk.getMucTieuTietKiem().toString()) - Integer.parseInt(tk.getSoTienHienCo().toString());
+        txtSoTienConThieu.setText(Integer.toString(soThieu));
         return convertView;
     }
 }

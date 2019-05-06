@@ -199,8 +199,9 @@
 
             <Button
                 android:id="@+id/btnLuuTietKiem"
-                android:layout_width="wrap_content"
+                android:layout_width="127dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="200dp"
                 android:text="Lưu" />
 

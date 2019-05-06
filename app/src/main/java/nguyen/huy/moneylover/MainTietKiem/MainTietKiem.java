@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TabHost;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,7 +33,9 @@ public class MainTietKiem extends AppCompatActivity implements ChildEventListene
     AdapterTietKiem adapterTietKiem;
 
     FirebaseDatabase database=FirebaseDatabase.getInstance();
-    DatabaseReference myRef=database.getReference().child("user 1").child("Tiết kiệm").child("Đang áp dụng");
+    public static FirebaseAuth mAuth=FirebaseAuth.getInstance();
+    public static String user=mAuth.getCurrentUser().getUid();
+    DatabaseReference myRef=database.getReference().child(user).child("Tiết kiệm").child("Đang áp dụng");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

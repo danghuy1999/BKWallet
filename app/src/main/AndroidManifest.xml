@@ -38,7 +38,8 @@
         <activity
             android:name=".MainTietKiem.MainTietKiem"
             android:theme="@style/Theme.AppCompat.Light" />
-        <activity android:name=".MainTietKiem.detail_tietkiem" />
+        <activity android:name=".MainTietKiem.detail_tietkiem"
+            android:theme="@style/Theme.AppCompat.Light"/>
         <activity
             android:name=".MinhLayout.DocActivity"
             android:theme="@style/Base.Theme.AppCompat" />
