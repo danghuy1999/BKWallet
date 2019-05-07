@@ -86,27 +86,27 @@
 
                     <ImageView
                         android:id="@+id/imgChonNhom"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_marginLeft="0dp"
-                        android:layout_marginRight="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginRight="10dp"
                         android:paddingLeft="0dp"
                         android:paddingRight="0dp"
+                        android:scaleType="fitXY"
                         app:srcCompat="@drawable/question2" />
 
                     <EditText
-                        android:focusable="false"
-                        android:onClick="xuLyChonNhom"
                         android:id="@+id/edtChonNhom"
-                        android:layout_width="265dp"
+                        android:layout_width="260dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="0dp"
                         android:layout_weight="1"
                         android:ems="10"
+                        android:focusable="false"
                         android:hint="Chọn nhóm"
                         android:inputType="textPersonName"
+                        android:onClick="xuLyChonNhom"
                         android:textSize="18sp" />
                 </LinearLayout>
 

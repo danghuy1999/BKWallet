@@ -55,6 +55,7 @@ public class FragmentThisMonth extends Fragment {
         String ngaythangnam=xuLyThuChi.getSimpleDateFormat().format(xuLyThuChi.getCalendar().getTime());
 
         String[] result= xuLyChuoiThuChi.chuyenDinhDangNgay(ngaythangnam);
+
         readAllDayinThisMonth(result[0]);
 
         txtSoTienVao=view.findViewById(R.id.txtSoTienVaoListView);
@@ -62,6 +63,8 @@ public class FragmentThisMonth extends Fragment {
         txtSoDu=view.findViewById(R.id.txtSoTienDuListView);
 
         readTienVaoTienRa(result);
+
+        //readAllDayinThisMonth(result[0]);
 
         addEvents();
 

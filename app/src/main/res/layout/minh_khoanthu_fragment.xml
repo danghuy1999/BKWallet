@@ -16,16 +16,18 @@
 
         <ImageView
             android:id="@+id/imgGuiTien"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:scaleType="fitXY"
             app:srcCompat="@drawable/guitien" />
 
         <TextView
             android:id="@+id/txtGuiTien"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_gravity="center|left"
             android:text="Gửi tiền"
             android:textSize="16sp" />
     </LinearLayout>
@@ -38,9 +40,10 @@
 
         <ImageView
             android:id="@+id/imgTienLai"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:scaleType="fitXY"
             app:srcCompat="@drawable/tienlai" />
 
