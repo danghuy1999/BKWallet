@@ -36,4 +36,13 @@ public class AdapterKeHoach extends ArrayAdapter<KeHoach> {
         txtkeHoach.setText(kh.getTenkehoach());
         return convertView;
     }
+
+    public KeHoach getItemByID(String id){
+        for(int i=0;i<objects.size();i++)
+        {
+            if(objects.get(i).getKeHoachID().equals(id));
+            return objects.get(i);
+        }
+        return null;
+    }
 }

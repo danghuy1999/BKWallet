@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -29,7 +30,8 @@ import nguyen.huy.moneylover.Model.KeHoach;
 import nguyen.huy.moneylover.R;
 
 public class MainKeHoach extends AppCompatActivity implements ChildEventListener {
-
+    Date timeNow1;
+    SimpleDateFormat sdf1;
     FloatingActionButton btnThemkehoach;
     TabHost tab;
     ListView lvkeHoach,lvKeHoachDaKetThuc;
@@ -80,11 +82,12 @@ public class MainKeHoach extends AppCompatActivity implements ChildEventListener
         lvkeHoach.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String tenKH=arrKeHoach.get(position).getTenkehoach();
-                String ngayThangNam=arrKeHoach.get(position).getThoigian();
+//                String tenKH=arrKeHoach.get(position).getTenkehoach();
+//                String ngayThangNam=arrKeHoach.get(position).getThoigian();
                 Intent intent2=new Intent(MainKeHoach.this,DetailKeHoachActivity.class);
-                intent2.putExtra("TENKEHOACH",tenKH);
-                intent2.putExtra("THOIGIAN1",ngayThangNam);
+//                intent2.putExtra("TENKEHOACH",tenKH);
+//                intent2.putExtra("THOIGIAN1",ngayThangNam);
+                intent2.putExtra("KeHoach",arrKeHoach.get(position));
                 Date time3 = null;
                 try {
                     time3=sdf.parse(arrKeHoach.get(position).getThoigian());
@@ -110,32 +113,20 @@ public class MainKeHoach extends AppCompatActivity implements ChildEventListener
 
     private void xyLyHienThiKeHoachDaKetThuc() {
         Calendar cal=Calendar.getInstance();
-        final SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        String timeNow=sdf.format(cal.getTime());
+        Log.e("runable","runale");
+        sdf1= new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String timeNow=sdf1.format(cal.getTime());
 
-        Date timeNow1 = null;
+        timeNow1 = null;
         try {
-            timeNow1=sdf.parse(timeNow);
+            timeNow1=sdf1.parse(timeNow);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
 
-        Date timeKeHoach = null;
-        arrKeHoachDaKetThuc=new ArrayList<KeHoach>();
-        for (KeHoach kh:arrKeHoach) {
-            try {
-                timeKeHoach=sdf.parse(kh.getThoigian());
-                Long diff=timeKeHoach.getTime()- timeNow1.getTime();
-                if(diff<0)
-                    arrKeHoachDaKetThuc.add(kh);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
 
-        adapterKeHoachDaKetThuc =new AdapterKeHoachDaKetThuc(this,R.layout.truong_item_kehoach,arrKeHoachDaKetThuc);
-        lvKeHoachDaKetThuc.setAdapter(adapterKeHoachDaKetThuc);
+
     }
 
 
@@ -190,14 +181,33 @@ public class MainKeHoach extends AppCompatActivity implements ChildEventListener
         lvkeHoach.setAdapter(adapterKeHoach);
 
         lvKeHoachDaKetThuc= this.<ListView>findViewById(R.id.lvKeHoachDaKetThuc);
+        arrKeHoachDaKetThuc=new ArrayList<KeHoach>();
+        adapterKeHoachDaKetThuc =new AdapterKeHoachDaKetThuc(this,R.layout.truong_item_kehoach,arrKeHoachDaKetThuc);
+        lvKeHoachDaKetThuc.setAdapter(adapterKeHoachDaKetThuc);
     }
 
     @Override
     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-        KeHoach kh=dataSnapshot.getValue(KeHoach.class);
-        arrKeHoach.add(kh);
+        KeHoach keHoach=dataSnapshot.getValue(KeHoach.class);
+        arrKeHoach.add(keHoach);
+
+        Date timeKeHoach = null;
         if(arrKeHoach.size() > 0)
             adapterKeHoach.notifyDataSetChanged();
+        try {
+            Log.e("runable","oke");
+            if (!adapterKeHoachDaKetThuc.isEmpty())adapterKeHoachDaKetThuc.clear();
+            for (KeHoach kh:arrKeHoach) {
+                timeKeHoach=sdf1.parse(kh.getThoigian());
+                Long diff1=timeKeHoach.getTime()- timeNow1.getTime();
+                Log.e("diff",diff1+"");
+                if(diff1<0) arrKeHoachDaKetThuc.add(kh);
+            }
+            adapterKeHoachDaKetThuc.notifyDataSetChanged();
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -207,7 +217,9 @@ public class MainKeHoach extends AppCompatActivity implements ChildEventListener
 
     @Override
     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
+        KeHoach kh=dataSnapshot.getValue(KeHoach.class);
+        adapterKeHoach.remove(adapterKeHoach.getItemByID(kh.getKeHoachID()));
+        adapterKeHoach.notifyDataSetChanged();
     }
 
     @Override

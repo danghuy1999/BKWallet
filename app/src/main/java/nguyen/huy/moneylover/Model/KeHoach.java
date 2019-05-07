@@ -1,12 +1,23 @@
 package nguyen.huy.moneylover.Model;
 
-public class KeHoach {
+import java.io.Serializable;
+
+public class KeHoach implements Serializable {
     private String tenkehoach;
     private String vi;
     private String thoigian;
     private String diadiem;
     private String nhom;
     private String nhacnho;
+    private String keHoachID;
+
+    public String getKeHoachID() {
+        return keHoachID;
+    }
+
+    public void setKeHoachID(String keHoachID) {
+        this.keHoachID = keHoachID;
+    }
 
     public String getTenkehoach() {
         return tenkehoach;
@@ -60,13 +71,14 @@ public class KeHoach {
         super();
     }
 
-    public KeHoach(String tenkehoach, String vi, String thoigian, String diadiem, String nhom, String nhacnho) {
+    public KeHoach(String tenkehoach, String vi, String thoigian, String diadiem, String nhom, String nhacnho, String keHoachID) {
         this.tenkehoach = tenkehoach;
         this.vi = vi;
         this.thoigian = thoigian;
         this.diadiem = diadiem;
         this.nhom = nhom;
         this.nhacnho = nhacnho;
+        this.keHoachID=keHoachID;
     }
 
     @Override

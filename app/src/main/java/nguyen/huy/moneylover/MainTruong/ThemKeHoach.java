@@ -113,16 +113,25 @@ public class ThemKeHoach extends AppCompatActivity {
         arrKeHoach.add(kh);
         myRef = myRef.child("user 1").child("Sự kiện").child("Đang áp dụng");
         String key = myRef.push().getKey();
+        kh.setKeHoachID(key);
 
         myRef.child(key).setValue(kh);
 
         Intent intent=new Intent(ThemKeHoach.this,MainKeHoach.class);
         intent.putExtra("THOIGIAN",txtChonthoigian.getText().toString());
+
+        xuLyThemKeHoachDaKetThuc();
+
         startActivity(intent);
         //Intent intent = getIntent();
         //intent.putExtra("KEHOACH",kh.getTenkehoach());
         //setResult(04,intent);
         //finish();
+
+
+    }
+
+    private void xuLyThemKeHoachDaKetThuc() {
 
     }
 

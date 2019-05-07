@@ -6,16 +6,22 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import nguyen.huy.moneylover.Model.KeHoach;
 import nguyen.huy.moneylover.R;
 
 public class DetailKeHoachActivity extends AppCompatActivity {
 
     TextView txtDKeHoach,txtDThoiGian,txtDXacThucThoiGian;
-    Button btnChuaHoanTat,btnDSGiaoDich;
-
+    Button btnChuaHoanTat,btnDSGiaoDich,btnXoa;
+    DatabaseReference reference;
+    KeHoach kh;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,10 +35,13 @@ public class DetailKeHoachActivity extends AppCompatActivity {
 
 
     private void addEvents() {
-        Intent intent=getIntent();
-        txtDKeHoach.setText(intent.getStringExtra("TENKEHOACH"));
-        txtDThoiGian.setText(intent.getStringExtra("THOIGIAN1"));
-        txtDXacThucThoiGian.setText(intent.getStringExtra("DETAILTIME"));
+        btnXoa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reference.child(kh.getKeHoachID()).removeValue();
+                finish();
+            }
+        });
     }
 
     private void addControls() {
@@ -42,5 +51,16 @@ public class DetailKeHoachActivity extends AppCompatActivity {
 
         btnChuaHoanTat= this.<Button>findViewById(R.id.btnChuaHoanTat);
         btnDSGiaoDich= this.<Button>findViewById(R.id.btnChuaHoanTat);
+        btnXoa= this.<Button>findViewById(R.id.btnXoaKeHoach);
+
+        Intent intent=getIntent();
+
+        kh= (KeHoach) intent.getSerializableExtra("KeHoach");
+        txtDKeHoach.setText(kh.getTenkehoach());
+        txtDThoiGian.setText(kh.getThoigian());
+        txtDXacThucThoiGian.setText(intent.getStringExtra("DETAILTIME"));
+
+        reference = FirebaseDatabase.getInstance().getReference().child("user 1").child("Sự kiện").child("Đang áp dụng");
+
     }
 }

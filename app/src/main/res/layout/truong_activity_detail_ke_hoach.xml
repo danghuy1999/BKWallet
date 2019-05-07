@@ -109,4 +109,10 @@
         android:background="@color/colorChonVi"
         android:text=" Danh sách giao dịch "
         android:textColor="@color/colorLayoutTaskbar" />
+
+    <Button
+        android:id="@+id/btnXoaKeHoach"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Xóa" />
 </LinearLayout>
