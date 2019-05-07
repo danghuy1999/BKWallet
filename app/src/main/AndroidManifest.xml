@@ -42,6 +42,8 @@
             android:theme="@style/Theme.AppCompat.Light" />
         <activity android:name=".MainTietKiem.detail_tietkiem"
             android:theme="@style/Theme.AppCompat.Light"/>
+        <activity android:name=".MainTietKiem.SuaVaXoaTietKiem"
+            android:theme="@style/Theme.AppCompat.Light"/>
         <activity
             android:name=".MinhLayout.DocActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />

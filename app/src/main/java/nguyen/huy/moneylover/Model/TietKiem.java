@@ -2,7 +2,7 @@ package nguyen.huy.moneylover.Model;
 
 
 
-public class tietKiem {
+public class TietKiem {
     private String TietKiemID;
     private String MucDichTietKiem;
     private String MucTieuTietKiem;
@@ -11,7 +11,7 @@ public class tietKiem {
     private boolean ThongBao;
     private boolean LoaiTienTe;
 
-    public tietKiem(String mucDichTietKiem, String mucTieuTietKiem, String soTienHienCo, String ngayThangNam, boolean thongBao, boolean loaiTienTe) {
+    public TietKiem(String mucDichTietKiem, String mucTieuTietKiem, String soTienHienCo, String ngayThangNam, boolean thongBao, boolean loaiTienTe) {
         MucDichTietKiem = mucDichTietKiem;
         MucTieuTietKiem = mucTieuTietKiem;
         SoTienHienCo = soTienHienCo;
@@ -20,11 +20,11 @@ public class tietKiem {
         LoaiTienTe = loaiTienTe;
     }
 
-    public tietKiem() {
+    public TietKiem() {
         super();
     }
 
-    public tietKiem(String mucDichTietKiem, String mucTieuTietKiem, String soTienHienCo, String ngayThangNam)
+    public TietKiem(String mucDichTietKiem, String mucTieuTietKiem, String soTienHienCo, String ngayThangNam)
     {
         MucDichTietKiem = mucDichTietKiem;
         MucTieuTietKiem = mucTieuTietKiem;

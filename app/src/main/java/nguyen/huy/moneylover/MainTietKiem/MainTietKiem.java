@@ -21,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-import nguyen.huy.moneylover.Model.tietKiem;
+import nguyen.huy.moneylover.Model.TietKiem;
 import nguyen.huy.moneylover.R;
 
 public class MainTietKiem extends AppCompatActivity implements ChildEventListener {
@@ -29,8 +29,9 @@ public class MainTietKiem extends AppCompatActivity implements ChildEventListene
     ImageButton btnThemTietKiem;
     TabHost tab;
     ListView lvTietKiem;
-    ArrayList<tietKiem>arrTietKiem;
+    ArrayList<TietKiem>arrTietKiem;
     AdapterTietKiem adapterTietKiem;
+    TietKiem tietKiem;
 
     FirebaseDatabase database=FirebaseDatabase.getInstance();
     public static FirebaseAuth mAuth=FirebaseAuth.getInstance();
@@ -65,14 +66,20 @@ public class MainTietKiem extends AppCompatActivity implements ChildEventListene
         lvTietKiem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                tietKiem = adapterTietKiem.getItem(position);
                 xuLyClickTietKiem();
             }
         });
     }
 
     private void xuLyClickTietKiem() {
-        Intent intent=new Intent(MainTietKiem.this,detail_tietkiem.class);
-        startActivity(intent);
+        if (tietKiem!=null)
+        {
+            Intent intent=new Intent(MainTietKiem.this,SuaVaXoaTietKiem.class);
+            intent.putExtra("TietKiemID",tietKiem.getTietKiemID());
+            startActivity(intent);
+        }
+
     }
 
 
@@ -103,14 +110,14 @@ public class MainTietKiem extends AppCompatActivity implements ChildEventListene
         tab = this.<TabHost>findViewById(R.id.tabhost);
 
         lvTietKiem= this.<ListView>findViewById(R.id.lvTietKiem);
-        arrTietKiem=new ArrayList<tietKiem>();
+        arrTietKiem=new ArrayList<TietKiem>();
         adapterTietKiem=new AdapterTietKiem(this,R.layout.hoang_item_tietkiem,arrTietKiem);
         lvTietKiem.setAdapter(adapterTietKiem);
     }
 
     @Override
     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-        tietKiem tk=dataSnapshot.getValue(tietKiem.class);
+        TietKiem tk=dataSnapshot.getValue(TietKiem.class);
         arrTietKiem.add(tk);
         if(arrTietKiem.size() > 0)
             adapterTietKiem.notifyDataSetChanged();

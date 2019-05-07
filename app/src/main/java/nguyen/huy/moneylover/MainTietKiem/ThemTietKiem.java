@@ -1,10 +1,7 @@
 package nguyen.huy.moneylover.MainTietKiem;
 
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -14,7 +11,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import nguyen.huy.moneylover.Model.tietKiem;
+import nguyen.huy.moneylover.Model.TietKiem;
 import nguyen.huy.moneylover.R;
 
 public class ThemTietKiem extends AppCompatActivity {
@@ -44,9 +40,8 @@ public class ThemTietKiem extends AppCompatActivity {
     FirebaseDatabase database=FirebaseDatabase.getInstance();
     DatabaseReference myRef=database.getReference();
 
-    ArrayList<tietKiem> arrTietKiem= new ArrayList<tietKiem>();
+    ArrayList<TietKiem> arrTietKiem= new ArrayList<TietKiem>();
 
-    static int dem=-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,19 +101,17 @@ public class ThemTietKiem extends AppCompatActivity {
 
             }
         };
-
         DatePickerDialog datePickerDialog=new DatePickerDialog(ThemTietKiem.this,
                 callback1,
                 cal.get(cal.YEAR),
                 cal.get(cal.MONTH),
                 cal.get(cal.DAY_OF_MONTH));
-
         datePickerDialog.show();
     }
 
     private void xuLyLuuTietKiem() {
 
-        tietKiem tk =new tietKiem();
+        TietKiem tk =new TietKiem();
         if(TextUtils.isEmpty(edtMucDichTietKiem.getText().toString())) {
             Toast.makeText(this, "Vui Lòng Nhập Mục Đích Tiết Kiệm Lại ", Toast.LENGTH_SHORT).show();
             return;
@@ -154,8 +147,6 @@ public class ThemTietKiem extends AppCompatActivity {
         edtTienHienTai= this.<EditText>findViewById(R.id.edtTienHienTai);
         cal=Calendar.getInstance();
         tvNgayThangNam= this.<TextView>findViewById(R.id.tvNgayThangNam);
-
-        cal=Calendar.getInstance();
 
         btnLuuTietKiem= this.<Button>findViewById(R.id.btnLuuTietKiem);
 

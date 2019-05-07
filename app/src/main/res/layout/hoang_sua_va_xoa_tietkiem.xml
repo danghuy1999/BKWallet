@@ -6,7 +6,8 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainTietKiem.SuaVaXoaTietKiem">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,7 +28,7 @@
                 app:srcCompat="@drawable/wallet" />
 
             <EditText
-                android:id="@+id/edtMucDichTietKiem"
+                android:id="@+id/edtSuaMucDichTietKiem"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
@@ -51,7 +52,7 @@
                 app:srcCompat="@drawable/money" />
 
             <EditText
-                android:id="@+id/edtMucTieuTietKiem"
+                android:id="@+id/edtSuaMucTieuTietKiem"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:hint="  Nhập số tiền muốn tiết kiệm       "
@@ -74,7 +75,7 @@
                 app:srcCompat="@drawable/money" />
 
             <EditText
-                android:id="@+id/edtTienHienTai"
+                android:id="@+id/edtSuaTienHienTai"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:hint="  Nhập số tiền đang có                   "
@@ -96,7 +97,7 @@
                 android:layout_marginLeft="10dp"
                 app:srcCompat="@drawable/calendar" />
             <TextView
-                android:id="@+id/tvNgayThangNam"
+                android:id="@+id/tvSuaNgayThangNam"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:lines="1"
@@ -109,27 +110,35 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginTop="15dp">
+
             <Switch
-                android:layout_marginLeft="15dp"
-                android:layout_width="wrap_content"
+                android:id="@+id/swt2"
+                android:layout_width="174dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/swt"
-                android:textSize="23sp"
-                android:text="Thông báo"/>
+                android:layout_marginLeft="15dp"
+                android:text="Thông báo"
+                android:textSize="23sp" />
 
         </LinearLayout>
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp">
 
             <Button
-                android:id="@+id/btnLuuTietKiem"
-                android:layout_width="127dp"
+                android:id="@+id/btnSuaTietKiem"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="200dp"
-                android:text="Lưu" />
+                android:layout_weight="1"
+                android:text="Cập Nhật" />
+
+            <Button
+                android:id="@+id/btnXoaTietKiem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Xóa" />
 
         </LinearLayout>
 
