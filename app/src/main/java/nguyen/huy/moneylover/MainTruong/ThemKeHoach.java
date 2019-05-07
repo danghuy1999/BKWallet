@@ -41,8 +41,6 @@ public class ThemKeHoach extends AppCompatActivity {
 
     ArrayList<KeHoach> arrKeHoach= new ArrayList<KeHoach>();
 
-    static int dem=-1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,10 +116,13 @@ public class ThemKeHoach extends AppCompatActivity {
 
         myRef.child(key).setValue(kh);
 
+        Intent intent=new Intent(ThemKeHoach.this,MainKeHoach.class);
+        intent.putExtra("THOIGIAN",txtChonthoigian.getText().toString());
+        startActivity(intent);
         //Intent intent = getIntent();
         //intent.putExtra("KEHOACH",kh.getTenkehoach());
         //setResult(04,intent);
-        finish();
+        //finish();
 
     }
 
@@ -165,7 +166,7 @@ public class ThemKeHoach extends AppCompatActivity {
                 cal.set(cal.YEAR,year);
                 cal.set(cal.MONTH,month);
                 cal.set(cal.DAY_OF_MONTH,dayOfMonth);
-                txtChonthoigian.setText(sdf1.format(cal.getTime()));
+                txtChonthoigian.setText(sdf1.format(cal.getTime()).toString());
 
             }
         };

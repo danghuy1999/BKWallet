@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TabHost;
 
@@ -18,18 +18,24 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import nguyen.huy.moneylover.Model.KeHoach;
 import nguyen.huy.moneylover.R;
 
 public class MainKeHoach extends AppCompatActivity implements ChildEventListener {
 
-    ImageButton btnThemkehoach;
+    FloatingActionButton btnThemkehoach;
     TabHost tab;
-    ListView lvkeHoach;
-    ArrayList<KeHoach>arrKeHoach;
+    ListView lvkeHoach,lvKeHoachDaKetThuc;
+    ArrayList<KeHoach>arrKeHoach,arrKeHoachDaKetThuc;
     AdapterKeHoach adapterKeHoach;
+    AdapterKeHoachDaKetThuc adapterKeHoachDaKetThuc;
 
     FirebaseDatabase database=FirebaseDatabase.getInstance();
     DatabaseReference myRef=database.getReference().child("user 1").child("Sự kiện").child("Đang áp dụng");
@@ -50,7 +56,7 @@ public class MainKeHoach extends AppCompatActivity implements ChildEventListener
     }
 
 
-    private void addEvents() {
+    private void addEvents(){
         loadTab();
         btnThemkehoach.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,18 +65,79 @@ public class MainKeHoach extends AppCompatActivity implements ChildEventListener
             }
         });
 
+        Calendar cal=Calendar.getInstance();
+        final SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String timeNow=sdf.format(cal.getTime());
+
+        Date timeNow3 = null;
+        try {
+            timeNow3=sdf.parse(timeNow);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        final Date finalTimeNow = timeNow3;
         lvkeHoach.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                xuLyClickKeHoach();
+                String tenKH=arrKeHoach.get(position).getTenkehoach();
+                String ngayThangNam=arrKeHoach.get(position).getThoigian();
+                Intent intent2=new Intent(MainKeHoach.this,DetailKeHoachActivity.class);
+                intent2.putExtra("TENKEHOACH",tenKH);
+                intent2.putExtra("THOIGIAN1",ngayThangNam);
+                Date time3 = null;
+                try {
+                    time3=sdf.parse(arrKeHoach.get(position).getThoigian());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                Long diff=(time3.getTime()- finalTimeNow.getTime())/(24*60*60*1000);
+                String output="Còn lại "+diff.toString()+" ngày ";
+                if(diff>0)
+                    intent2.putExtra("DETAILTIME",output);
+                else {
+                    output = "Quá hạn";
+                    intent2.putExtra("DETAILTIME", output);
+                }
+
+                startActivity(intent2);
             }
         });
+
+        xyLyHienThiKeHoachDaKetThuc();
     }
 
-    private void xuLyClickKeHoach() {
-        Intent intent=new Intent(MainKeHoach.this,DetailKeHoachActivity.class);
-        startActivity(intent);
+    private void xyLyHienThiKeHoachDaKetThuc() {
+        Calendar cal=Calendar.getInstance();
+        final SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String timeNow=sdf.format(cal.getTime());
+
+        Date timeNow1 = null;
+        try {
+            timeNow1=sdf.parse(timeNow);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        Date timeKeHoach = null;
+        arrKeHoachDaKetThuc=new ArrayList<KeHoach>();
+        for (KeHoach kh:arrKeHoach) {
+            try {
+                timeKeHoach=sdf.parse(kh.getThoigian());
+                Long diff=timeKeHoach.getTime()- timeNow1.getTime();
+                if(diff<0)
+                    arrKeHoachDaKetThuc.add(kh);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        adapterKeHoachDaKetThuc =new AdapterKeHoachDaKetThuc(this,R.layout.truong_item_kehoach,arrKeHoachDaKetThuc);
+        lvKeHoachDaKetThuc.setAdapter(adapterKeHoachDaKetThuc);
     }
+
 
     /*@Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -82,6 +149,14 @@ public class MainKeHoach extends AppCompatActivity implements ChildEventListener
             //adapterKeHoach.notifyDataSetChanged();
         }
     }*/
+
+    int soNgay(int year, int month, int day){
+        if (month<3){
+            year--;
+            month+=12;
+        }
+        return 365*year+year/4-year/100+year/400+(153+month-475)/5+day-306;
+    }
 
     private void loadTab() {
         tab.setup();
@@ -106,13 +181,15 @@ public class MainKeHoach extends AppCompatActivity implements ChildEventListener
 
     private void addControls() {
 
-        btnThemkehoach= this.<ImageButton>findViewById(R.id.btnThemkehoach);
+        btnThemkehoach= this.<FloatingActionButton>findViewById(R.id.btnThemkehoach);
         tab = this.<TabHost>findViewById(R.id.tabhost);
 
         lvkeHoach= this.<ListView>findViewById(R.id.lvkeHoach);
         arrKeHoach=new ArrayList<KeHoach>();
         adapterKeHoach=new AdapterKeHoach(this,R.layout.truong_item_kehoach,arrKeHoach);
         lvkeHoach.setAdapter(adapterKeHoach);
+
+        lvKeHoachDaKetThuc= this.<ListView>findViewById(R.id.lvKeHoachDaKetThuc);
     }
 
     @Override
