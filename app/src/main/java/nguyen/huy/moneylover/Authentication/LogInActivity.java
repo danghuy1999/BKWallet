@@ -48,7 +48,7 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
         addControls();
         addEvents();
     }

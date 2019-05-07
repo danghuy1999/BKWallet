@@ -1,6 +1,8 @@
 package nguyen.huy.moneylover;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -12,6 +14,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
@@ -21,11 +25,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import nguyen.huy.moneylover.Authentication.LogInActivity;
 import nguyen.huy.moneylover.MainLayout.TabAdapter;
 import nguyen.huy.moneylover.MainTruong.MainKeHoach;
 import nguyen.huy.moneylover.MinhLayout.ThuChiActivity;
 import nguyen.huy.moneylover.MainTietKiem.MainTietKiem;
+import nguyen.huy.moneylover.QRCodeModule.QRCodeScannerActivity;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -34,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private FirebaseAuth firebaseAuth;
+    private static final int QR_SCANNER = 1212;
     //Tạo firebase database
     //FirebaseDatabase firebaseDatabase;
     public static DatabaseReference databaseReference;
@@ -46,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
         createTabLayout();
         addControls();
         addEvent();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_actionbar,menu);
+        return true;
     }
 
 
@@ -137,6 +152,11 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
+            case R.id.mnuScanner:
+            {
+                Intent intent = new Intent(MainActivity.this, QRCodeScannerActivity.class);
+                startActivityForResult(intent,QR_SCANNER);
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -156,4 +176,46 @@ public class MainActivity extends AppCompatActivity {
         Intent intent=new Intent(MainActivity.this, MainKeHoach.class);
         startActivity(intent);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == QR_SCANNER)
+        {
+            if (resultCode == Activity.RESULT_OK)
+            {
+                boolean success = data.getBooleanExtra("Success",false);
+                if (success == true)
+                {
+                    String initString = data.getStringExtra("Value");
+                    try {
+                        JSONObject initObject = new JSONObject(initString);
+                        String type = initObject.getString("Type");
+                        switch (type)
+                        {
+                            case "ThuChi": xuLyThemThuChi(initObject.getJSONArray("items"));break;
+                            case "KeHoach" : xuLyThemKeHoach (initObject.getJSONArray("items"));break;
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
+    private void xuLyThemThuChi(JSONArray items) {
+        //TODO
+        Toast.makeText(this,"Thu chi okay",Toast.LENGTH_SHORT).show();
+    }
+
+    private void xuLyThemKeHoach(JSONArray items) {
+        //TODO
+        Toast.makeText(this,"Ke hoach okay",Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
 }

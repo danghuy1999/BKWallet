@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <item
+        android:id="@+id/mnuScanner"
+        android:title="Scanner"
+        android:icon="@drawable/ic_center_focus_strong_white_24dp"
+        app:showAsAction="always"/>
+    <item
+        android:title="Change Info"
+        android:id="@+id/mnuUserInfo"/>
+    <item
+        android:title="About"
+        android:id="@+id/mnuAbout"/>
+
+</menu>
