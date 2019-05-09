@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:text="Tên người dùng"
+        android:textSize="20dp"/>
+    <EditText
+        android:id="@+id/edtUsernameDialog"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:textSize="20dp"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btnCancelDialog"
+            android:layout_margin="5dp"
+            android:text="Huỷ"
+            android:background="@drawable/custom_user_info_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btnSaveDialog"
+            android:text="Lưu"
+            android:layout_margin="5dp"
+
+            android:background="@drawable/custom_user_info_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -30,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import nguyen.huy.moneylover.Authentication.LogInActivity;
+import nguyen.huy.moneylover.Authentication.UserInfoActivity;
 import nguyen.huy.moneylover.MainLayout.TabAdapter;
 import nguyen.huy.moneylover.MainTruong.MainKeHoach;
 import nguyen.huy.moneylover.MinhLayout.ThuChiActivity;
@@ -156,7 +157,12 @@ public class MainActivity extends AppCompatActivity {
             {
                 Intent intent = new Intent(MainActivity.this, QRCodeScannerActivity.class);
                 startActivityForResult(intent,QR_SCANNER);
-            }
+            } return true;
+            case R.id.mnuUserInfo:
+            {
+                Intent intent = new Intent(MainActivity.this, UserInfoActivity.class);
+                startActivity(intent);
+            } return true;
         }
         return super.onOptionsItemSelected(item);
     }
