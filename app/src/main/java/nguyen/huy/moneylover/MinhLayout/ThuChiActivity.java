@@ -53,7 +53,7 @@ public class ThuChiActivity extends AppCompatActivity{
             return;
         }
         if(TextUtils.isEmpty(edtChonNhom.getText().toString())){
-            Toast.makeText(getApplicationContext(),"Bạn chưa chọn nhóm",Toast.LENGTH_LONG);
+            Toast.makeText(getApplicationContext(),"Bạn chưa chọn nhóm",Toast.LENGTH_LONG).show();
             return;
         }
         if(TextUtils.isEmpty(edtChonVi.getText().toString())){
