@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import nguyen.huy.moneylover.Model.ThuChi;
 
@@ -174,6 +175,37 @@ public class XuLyThuChi {
                         tienra = tienra + Long.parseLong(edtNhapSoTien.getText().toString());
                         CapNhatTienRa(result, tienra);
                     }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    //Các hàm xử lý cho QRCode
+    //Lưu khi đọc được giao dịch mới
+
+    //Cập nhật tiền vào tiền ra khi xử lý Qrcode
+    public void xuLyTienVaoRaQRCode(final String [] result, final long tienvaoQR,final  long tienraQR){
+        databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("Tiền vào").getValue()==null || dataSnapshot.child("Tiền ra").getValue()==null){
+                        CapNhatTienVao(result, tienvaoQR);
+
+                        CapNhatTienRa(result, tienraQR);
+
+                }
+                else {
+                    long tienvao = (long) dataSnapshot.child("Tiền vào").getValue();
+                    long tienra = (long) dataSnapshot.child("Tiền ra").getValue();
+                    tienvao = tienvao + tienvaoQR;
+                    CapNhatTienVao(result, tienvao);
+                    tienra = tienra + tienraQR;
+                    CapNhatTienRa(result, tienra);
                 }
             }
 

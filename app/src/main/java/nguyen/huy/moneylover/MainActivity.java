@@ -1,11 +1,15 @@
 package nguyen.huy.moneylover;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -14,20 +18,28 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import nguyen.huy.moneylover.Authentication.LogInActivity;
 import nguyen.huy.moneylover.Authentication.UserInfoActivity;
@@ -35,6 +47,9 @@ import nguyen.huy.moneylover.MainLayout.TabAdapter;
 import nguyen.huy.moneylover.MainTruong.MainKeHoach;
 import nguyen.huy.moneylover.MinhLayout.ThuChiActivity;
 import nguyen.huy.moneylover.MainTietKiem.MainTietKiem;
+import nguyen.huy.moneylover.MinhLayout.XuLyChuoiThuChi;
+import nguyen.huy.moneylover.MinhLayout.XuLyThuChi;
+import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.QRCodeModule.QRCodeScannerActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -52,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+//        {
+//            return;
+//        }
         databaseReference= FirebaseDatabase.getInstance().getReference();
         createNavigationDrawer();
         createTabLayout();
@@ -211,9 +230,71 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void xuLyThemThuChi(JSONArray items) {
+    private void xuLyThemThuChi(final JSONArray items) {
         //TODO
-        Toast.makeText(this,"Thu chi okay",Toast.LENGTH_SHORT).show();
+        final ArrayList<ThuChi> list=new ArrayList<>();
+        final XuLyThuChi xuLyThuChi=new XuLyThuChi();
+        XuLyChuoiThuChi xuLyChuoiThuChi=new XuLyChuoiThuChi();
+        Log.e("Length =",items.length()+"");
+        for(int i=0;i<items.length();i++){
+            try {
+                final ThuChi thuChi=new ThuChi();
+                JSONObject jsonObject=items.getJSONObject(i);
+                if(jsonObject.has("ghichu"))
+                    thuChi.setGhichu(jsonObject.getString("ghichu"));
+                if(jsonObject.has("ngay"))
+                    thuChi.setNgay(jsonObject.getString("ngay"));
+                if(jsonObject.has("nhacnho"))
+                    thuChi.setNhacnho(jsonObject.getString("nhacnho"));
+                if(jsonObject.has("nhom"))
+                    thuChi.setNhom(jsonObject.getString("nhom"));
+                if(jsonObject.has("sotien"))
+                    thuChi.setSotien(jsonObject.getString("sotien"));
+                if(jsonObject.has("sukien"))
+                    thuChi.setSukien(jsonObject.getString("sukien"));
+                if(jsonObject.has("vi"))
+                    thuChi.setVi(jsonObject.getString("vi"));
+                list.add(thuChi);
+
+//                xuLyThuChi.readDataseAndSetSoGiaoDich(thuChi,result);
+//                xuLyThuChi.xuLyTienVaoRaQRCode(result,thuChi);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        final String[] result=xuLyChuoiThuChi.chuyenDinhDangNgay(list.get(0).getNgay());
+        xuLyThuChi.setDatabaseReference(FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("số giao dịch"));
+        xuLyThuChi.getDatabaseReference().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int sogiaodich=dataSnapshot.getValue(Integer.class);
+                sogiaodich=sogiaodich+1;
+                long tienvao=0;
+                long tienra=0;
+                for (int i=0;i<list.size();i++)
+                {
+                    ThuChi tc = list.get(i);
+                    xuLyThuChi.xuLyLuuVaoDatabase(tc,result,sogiaodich+i);
+                    if(tc.getNhom().equals("Gửi tiền") || tc.getNhom().equals("Tiền lãi")){
+                        tienvao=tienvao+Long.parseLong(tc.getSotien());
+                    }
+                    else if(tc.getNhom().equals("Rút tiền")){
+                        tienra=tienra+Long.parseLong(tc.getSotien());
+                    }
+                }
+                sogiaodich=sogiaodich+items.length()-1;
+                Log.e("TIEN VAO",tienvao+"");
+                Log.e("TIEN RA",tienra+"");
+                xuLyThuChi.getDatabaseReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("số giao dịch").setValue(sogiaodich);
+                xuLyThuChi.xuLyTienVaoRaQRCode(result,tienvao,tienra);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        Toast.makeText(this,"Thu chi okay: success",Toast.LENGTH_SHORT).show();
     }
 
     private void xuLyThemKeHoach(JSONArray items) {
