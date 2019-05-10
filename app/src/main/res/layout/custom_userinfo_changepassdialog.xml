@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:text="Nhập mật khẩu cũ"
+            android:textSize="20dp"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edtOldPassDlg"
+                android:layout_width="225dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:ems="10"
+                android:inputType="textPassword" />
+            <ImageView
+                android:layout_marginLeft="5dp"
+                android:id="@+id/imgChk1PassDlg"
+                android:layout_gravity="center"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:text="Mật khẩu mới"
+            android:textSize="20dp"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edtNewPassDlg"
+                android:layout_width="225dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:ems="10"
+                android:inputType="textPassword" />
+            <ImageView
+                android:layout_marginLeft="5dp"
+                android:id="@+id/imgChk2PassDlg"
+                android:layout_gravity="center"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edtConfirmPassDlg"
+                android:layout_width="225dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:ems="10"
+                android:inputType="textPassword" />
+            <ImageView
+                android:layout_marginLeft="5dp"
+                android:id="@+id/imgChk3PassDlg"
+                android:layout_gravity="center"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtStatusPassDlg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:text="Mật khẩu tối tểu 6 kí tự"
+            android:textColor="#30B6EB"
+            android:textSize="20dp"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btnCancelPassDlg"
+                android:layout_margin="5dp"
+                android:text="Huỷ"
+                android:background="@drawable/custom_user_info_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/btnSavePassDlg"
+                android:text="Lưu"
+                android:layout_margin="5dp"
+
+                android:background="@drawable/custom_user_info_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+</LinearLayout>
