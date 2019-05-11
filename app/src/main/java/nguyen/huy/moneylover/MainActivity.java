@@ -267,7 +267,9 @@ public class MainActivity extends AppCompatActivity {
         xuLyThuChi.getDatabaseReference().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int sogiaodich=dataSnapshot.getValue(Integer.class);
+                int sogiaodich;
+                if (dataSnapshot.getValue()!=null) sogiaodich=dataSnapshot.getValue(Integer.class);
+                else sogiaodich=0;
                 sogiaodich=sogiaodich+1;
                 long tienvao=0;
                 long tienra=0;

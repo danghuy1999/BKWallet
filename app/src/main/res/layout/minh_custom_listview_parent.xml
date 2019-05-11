@@ -8,8 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:background="@color/colorbackgroundBack"
+        android:layout_marginBottom="1dp"
         android:orientation="horizontal">
 
         <TextView
@@ -69,11 +69,12 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <ListView
+    <nguyen.huy.moneylover.MainLayout.MyListview
         android:id="@+id/lvInListview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@color/colorbackgroundBack" />
+        android:background="@color/colorbackgroundBack"
+        android:divider="@null" />
+
 </LinearLayout>

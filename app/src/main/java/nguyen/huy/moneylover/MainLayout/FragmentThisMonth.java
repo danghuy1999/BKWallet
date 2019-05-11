@@ -1,6 +1,5 @@
 package nguyen.huy.moneylover.MainLayout;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,10 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -25,9 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import nguyen.huy.moneylover.MinhLayout.AdapterThuChi;
-import nguyen.huy.moneylover.MinhLayout.DocActivity;
-import nguyen.huy.moneylover.MinhLayout.ThuChiActivity;
+import nguyen.huy.moneylover.MinhLayout.AdapterParentListView;
 import nguyen.huy.moneylover.MinhLayout.XuLyChuoiThuChi;
 import nguyen.huy.moneylover.MinhLayout.XuLyThuChi;
 import nguyen.huy.moneylover.Model.ThuChi;
@@ -36,8 +31,13 @@ import nguyen.huy.moneylover.R;
 public class FragmentThisMonth extends Fragment {
     public FragmentThisMonth() {
     }
-    AdapterThuChi adapterThuChi;
+//    AdapterThuChi adapterThuChi;
+    AdapterParentListView adapterParentListView;
     List<ThuChi> listThuChi;
+
+    //TODO : this
+    ArrayList<ArrayList<ThuChi>> arrayObjest = new ArrayList<>();
+
     ListView listView;
     DatabaseReference databaseReference;
     TextView txtSoTienVao,txtSoTienRa,txtSoDu;
@@ -50,8 +50,8 @@ public class FragmentThisMonth extends Fragment {
 
         listView=view.findViewById(R.id.listGiaoDichThuChi);
         listThuChi=new ArrayList<>();
-        adapterThuChi=new AdapterThuChi(getActivity(),R.layout.minh_custom_listview,listThuChi);
-        listView.setAdapter(adapterThuChi);
+        adapterParentListView = new AdapterParentListView(getActivity(),R.layout.minh_custom_listview_parent,arrayObjest);
+        listView.setAdapter(adapterParentListView);
         String ngaythangnam=xuLyThuChi.getSimpleDateFormat().format(xuLyThuChi.getCalendar().getTime());
 
         String[] result= xuLyChuoiThuChi.chuyenDinhDangNgay(ngaythangnam);
@@ -64,8 +64,6 @@ public class FragmentThisMonth extends Fragment {
 
         readTienVaoTienRa(result);
 
-        //readAllDayinThisMonth(result[0]);
-
         addEvents();
 
         return view;
@@ -73,25 +71,16 @@ public class FragmentThisMonth extends Fragment {
     }
 
     private void addEvents() {
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(getActivity(), DocActivity.class);
-                intent.putExtra("Item",adapterThuChi.getItem(position));
-                startActivity(intent);
-            }
-        });
+
     }
 
     private void readAllDayinThisMonth(String thang){
         databaseReference=FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(thang).child("Ngày");
+        //TODO : cân nhắc xoá chỗ này
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                if(dataSnapshot.getKey()!=null) {
-                    String ngay = dataSnapshot.getKey();
-                    hienThiTungNgayLenListView(ngay);
-                }
+
             }
 
             @Override
@@ -117,37 +106,23 @@ public class FragmentThisMonth extends Fragment {
 
             }
         });
-    }
-
-    private void hienThiTungNgayLenListView(String ngay){
-        String[] result= xuLyChuoiThuChi.chuyenDinhDangNgayLayThang(ngay);
-        databaseReference= FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch");
-        databaseReference.addChildEventListener(new ChildEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                if(dataSnapshot.getValue()!=null) {
-                    ThuChi thuChi = dataSnapshot.getValue(ThuChi.class);
-                    listThuChi.add(thuChi);
-                    adapterThuChi.notifyDataSetChanged();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!arrayObjest.isEmpty()) arrayObjest.clear();
+                for(DataSnapshot snapshot :dataSnapshot.getChildren())
+                {
+                    String ngay = snapshot.getKey();
+                    ArrayList<ThuChi> arrThuChi = new ArrayList<>();
+                    for (DataSnapshot childSnapshot : snapshot.child("Giao dịch").getChildren())
+                    {
+                        ThuChi thuChi = childSnapshot.getValue(ThuChi.class);
+                        arrThuChi.add(thuChi);
+                    }
+                    arrayObjest.add(arrThuChi);
+
                 }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                /*ThuChi thuChi=dataSnapshot.getValue(ThuChi.class);
-                listThuChi.remove(thuChi);
-                adapterThuChi.notifyDataSetChanged();
-                listView.invalidateViews();*/
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                adapterParentListView.notifyDataSetChanged();
             }
 
             @Override
@@ -155,7 +130,9 @@ public class FragmentThisMonth extends Fragment {
 
             }
         });
+
     }
+
     //Đọc lây tiền vào tiền ra
     private void readTienVaoTienRa(String[] result){
         databaseReference=FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]);
