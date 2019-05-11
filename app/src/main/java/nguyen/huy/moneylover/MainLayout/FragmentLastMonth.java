@@ -36,6 +36,7 @@ public class FragmentLastMonth extends Fragment {
 
     AdapterThuChi adapterThuChi;
     List<ThuChi> listThuChi;
+    ArrayList<String> listkey=new ArrayList<>();
     ListView listView;
     DatabaseReference databaseReference;
     TextView txtSoTienVao,txtSoTienRa,txtSoDu;
@@ -118,6 +119,7 @@ public class FragmentLastMonth extends Fragment {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if(dataSnapshot.getValue()!=null) {
                     ThuChi thuChi = dataSnapshot.getValue(ThuChi.class);
+                    listkey.add(dataSnapshot.getKey());
                     listThuChi.add(thuChi);
                     adapterThuChi.notifyDataSetChanged();
                 }
@@ -125,12 +127,23 @@ public class FragmentLastMonth extends Fragment {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                ThuChi thuChiNew=dataSnapshot.getValue(ThuChi.class);
+                String key=dataSnapshot.getKey();
+                int index=listkey.indexOf(key);
+                ThuChi thuChiOld=listThuChi.get(index);
+                listThuChi.set(index,thuChiNew);
+                xuLyThuChi.xuLyTienVaoTienRaOnChildChange(xuLyChuoiThuChi.chuyenDinhDangNgay(thuChiOld.getNgay()),thuChiOld,thuChiNew);
+                adapterThuChi.notifyDataSetChanged();
+                listView.invalidateViews();
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
+                ThuChi thuChi=dataSnapshot.getValue(ThuChi.class);
+                xuLyThuChi.xuTienVaoTienRaKhiXoa(xuLyChuoiThuChi.chuyenDinhDangNgay(thuChi.getNgay()),thuChi);
+                adapterThuChi.remove(adapterThuChi.getItemByKey(thuChi.getThuchiKey()));
+                adapterThuChi.notifyDataSetChanged();
+                listView.invalidateViews();
             }
 
             @Override

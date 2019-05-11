@@ -3,6 +3,8 @@ package nguyen.huy.moneylover.Model;
 import java.io.Serializable;
 
 public class ThuChi implements Serializable {
+
+    private String thuchiKey;
     private int thuchiID;
     private String sotien;
     private String nhom;
@@ -35,6 +37,14 @@ public class ThuChi implements Serializable {
         this.banbe = banbe;
         this.nhacnho = nhacnho;
         this.sukien = sukien;
+    }
+
+    public String getThuchiKey() {
+        return thuchiKey;
+    }
+
+    public void setThuchiKey(String thuchiKey) {
+        this.thuchiKey = thuchiKey;
     }
 
     public int getThuchiID() {

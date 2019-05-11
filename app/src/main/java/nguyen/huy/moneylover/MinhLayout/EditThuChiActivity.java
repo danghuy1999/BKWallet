@@ -96,13 +96,14 @@ public class EditThuChiActivity extends AppCompatActivity {
     }
 
     public void xuLyLuu(View view) {
-        xuLyThuChi.getDatabaseReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").child("Giao dịch "+thuChi.getThuchiID()).removeValue();
+        xuLyThuChi.xuLyLuuVaoDatabaseKhiEdit(TaoGiaoDich(),result,thuChi.getThuchiID(),thuChi.getThuchiKey());
+        //xuLyThuChi.getDatabaseReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").child("Giao dịch "+thuChi.getThuchiID()).setValue(TaoGiaoDich());
         //xuLyThuChi.xuTienVaoTienRaKhiXoa(result,thuChi);
-        xuLyThuChi.readDataseAndSetSoGiaoDich(TaoGiaoDich(),result);
+        //xuLyThuChi.readDataseAndSetSoGiaoDich(TaoGiaoDich(),result);
         //xuLyThuChi.xuLyTienVaoRaKhiLuu(result,edtChonNhom,edtNhapSoTien);
-        xuLyThuChi.xuLyTienVaoTienRaKhiSua(result,thuChi,edtChonNhom,edtNhapSoTien);
-        Intent intent1=new Intent(EditThuChiActivity.this, MainActivity.class);
-        startActivity(intent1);
+        //xuLyThuChi.xuLyTienVaoTienRaKhiSua(result,thuChi,edtChonNhom,edtNhapSoTien);
+        //Intent intent1=new Intent(EditThuChiActivity.this, MainActivity.class);
+        //startActivity(intent1);
         finish();
     }
 

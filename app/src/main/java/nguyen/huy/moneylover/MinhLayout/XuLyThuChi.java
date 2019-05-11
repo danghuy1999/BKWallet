@@ -2,7 +2,6 @@ package nguyen.huy.moneylover.MinhLayout;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.DatePicker;
@@ -18,7 +17,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 
 import nguyen.huy.moneylover.Model.ThuChi;
 
@@ -101,14 +99,24 @@ public class XuLyThuChi {
     //Các hàm về xử lý Database
 
     //Lưu giao dịch mới vào Database
-    public void xuLyLuuVaoDatabase(ThuChi giaodich,String[] result, int sogiaodich){
+    public void xuLyLuuVaoDatabase(ThuChi giaodich, String[] result, int sogiaodich){
         databaseReference=FirebaseDatabase.getInstance().getReference();
         giaodich.setThuchiID(sogiaodich);
+        giaodich.setThuchiKey(databaseReference.child("Thu chi").push().getKey());
+        databaseReference.child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").child("Giao dịch "+sogiaodich).setValue(giaodich);
+    }
+
+    //Lưu giao dịch mới vào database khi edit
+
+    public void xuLyLuuVaoDatabaseKhiEdit(ThuChi giaodich,String[] result,int sogiaodich,String thuchiKey){
+        databaseReference=FirebaseDatabase.getInstance().getReference();
+        giaodich.setThuchiID(sogiaodich);
+        giaodich.setThuchiKey(thuchiKey);
         databaseReference.child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").child("Giao dịch "+sogiaodich).setValue(giaodich);
     }
 
     //Cập nhật số giao dịch khi giao dịch mới được thêm vào
-    public void setSogiaodich(int sogiaodich,String[] result){
+    public void setSogiaodich(int sogiaodich, String[] result){
         databaseReference=FirebaseDatabase.getInstance().getReference();
         databaseReference.child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("số giao dịch").setValue(sogiaodich);
     }
@@ -139,6 +147,57 @@ public class XuLyThuChi {
             }
         });
     }
+
+    //Các hàm xử lý tiền vào tiền ra trong ngày
+
+    //Xử lý tiền vào tiền ra trong ngày khi lưu
+    public void xuLyTienVaoTienRaTrongNgayKhiLuu(final String[] result, final ThuChi thuChi){
+        databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("Tiền vào").getValue()==null || dataSnapshot.child("Tiền ra").getValue()==null){
+                    if (thuChi.getNhom().equals("Gửi tiền") || thuChi.getNhom().equals("Tiền lãi")) {
+                        long tienvao = Long.parseLong(thuChi.getSotien());
+                        CapNhatTienVaoTrongNgay(result,tienvao);
+                        CapNhatTienRaTrongNgay(result,0);
+                    } else if (thuChi.getNhom().equals("Rút tiền")) {
+                        long tienra = Long.parseLong(thuChi.getSotien());
+                        CapNhatTienRaTrongNgay(result,tienra);
+                        CapNhatTienVaoTrongNgay(result,0);
+                    }
+                }
+                else {
+                    long tienvao = (long) dataSnapshot.child("Tiền vào").getValue();
+                    long tienra = (long) dataSnapshot.child("Tiền ra").getValue();
+                    if (thuChi.getNhom().equals("Gửi tiền") || thuChi.getNhom().equals("Tiền lãi")) {
+                        tienvao = tienvao + Long.parseLong(thuChi.getSotien());
+                        CapNhatTienVaoTrongNgay(result,tienvao);
+                    } else if (thuChi.getNhom().equals("Rút tiền")) {
+                        tienra = tienra + Long.parseLong(thuChi.getSotien());
+                        CapNhatTienRaTrongNgay(result,tienra);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    //Cập nhật tiền vào trong ngày
+    public void CapNhatTienVaoTrongNgay(String[] result,long tienvao){
+        databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Tiền vào");
+        databaseReference.setValue(tienvao);
+    }
+    //Cập nhật tiền ra trong ngày
+    public void CapNhatTienRaTrongNgay(String[] result,long tienra){
+        databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Tiền ra");
+        databaseReference.setValue(tienra);
+    }
+
 
     //Cập nhật lại tiền vào
     public void CapNhatTienVao(String[] result,long tienvao){
@@ -270,6 +329,36 @@ public class XuLyThuChi {
         });
     }
 
+    //Xử lý tiền vào tiền ra khi hàm onChildChange() được kích hoạt
+    public void xuLyTienVaoTienRaOnChildChange(final String [] result,final ThuChi thuChiOld,final ThuChi thuChiNew){
+        databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long tienvao = (long) dataSnapshot.child("Tiền vào").getValue();
+                long tienra = (long) dataSnapshot.child("Tiền ra").getValue();
+                if(thuChiOld.getNhom().equals("Gửi tiền") || thuChiOld.getNhom().equals("Tiền lãi")){
+                    tienvao=tienvao-Long.parseLong(thuChiOld.getSotien());
+                }
+                if(thuChiOld.getNhom().equals("Rút tiền")){
+                    tienra=tienra-Long.parseLong(thuChiOld.getSotien());
+                }
+                if(thuChiNew.getNhom().equals("Gửi tiền") || thuChiNew.getNhom().equals("Tiền lãi")){
+                    tienvao=tienvao+Long.parseLong(thuChiNew.getSotien());
+                }
+                if(thuChiNew.getNhom().equals("Rút tiền")){
+                    tienra=tienra+Long.parseLong(thuChiNew.getSotien());
+                }
+                CapNhatTienVao(result,tienvao);
+                CapNhatTienRa(result,tienra);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
     //Hiển thị datatime picker và chọn ngày
     public void xuLyHienThiNgayEditText(View view, final EditText edtChonNgay, Activity activity) {
         DatePickerDialog.OnDateSetListener callBack=new DatePickerDialog.OnDateSetListener() {

@@ -16,9 +16,7 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
@@ -101,5 +99,12 @@ public class AdapterThuChi extends ArrayAdapter<ThuChi> {
         String dayname=simpleDateFormat.format(calendar.getTime());
         txtThu.setText(dayname);
     }
-
+    public ThuChi getItemByKey(String id){
+        for(int i=0;i<objects.size();i++)
+        {
+            if(objects.get(i).getThuchiKey().equals(id))
+                return objects.get(i);
+        }
+        return null;
+    }
 }
