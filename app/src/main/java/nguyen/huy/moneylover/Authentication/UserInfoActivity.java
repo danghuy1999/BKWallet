@@ -191,39 +191,7 @@ public class UserInfoActivity extends AppCompatActivity {
                 imgChk3PassDlg.setImageResource(android.R.color.transparent);
             }
         });
-//        edtOldPassDlg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (!hasFocus)
-//                {
-//                    if (edtConfirmPassDlg.getText().length() < 6) {
-//                        txtStatusPassDlg.setText("At least 6 character");
-//                    } else {
-//                        correctOldPass = false;
-//                        imgChk1PassDlg.setImageDrawable(getDrawable(R.drawable.ic_loop_blue_24dp));
-//                        AuthCredential credential = EmailAuthProvider
-//                                .getCredential(user.getEmail(), edtOldPassDlg.getText().toString());
-//                        user.reauthenticate(credential)
-//                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<Void> task) {
-//                                        imgChk1PassDlg.setImageDrawable(getDrawable(R.drawable.ic_check_green_24dp));
-//                                        correctOldPass = true;
-//
-//                                    }
-//                                })
-//                                .addOnFailureListener(new OnFailureListener() {
-//                                    @Override
-//                                    public void onFailure(@NonNull Exception e) {
-//                                        imgChk1PassDlg.setImageDrawable(getDrawable(R.drawable.ic_clear_yellow_24dp));
-//                                        correctOldPass = false;
-//                                    }
-//                                });
-//                    }
-//                }
-//
-//            }
-//        });
+
         edtOldPassDlg.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -276,30 +244,20 @@ public class UserInfoActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
-            }
-        });
-        edtNewPassDlg.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
                 if (s.length() < 6) {
                     txtStatusPassDlg.setText("At least 6 character");
                     imgChk2PassDlg.setImageDrawable(getDrawable(R.drawable.ic_clear_yellow_24dp));
                     correctNewPass = false;
                 } else {
                     imgChk2PassDlg.setImageDrawable(getDrawable(R.drawable.ic_check_green_24dp));
-                    if (edtConfirmPassDlg.getText().toString().equals(s.toString()))
+                    if (edtConfirmPassDlg.getText().toString().equals(s.toString())){
                         imgChk3PassDlg.setImageDrawable(getDrawable(R.drawable.ic_check_green_24dp));
+                        correctConfirmPass = true;
+                    }
+                    else{
+                        imgChk3PassDlg.setImageDrawable(getDrawable(R.drawable.ic_clear_yellow_24dp));
+                        correctConfirmPass = false;
+                    }
                     correctNewPass = true;
                 }
             }
