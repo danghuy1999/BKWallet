@@ -28,7 +28,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center|left"
-            android:text="Gửi tiền"
+            android:text="@string/ts_deposit"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -53,7 +53,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center|left"
-            android:text="Tiền lãi"
+            android:text="@string/ts_interest"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -77,7 +77,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center|left"
-            android:text="Được tặng"
+            android:text="@string/ts_awarded"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -101,7 +101,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center|left"
-            android:text="Thưởng"
+            android:text="@string/ts_reward"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -125,7 +125,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center|left"
-            android:text="Lương"
+            android:text="@string/ts_salary"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -149,7 +149,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center|left"
-            android:text="Bán đồ"
+            android:text="@string/ts_sale"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -173,7 +173,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center|left"
-            android:text="Khoản thu khác"
+            android:text="@string/ts_income_other"
             android:textSize="16sp" />
     </LinearLayout>
 
