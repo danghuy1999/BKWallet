@@ -23,7 +23,13 @@
         <activity android:name=".MainTruong.DetailKeHoachActivity" />
         <activity
             android:name=".Authentication.SplashScreenActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Authentication.ForgetPasswordActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
@@ -33,11 +39,7 @@
         <activity
             android:name=".Authentication.LogInActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
         <activity
