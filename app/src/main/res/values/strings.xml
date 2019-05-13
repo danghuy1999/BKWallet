@@ -28,4 +28,31 @@
     <string name="error_EmailType">Invalid Email type, please check it !</string>
     <string name="toast_PasswordResetSuccessfully">Check your email to complete reseting password.</string>
     <!--end strings for authentication layout-->
+
+    <!--item of transaction-->
+    <string name="ts_reward">Thưởng</string>
+    <string name="ts_awarded">Được tặng</string>
+    <string name="ts_sale">Bán đồ</string>
+    <string name="ts_salary">Lương</string>
+    <string name="ts_income_other">Khoảng thu khác</string>
+    <string name="ts_interest">Tiền lãi</string>
+    <string name="ts_save_money">Gửi tiền</string>
+    <string name="ts_friend_n_love">Bạn bè &amp; người yêu</string>
+    <string name="ts_insurance">Bảo hiểm</string>
+    <string name="ts_fee">Chi phí</string>
+    <string name="ts_transport">Di chuyển</string>
+    <string name="ts_travel">Du lịch</string>
+    <string name="ts_home">Gia đình</string>
+    <string name="ts_education">Giáo dục</string>
+    <string name="ts_entertainment">Giải trí</string>
+    <string name="ts_bill">Hoá đơn &amp; tiện ích</string>
+    <string name="ts_business">Kinh doanh</string>
+    <string name="ts_shopping">Mua sắm</string>
+    <string name="ts_gift">Quà tặng &amp; Quyên góp</string>
+    <string name="ts_withdraw">Rút tiền</string>
+    <string name="ts_health">Sức khoẻ</string>
+    <string name="ts_eating">Ăn uống</string>
+    <string name="ts_invest">Đầu tư</string>
+    <string name="ts_outcome_other">Khoản chi khác</string>
+
 </resources>
