@@ -94,10 +94,12 @@ public class DocActivity extends AppCompatActivity {
     }
 
     public void xuLyXoaThuChi() {
-        reference.child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").child("Giao dịch "+thuChi.getThuchiID()).removeValue();
-        //xuLyThuChi.xuTienVaoTienRaKhiXoa(result,thuChi);
-        //Intent intent1=new Intent(this, MainActivity.class);
-        //startActivity(intent1);
+        if(XuLyThuChi.checkMoneyIO(thuChi)){
+            reference.child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch vào").child(thuChi.getThuchiKey()).removeValue();
+        }
+        else {
+            reference.child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch ra").child(thuChi.getThuchiKey()).removeValue();
+        }
         finish();
     }
 
@@ -141,13 +143,16 @@ public class DocActivity extends AppCompatActivity {
     }
 
     public void xuLyLuu(View view) {
-        reference= FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").child("Giao dịch "+thuChi.getThuchiID());
+        if(XuLyThuChi.checkMoneyIO(thuChi)){
+            reference= FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch vào").child(thuChi.getThuchiKey());
+        }
+        else {
+            reference= FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch ra").child(thuChi.getThuchiKey());
+        }
+
         reference.child("nhom").setValue(edtEditNhom.getText().toString());
         reference.child("sotien").setValue(edtEditSoTien.getText().toString());
         reference.child("ngay").setValue(txtEditNgay.getText().toString());
-        //xuLyThuChi.xuLyTienVaoTienRaKhiSua(result,thuChi,edtEditNhom,edtEditSoTien);
-        //Intent intentLuu=new Intent(DocActivity.this,MainActivity.class);
-        //startActivity(intentLuu);
         finish();
     }
 }

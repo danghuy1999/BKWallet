@@ -62,9 +62,7 @@ public class ThuChiActivity extends AppCompatActivity{
         }
 
         String result[]=xuLyChuoiThuChi.chuyenDinhDangNgay(edtChonNgay.getText().toString());
-        xuLyThuChi.readDataseAndSetSoGiaoDich(TaoGiaoDich(),result);
-        xuLyThuChi.xuLyTienVaoTienRaTrongNgayKhiLuu(result,TaoGiaoDich());
-        xuLyThuChi.xuLyTienVaoRaKhiLuu(result,edtChonNhom,edtNhapSoTien);
+        xuLyThuChi.xuLyLuuVaoDatabase(TaoGiaoDich(),result);
         //Chuyển hình chọn nhóm về ban đầu
         Resources res=getResources();
         Drawable drawable=res.getDrawable(R.drawable.question2);

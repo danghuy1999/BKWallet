@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,28 +34,25 @@ public class FragmentThisMonth extends Fragment {
     }
 //    AdapterThuChi adapterThuChi;
     AdapterParentListView adapterParentListView;
-    List<ThuChi> listThuChi;
-
     //TODO : this
     ArrayList<ArrayList<ThuChi>> arrayObjest = new ArrayList<>();
-
     ListView listView;
     DatabaseReference databaseReference;
     TextView txtSoTienVao,txtSoTienRa,txtSoDu;
     XuLyChuoiThuChi xuLyChuoiThuChi=new XuLyChuoiThuChi();
     XuLyThuChi xuLyThuChi=new XuLyThuChi();
+    String[] result;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_this_month, container,false);
 
         listView=view.findViewById(R.id.listGiaoDichThuChi);
-        listThuChi=new ArrayList<>();
         adapterParentListView = new AdapterParentListView(getActivity(),R.layout.minh_custom_listview_parent,arrayObjest);
         listView.setAdapter(adapterParentListView);
         String ngaythangnam=xuLyThuChi.getSimpleDateFormat().format(xuLyThuChi.getCalendar().getTime());
 
-        String[] result= xuLyChuoiThuChi.chuyenDinhDangNgay(ngaythangnam);
+        result= xuLyChuoiThuChi.chuyenDinhDangNgay(ngaythangnam);
 
         readAllDayinThisMonth(result[0]);
 
@@ -66,6 +64,8 @@ public class FragmentThisMonth extends Fragment {
 
         addEvents();
 
+        xuLyThuChi.setBalance();
+
         return view;
 
     }
@@ -74,54 +74,59 @@ public class FragmentThisMonth extends Fragment {
 
     }
 
-    private void readAllDayinThisMonth(String thang){
+    private void readAllDayinThisMonth(final String thang){
         databaseReference=FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(thang).child("Ngày");
-        //TODO : cân nhắc xoá chỗ này
-        databaseReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                /*if(dataSnapshot.getKey()!=null) {
-                    String ngay = dataSnapshot.getKey();
-                    hienThiTungNgayLenListView(ngay);
-                }*/
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long tienvaothang=0;
+                long tienrathang=0;
                 if (!arrayObjest.isEmpty()) arrayObjest.clear();
                 for(DataSnapshot snapshot :dataSnapshot.getChildren())
                 {
+                    long tienvaongay=0;
+                    long tienrangay=0;
                     String ngay = snapshot.getKey();
                     ArrayList<ThuChi> arrThuChi = new ArrayList<>();
-                    for (DataSnapshot childSnapshot : snapshot.child("Giao dịch").getChildren())
+                    for (DataSnapshot childSnapshot : snapshot.child("Giao dịch vào").getChildren())
                     {
                         ThuChi thuChi = childSnapshot.getValue(ThuChi.class);
+                        if(XuLyThuChi.checkMoneyIO(thuChi)){
+                            tienvaongay=tienvaongay+Long.parseLong(thuChi.getSotien());
+                        }
+                        else{
+                            tienrangay=tienrangay+Long.parseLong(thuChi.getSotien());
+                        }
                         arrThuChi.add(thuChi);
                     }
+                    for(DataSnapshot childSnapshot:snapshot.child("Giao dịch ra").getChildren()){
+                        ThuChi thuChi = childSnapshot.getValue(ThuChi.class);
+                        if(XuLyThuChi.checkMoneyIO(thuChi)){
+                            tienvaongay=tienvaongay+Long.parseLong(thuChi.getSotien());
+                        }
+                        else{
+                            tienrangay=tienrangay+Long.parseLong(thuChi.getSotien());
+                        }
+                        arrThuChi.add(thuChi);
+                    }
+                    tienvaothang=tienvaothang+tienvaongay;
+                    tienrathang=tienrathang+tienrangay;
+                    if(tienvaongay==0 && tienrangay==0) {
+                        DatabaseReference dt = FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(thang).child("Ngày").child(ngay);
+                        dt.child("Tiền vào").setValue(null);
+                        dt.child("Tiền ra").setValue(null);
+                        break;
+                    }
+
                     arrayObjest.add(arrThuChi);
 
+                    xuLyThuChi.CapNhatTienVaoTrongNgay(xuLyChuoiThuChi.chuyenDinhDangNgayLayThang(ngay),tienvaongay);
+                    xuLyThuChi.CapNhatTienRaTrongNgay(xuLyChuoiThuChi.chuyenDinhDangNgayLayThang(ngay),tienrangay);
+
+
                 }
+                xuLyThuChi.CapNhatTienVao(thang,tienvaothang);
+                xuLyThuChi.CapNhatTienRa(thang,tienrathang);
                 adapterParentListView.notifyDataSetChanged();
             }
 
@@ -148,9 +153,6 @@ public class FragmentThisMonth extends Fragment {
                     txtSoTienRa.setTextColor(Color.RED);
                     txtSoDu.setTextColor(Color.BLACK);
                 }
-                /*else if(dataSnapshot.child("Tiền vào").getValue()!=null && dataSnapshot.child("Tiền ra").getValue()==null){
-                    txtSoTienVao.setText(dataSnapshot.child("Tiê"));
-                }*/
                 else{
                     txtSoTienRa.setText("0 đ");
                     txtSoTienVao.setText("0 đ");
@@ -158,8 +160,6 @@ public class FragmentThisMonth extends Fragment {
                     txtSoTienVao.setTextColor(Color.BLUE);
                     txtSoTienRa.setTextColor(Color.RED);
                     txtSoDu.setTextColor(Color.BLACK);
-                    databaseReference.child("Tiền vào").setValue(0);
-                    databaseReference.child("Tiền ra").setValue(0);
                 }
             }
 

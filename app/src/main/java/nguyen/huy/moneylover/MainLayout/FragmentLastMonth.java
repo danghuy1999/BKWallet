@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import nguyen.huy.moneylover.MinhLayout.AdapterParentListView;
 import nguyen.huy.moneylover.MinhLayout.AdapterThuChi;
 import nguyen.huy.moneylover.MinhLayout.DocActivity;
 import nguyen.huy.moneylover.MinhLayout.XuLyChuoiThuChi;
@@ -34,9 +35,8 @@ public class FragmentLastMonth extends Fragment {
     public FragmentLastMonth() {
     }
 
-    AdapterThuChi adapterThuChi;
-    List<ThuChi> listThuChi;
-    ArrayList<String> listkey=new ArrayList<>();
+    AdapterParentListView adapterParentListView;
+    ArrayList<ArrayList<ThuChi>> arrayObjest = new ArrayList<>();
     ListView listView;
     DatabaseReference databaseReference;
     TextView txtSoTienVao,txtSoTienRa,txtSoDu;
@@ -48,9 +48,8 @@ public class FragmentLastMonth extends Fragment {
         View view=inflater.inflate(R.layout.fragment_last_month,container,false);
 
         listView=view.findViewById(R.id.listGiaoDichThuChiLastMonth);
-        listThuChi=new ArrayList<>();
-        adapterThuChi=new AdapterThuChi(getActivity(),R.layout.minh_custom_listview,listThuChi);
-        listView.setAdapter(adapterThuChi);
+        adapterParentListView=new AdapterParentListView(getActivity(),R.layout.minh_custom_listview_parent,arrayObjest);
+        listView.setAdapter(adapterParentListView);
         String ngaythangnam=xuLyThuChi.getSimpleDateFormat().format(xuLyThuChi.getCalendar().getTime());
 
         String[] result= xuLyChuoiThuChi.tachNgayLayThangTruoc(ngaythangnam);
@@ -68,40 +67,63 @@ public class FragmentLastMonth extends Fragment {
     }
 
     private void addEvents() {
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(getActivity(), DocActivity.class);
-                intent.putExtra("Item",adapterThuChi.getItem(position));
-                startActivity(intent);
-            }
-        });
+
     }
 
-    private void readAllDayinThisMonth(String thang){
-        databaseReference= FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(thang).child("Ngày");
-        databaseReference.addChildEventListener(new ChildEventListener() {
+    private void readAllDayinThisMonth(final String thang){
+        databaseReference=FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(thang).child("Ngày");
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                if(dataSnapshot.getKey()!=null) {
-                    String ngay = dataSnapshot.getKey();
-                    hienThiTungNgayLenListView(ngay);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long tienvaothang=0;
+                long tienrathang=0;
+                if (!arrayObjest.isEmpty()) arrayObjest.clear();
+                for(DataSnapshot snapshot :dataSnapshot.getChildren())
+                {
+                    long tienvaongay=0;
+                    long tienrangay=0;
+                    String ngay = snapshot.getKey();
+                    ArrayList<ThuChi> arrThuChi = new ArrayList<>();
+                    for (DataSnapshot childSnapshot : snapshot.child("Giao dịch vào").getChildren())
+                    {
+                        ThuChi thuChi = childSnapshot.getValue(ThuChi.class);
+                        if(XuLyThuChi.checkMoneyIO(thuChi)){
+                            tienvaongay=tienvaongay+Long.parseLong(thuChi.getSotien());
+                        }
+                        else{
+                            tienrangay=tienrangay+Long.parseLong(thuChi.getSotien());
+                        }
+                        arrThuChi.add(thuChi);
+                    }
+                    for(DataSnapshot childSnapshot:snapshot.child("Giao dịch ra").getChildren()){
+                        ThuChi thuChi = childSnapshot.getValue(ThuChi.class);
+                        if(XuLyThuChi.checkMoneyIO(thuChi)){
+                            tienvaongay=tienvaongay+Long.parseLong(thuChi.getSotien());
+                        }
+                        else{
+                            tienrangay=tienrangay+Long.parseLong(thuChi.getSotien());
+                        }
+                        arrThuChi.add(thuChi);
+                    }
+                    tienvaothang=tienvaothang+tienvaongay;
+                    tienrathang=tienrathang+tienrangay;
+                    if(tienvaongay==0 && tienrangay==0) {
+                        DatabaseReference dt = FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(thang).child("Ngày").child(ngay);
+                        dt.child("Tiền vào").setValue(null);
+                        dt.child("Tiền ra").setValue(null);
+                        break;
+                    }
+
+                    arrayObjest.add(arrThuChi);
+
+                    xuLyThuChi.CapNhatTienVaoTrongNgay(xuLyChuoiThuChi.chuyenDinhDangNgayLayThang(ngay),tienvaongay);
+                    xuLyThuChi.CapNhatTienRaTrongNgay(xuLyChuoiThuChi.chuyenDinhDangNgayLayThang(ngay),tienrangay);
+
+
                 }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                xuLyThuChi.CapNhatTienVao(thang,tienvaothang);
+                xuLyThuChi.CapNhatTienRa(thang,tienrathang);
+                adapterParentListView.notifyDataSetChanged();
             }
 
             @Override
@@ -111,52 +133,6 @@ public class FragmentLastMonth extends Fragment {
         });
     }
 
-    private void hienThiTungNgayLenListView(String ngay){
-        String[] result= xuLyChuoiThuChi.chuyenDinhDangNgayLayThang(ngay);
-        databaseReference= FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch");
-        databaseReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                if(dataSnapshot.getValue()!=null) {
-                    ThuChi thuChi = dataSnapshot.getValue(ThuChi.class);
-                    listkey.add(dataSnapshot.getKey());
-                    listThuChi.add(thuChi);
-                    adapterThuChi.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                ThuChi thuChiNew=dataSnapshot.getValue(ThuChi.class);
-                String key=dataSnapshot.getKey();
-                int index=listkey.indexOf(key);
-                ThuChi thuChiOld=listThuChi.get(index);
-                listThuChi.set(index,thuChiNew);
-                xuLyThuChi.xuLyTienVaoTienRaOnChildChange(xuLyChuoiThuChi.chuyenDinhDangNgay(thuChiOld.getNgay()),thuChiOld,thuChiNew);
-                adapterThuChi.notifyDataSetChanged();
-                listView.invalidateViews();
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                ThuChi thuChi=dataSnapshot.getValue(ThuChi.class);
-                xuLyThuChi.xuTienVaoTienRaKhiXoa(xuLyChuoiThuChi.chuyenDinhDangNgay(thuChi.getNgay()),thuChi);
-                adapterThuChi.remove(adapterThuChi.getItemByKey(thuChi.getThuchiKey()));
-                adapterThuChi.notifyDataSetChanged();
-                listView.invalidateViews();
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
     //Đọc lây tiền vào tiền ra
     private void readTienVaoTienRa(String[] result){
         databaseReference=FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]);
@@ -179,8 +155,6 @@ public class FragmentLastMonth extends Fragment {
                     txtSoTienVao.setTextColor(Color.BLUE);
                     txtSoTienRa.setTextColor(Color.RED);
                     txtSoDu.setTextColor(Color.BLACK);
-                    databaseReference.child("Tiền vào").setValue(0);
-                    databaseReference.child("Tiền ra").setValue(0);
                 }
             }
 

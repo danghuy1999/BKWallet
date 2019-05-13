@@ -255,47 +255,16 @@ public class MainActivity extends AppCompatActivity {
                 if(jsonObject.has("vi"))
                     thuChi.setVi(jsonObject.getString("vi"));
                 list.add(thuChi);
-
-//                xuLyThuChi.readDataseAndSetSoGiaoDich(thuChi,result);
-//                xuLyThuChi.xuLyTienVaoRaQRCode(result,thuChi);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
         final String[] result=xuLyChuoiThuChi.chuyenDinhDangNgay(list.get(0).getNgay());
-        xuLyThuChi.setDatabaseReference(FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("số giao dịch"));
-        xuLyThuChi.getDatabaseReference().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int sogiaodich;
-                if (dataSnapshot.getValue()!=null) sogiaodich=dataSnapshot.getValue(Integer.class);
-                else sogiaodich=0;
-                sogiaodich=sogiaodich+1;
-                long tienvao=0;
-                long tienra=0;
-                for (int i=0;i<list.size();i++)
-                {
-                    ThuChi tc = list.get(i);
-                    xuLyThuChi.xuLyLuuVaoDatabase(tc,result,sogiaodich+i);
-                    if(tc.getNhom().equals("Gửi tiền") || tc.getNhom().equals("Tiền lãi")){
-                        tienvao=tienvao+Long.parseLong(tc.getSotien());
-                    }
-                    else if(tc.getNhom().equals("Rút tiền")){
-                        tienra=tienra+Long.parseLong(tc.getSotien());
-                    }
-                }
-                sogiaodich=sogiaodich+items.length()-1;
-                Log.e("TIEN VAO",tienvao+"");
-                Log.e("TIEN RA",tienra+"");
-                xuLyThuChi.getDatabaseReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("số giao dịch").setValue(sogiaodich);
-                xuLyThuChi.xuLyTienVaoRaQRCode(result,tienvao,tienra);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        for (int i=0;i<list.size();i++)
+        {
+            ThuChi tc = list.get(i);
+            xuLyThuChi.xuLyLuuVaoDatabase(tc,result);
+        }
         Toast.makeText(this,"Thu chi okay: success",Toast.LENGTH_SHORT).show();
     }
 

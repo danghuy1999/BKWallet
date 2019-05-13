@@ -2,6 +2,7 @@ package nguyen.huy.moneylover.MinhLayout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,12 @@ import android.widget.ArrayAdapter;
 import android.support.annotation.NonNull;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,8 +45,8 @@ public class AdapterParentListView extends ArrayAdapter<ArrayList<ThuChi>> {
 
     }
 
-
-
+    XuLyChuoiThuChi xuLyChuoiThuChi=new XuLyChuoiThuChi();
+    XuLyThuChi xuLyThuChi=new XuLyThuChi();
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -50,7 +57,8 @@ public class AdapterParentListView extends ArrayAdapter<ArrayList<ThuChi>> {
         TextView txtThangNamLV = view.findViewById(R.id.txtThangNamLV);
         TextView txtSoTienLV = view.findViewById(R.id.txtSoTienLV);
         final ArrayList<ThuChi> item = objests.get(position);
-        xuLyDinhDangNgay(txtNgayListview,txtThuListView,txtThangNamLV,item.get(0));
+        if(!item.isEmpty())
+            xuLyDinhDangNgay(txtNgayListview,txtThuListView,txtThangNamLV,item.get(0));
         AdapterChildListView adapterChildListView = new AdapterChildListView( context,R.layout.minh_custom_listview_child,item);
         lvInListview.setAdapter(adapterChildListView);
         lvInListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -63,6 +71,8 @@ public class AdapterParentListView extends ArrayAdapter<ArrayList<ThuChi>> {
                 context.startActivity(intent);
             }
         });
+        if(!item.isEmpty())
+            getMoneyRefunDay(txtSoTienLV,item.get(0));
         return view;
     }
     private void xuLyDinhDangNgay(TextView txtNgay,TextView txtThu,TextView txtThangNam,ThuChi thuChi){
@@ -80,6 +90,30 @@ public class AdapterParentListView extends ArrayAdapter<ArrayList<ThuChi>> {
         calendar.set(Calendar.YEAR,nam);
         String dayname=simpleDateFormat.format(calendar.getTime());
         txtThu.setText(dayname);
+    }
+
+    //Đọc số tiền dư trong ngày
+
+    private void getMoneyRefunDay(final TextView txtSoTienLV, ThuChi thuChi){
+        final String[] result=xuLyChuoiThuChi.chuyenDinhDangNgay(thuChi.getNgay());
+        final DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("Tiền vào").getValue()!=null && dataSnapshot.child("Tiền ra").getValue()!=null) {
+                    long tienvao = Long.parseLong(dataSnapshot.child("Tiền vào").getValue().toString());
+                    long tienra = Long.parseLong(dataSnapshot.child("Tiền ra").getValue().toString());
+                    long tiendu = tienvao - tienra;
+                    txtSoTienLV.setText(tiendu + " đ");
+                    txtSoTienLV.setTextColor(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }
