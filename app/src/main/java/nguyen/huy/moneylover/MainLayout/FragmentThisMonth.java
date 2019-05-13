@@ -1,19 +1,18 @@
 package nguyen.huy.moneylover.MainLayout;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,13 +20,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import nguyen.huy.moneylover.MinhLayout.AdapterParentListView;
 import nguyen.huy.moneylover.MinhLayout.XuLyChuoiThuChi;
 import nguyen.huy.moneylover.MinhLayout.XuLyThuChi;
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
+import nguyen.huy.moneylover.Report.ReportActivity;
 
 public class FragmentThisMonth extends Fragment {
     public FragmentThisMonth() {
@@ -35,23 +34,24 @@ public class FragmentThisMonth extends Fragment {
 //    AdapterThuChi adapterThuChi;
     AdapterParentListView adapterParentListView;
     //TODO : this
-    ArrayList<ArrayList<ThuChi>> arrayObjest = new ArrayList<>();
+    ArrayList<ArrayList<ThuChi>> arrayObject = new ArrayList<>();
     ListView listView;
     DatabaseReference databaseReference;
     TextView txtSoTienVao,txtSoTienRa,txtSoDu;
     XuLyChuoiThuChi xuLyChuoiThuChi=new XuLyChuoiThuChi();
     XuLyThuChi xuLyThuChi=new XuLyThuChi();
     String[] result;
+    LinearLayout lyReport;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_this_month, container,false);
 
         listView=view.findViewById(R.id.listGiaoDichThuChi);
-        adapterParentListView = new AdapterParentListView(getActivity(),R.layout.minh_custom_listview_parent,arrayObjest);
+        adapterParentListView = new AdapterParentListView(getActivity(),R.layout.minh_custom_listview_parent, arrayObject);
         listView.setAdapter(adapterParentListView);
         String ngaythangnam=xuLyThuChi.getSimpleDateFormat().format(xuLyThuChi.getCalendar().getTime());
-
+        lyReport = view.findViewById(R.id.lyReport);
         result= xuLyChuoiThuChi.chuyenDinhDangNgay(ngaythangnam);
 
         readAllDayinThisMonth(result[0]);
@@ -71,6 +71,14 @@ public class FragmentThisMonth extends Fragment {
     }
 
     private void addEvents() {
+        lyReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ReportActivity.class);
+                intent.putExtra("ValueThisMonth", arrayObject);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -81,7 +89,7 @@ public class FragmentThisMonth extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 long tienvaothang=0;
                 long tienrathang=0;
-                if (!arrayObjest.isEmpty()) arrayObjest.clear();
+                if (!arrayObject.isEmpty()) arrayObject.clear();
                 for(DataSnapshot snapshot :dataSnapshot.getChildren())
                 {
                     long tienvaongay=0;
@@ -118,7 +126,7 @@ public class FragmentThisMonth extends Fragment {
                         break;
                     }
 
-                    arrayObjest.add(arrThuChi);
+                    arrayObject.add(arrThuChi);
 
                     xuLyThuChi.CapNhatTienVaoTrongNgay(xuLyChuoiThuChi.chuyenDinhDangNgayLayThang(ngay),tienvaongay);
                     xuLyThuChi.CapNhatTienRaTrongNgay(xuLyChuoiThuChi.chuyenDinhDangNgayLayThang(ngay),tienrangay);

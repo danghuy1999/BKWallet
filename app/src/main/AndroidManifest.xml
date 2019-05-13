@@ -4,17 +4,22 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <application
-        android:allowBackup="true"
         android:name=".Authentication.MyFirebaseApp"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".Authentication.UserInfoActivity"></activity>
-        <activity android:name=".QRCodeModule.QRCodeScannerActivity"
-            android:theme="@style/AppTheme"></activity>
+        <activity android:name=".Report.ReportActivity"
+            android:theme="@style/Theme.AppCompat.Light">
+        </activity>
+        <activity android:name=".Authentication.UserInfoActivity" />
+        <activity
+            android:name=".QRCodeModule.QRCodeScannerActivity"
+            android:theme="@style/AppTheme" />
         <activity android:name=".MainTruong.DetailKeHoachActivity" />
         <activity
             android:name=".Authentication.SplashScreenActivity"
@@ -34,17 +39,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".MainTietKiem.ThemTietKiem"
             android:theme="@style/Theme.AppCompat.Light" />
         <activity
             android:name=".MainTietKiem.MainTietKiem"
             android:theme="@style/Theme.AppCompat.Light" />
-        <activity android:name=".MainTietKiem.detail_tietkiem"
-            android:theme="@style/Theme.AppCompat.Light"/>
-        <activity android:name=".MainTietKiem.SuaVaXoaTietKiem"
-            android:theme="@style/Theme.AppCompat.Light"/>
+        <activity
+            android:name=".MainTietKiem.detail_tietkiem"
+            android:theme="@style/Theme.AppCompat.Light" />
+        <activity
+            android:name=".MainTietKiem.SuaVaXoaTietKiem"
+            android:theme="@style/Theme.AppCompat.Light" />
         <activity
             android:name=".MinhLayout.DocActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
@@ -59,7 +66,7 @@
             android:theme="@style/Base.Theme.AppCompat.Light.Dialog" />
         <activity android:name=".MinhLayout.ThuChiActivity" />
         <activity android:name=".MinhLayout.ChonNhomActivity" />
-        <activity android:name=".MinhLayout.EditThuChiActivity"/>
+        <activity android:name=".MinhLayout.EditThuChiActivity" />
     </application>
 
 </manifest>

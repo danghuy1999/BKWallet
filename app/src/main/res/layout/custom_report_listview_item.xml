@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_margin="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imgReportItem"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+    <TextView
+        android:layout_gravity="center"
+        android:id="@+id/txtReportItemType"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_gravity="center"
+        android:id="@+id/txtReportItemValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

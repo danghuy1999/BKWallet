@@ -14,6 +14,33 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/lyReport"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:text="Tổng quan"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:drawableRight="@drawable/ic_navigate_next_grey_24dp"
+                android:layout_width="match_parent"
+                android:duplicateParentState="true"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="Chạm để xem báo cáo đầy đủ"
+                android:textSize="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:duplicateParentState="true"
+                android:layout_marginBottom="5dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:duplicateParentState="true"
+                android:background="@color/colorbackground"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
