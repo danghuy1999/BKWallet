@@ -2,6 +2,7 @@ package nguyen.huy.moneylover.MinhLayout;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
+import nguyen.huy.moneylover.Tool.GetImage;
 
 public class AdapterChildListView extends ArrayAdapter<ThuChi> {
     Context context;
@@ -41,7 +43,7 @@ public class AdapterChildListView extends ArrayAdapter<ThuChi> {
         TextView txtSoTien=view.findViewById(R.id.txtSoTienLVChild);
         TextView txtNhom=view.findViewById(R.id.txtNhomLVChild);
         TextView txtGhiChu=view.findViewById(R.id.txtGhiChuLVChild);
-        TextView txtSoTienTren=view.findViewById(R.id.txtSoTienLVChild);
+        //TextView txtSoTienTren=view.findViewById(R.id.txtSoTienLVChild);
         ImageView imageView=view.findViewById(R.id.imgViewLVChild);
 
         ThuChi thuChi=objects.get(position);
@@ -51,25 +53,12 @@ public class AdapterChildListView extends ArrayAdapter<ThuChi> {
         if(thuChi.getGhichu()!=""){
             txtGhiChu.setText(thuChi.getGhichu());
         }
-        Resources res= getContext().getResources();
-        if(thuChi.getNhom().equals("Tiền lãi")) {
-            Drawable drawable = res.getDrawable(R.drawable.tienlai);
-            imageView.setImageDrawable(drawable);
+        Bitmap bitmap= GetImage.getBitmapFromString(getContext(),thuChi.getNhom());
+        imageView.setImageBitmap(bitmap);
+        if(XuLyThuChi.checkMoneyIO(thuChi))
             txtSoTien.setTextColor(Color.BLUE);
-            txtSoTienTren.setText(thuChi.getSotien() + " đ");
-        }
-        else if(thuChi.getNhom().equals("Gửi tiền")){
-            Drawable drawable=res.getDrawable((R.drawable.guitien));
-            imageView.setImageDrawable(drawable);
-            txtSoTien.setTextColor(Color.BLUE);
-            txtSoTienTren.setText(thuChi.getSotien() + " đ");
-        }
-        else if(thuChi.getNhom().equals("Rút tiền")){
-            Drawable drawable=res.getDrawable(R.drawable.ruttien);
-            imageView.setImageDrawable(drawable);
+        else
             txtSoTien.setTextColor(Color.RED);
-            txtSoTienTren.setText("-" + thuChi.getSotien() +" đ");
-        }
 
         return view;
     }

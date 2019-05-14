@@ -35,7 +35,7 @@ public class GetImage {
         } else if (res.getString(R.string.ts_home).equals(BitmapString)) {
             bitmap = BitmapFactory.decodeResource(res, R.drawable.minh_home96);
         } else if (res.getString(R.string.ts_income_other).equals(BitmapString)) {
-            bitmap = BitmapFactory.decodeResource(res, R.drawable.minh_gift96);
+            bitmap = BitmapFactory.decodeResource(res, R.drawable.minh_donate96);
         } else if (res.getString(R.string.ts_insurance).equals(BitmapString)) {
             bitmap = BitmapFactory.decodeResource(res, R.drawable.minh_insurrance96);
         } else if (res.getString(R.string.ts_interest).equals(BitmapString)) {
@@ -58,6 +58,9 @@ public class GetImage {
             bitmap = BitmapFactory.decodeResource(res, R.drawable.minh_travel96);
         } else if (res.getString(R.string.ts_withdraw).equals(BitmapString)) {
             bitmap = BitmapFactory.decodeResource(res, R.drawable.ruttien);
+        }
+        else if(res.getString(R.string.ts_outcome_other).equals(BitmapString)){
+            bitmap=BitmapFactory.decodeResource(res,R.drawable.minh_donate96);
         }
         return bitmap;
     }

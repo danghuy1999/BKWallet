@@ -2,10 +2,12 @@ package nguyen.huy.moneylover.MinhLayout;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,6 +21,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import nguyen.huy.moneylover.Model.ThuChi;
+import nguyen.huy.moneylover.R;
+
+import static nguyen.huy.moneylover.R.*;
 
 public class XuLyThuChi {
     private DatabaseReference databaseReference;
@@ -104,10 +109,23 @@ public class XuLyThuChi {
         switch (giaodich.getNhom()){
             case "Gửi tiền": check=true; break;
             case "Tiền lãi": check=true; break;
-            case "Rút tiền": check=false; break;
+            case "Được tặng": check=true; break;
+            case "Thưởng": check=true; break;
+            case "Lương": check=true; break;
+            case "Bán đồ": check=true; break;
+            case "Khoản thu khác": check=true; break;
         }
         return check;
     }
+
+    //hỗ trợ kiểm tra null
+    public static void supportCheckNull(EditText editText, ImageView imageView, Bitmap bitmap,String string){
+        if(editText!=null && imageView!=null){
+            editText.setText(string);
+            imageView.setImageBitmap(bitmap);
+        }
+    }
+
     //Lưu giao dịch mới vào Database
     public void xuLyLuuVaoDatabase(ThuChi giaodich, String[] result){
         databaseReference=FirebaseDatabase.getInstance().getReference();

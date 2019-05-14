@@ -9,37 +9,41 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="5dp"
         android:background="@color/colorbackgroundBack"
         android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/lyReport"
-            android:orientation="vertical"
-            android:layout_margin="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
             <TextView
-                android:text="Tổng quan"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:drawableRight="@drawable/ic_navigate_next_grey_24dp"
-                android:layout_width="match_parent"
-                android:duplicateParentState="true"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:text="Chạm để xem báo cáo đầy đủ"
-                android:textSize="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableRight="@drawable/ic_navigate_next_grey_24dp"
                 android:duplicateParentState="true"
-                android:layout_marginBottom="5dp"/>
+                android:text="Tổng quan"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:duplicateParentState="true"
+                android:text="Chạm để xem báo cáo đầy đủ"
+                android:textSize="12dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:duplicateParentState="true"
-                android:background="@color/colorbackground"/>
+                android:background="@color/colorbackground"
+                android:duplicateParentState="true" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -28,6 +29,7 @@ import java.util.Calendar;
 import nguyen.huy.moneylover.MainActivity;
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
+import nguyen.huy.moneylover.Tool.GetImage;
 
 public class DocActivity extends AppCompatActivity {
     Intent intent;
@@ -82,7 +84,7 @@ public class DocActivity extends AppCompatActivity {
         edtEditNhom.setText(thuChi.getNhom());
         edtEditSoTien.setText(thuChi.getSotien());
 
-        Resources resources=getResources();
+        /*Resources resources=getResources();
         Drawable drawable=resources.getDrawable(R.drawable.question2);
         if(thuChi.getNhom().equals("Rút tiền"))
             drawable=resources.getDrawable(R.drawable.ruttien);
@@ -90,7 +92,9 @@ public class DocActivity extends AppCompatActivity {
             drawable=resources.getDrawable(R.drawable.guitien);
         else if(thuChi.getNhom().equals("Tiền lãi"))
             drawable=resources.getDrawable(R.drawable.tienlai);
-        imageViewEditNhom.setImageDrawable(drawable);
+        imageViewEditNhom.setImageDrawable(drawable);*/
+        Bitmap bitmap= GetImage.getBitmapFromString(this,thuChi.getNhom());
+        imageViewEditNhom.setImageBitmap(bitmap);
     }
 
     public void xuLyXoaThuChi() {
