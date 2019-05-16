@@ -44,7 +44,7 @@ import java.util.List;
 import nguyen.huy.moneylover.Authentication.LogInActivity;
 import nguyen.huy.moneylover.Authentication.UserInfoActivity;
 import nguyen.huy.moneylover.MainLayout.TabAdapter;
-import nguyen.huy.moneylover.MainTruong.MainKeHoach;
+import nguyen.huy.moneylover.MainSuKien.ActivityMainSuKien;
 import nguyen.huy.moneylover.MinhLayout.ThuChiActivity;
 import nguyen.huy.moneylover.MainTietKiem.MainTietKiem;
 import nguyen.huy.moneylover.MinhLayout.XuLyChuoiThuChi;
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void doSuKien() {
-        Intent intent=new Intent(MainActivity.this, MainKeHoach.class);
+        Intent intent=new Intent(MainActivity.this, ActivityMainSuKien.class);
         startActivity(intent);
     }
 

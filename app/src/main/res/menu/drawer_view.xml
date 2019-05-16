@@ -9,7 +9,7 @@
 
         <item
             android:id="@+id/nav_SuKien"
-            android:icon="@drawable/ic_help_black_24dp"
+            android:icon="@drawable/ic_bk_events"
             android:title="Sự kiện" />
     </group>
     <group android:checkableBehavior="single"

@@ -20,7 +20,7 @@
         <activity
             android:name=".QRCodeModule.QRCodeScannerActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".MainTruong.DetailKeHoachActivity" />
+
         <activity
             android:name=".Authentication.SplashScreenActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -57,15 +57,14 @@
         <activity
             android:name=".MinhLayout.DocActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
-        <activity
-            android:name=".MainTruong.MainKeHoach"
-            android:theme="@style/Theme.AppCompat.Light" />
-        <activity
-            android:name=".MainTruong.ThemKeHoach"
-            android:theme="@style/Theme.AppCompat.Light" />
-        <activity
-            android:name=".MainTruong.ChonNhomActivity"
-            android:theme="@style/Base.Theme.AppCompat.Light.Dialog" />
+
+        <activity android:name=".MainSuKien.ActivityMainSuKien" />
+        <activity android:name=".MainSuKien.ActivityThemSuKien" />
+        <activity android:name=".MainSuKien.ActivityBieuTuongSuKien" />
+        <activity android:name=".MainSuKien.ActivitySuaSuKien"/>
+        <activity android:name=".MainSuKien.ActivityChiTietSuKien"
+            android:theme="@style/Theme.AppCompat.Light"/>
+
         <activity android:name=".MinhLayout.ThuChiActivity" />
         <activity android:name=".MinhLayout.ChonNhomActivity" />
         <activity android:name=".MinhLayout.EditThuChiActivity" />
