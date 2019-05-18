@@ -30,6 +30,8 @@
     <!--end strings for authentication layout-->
 
     <!--item of transaction-->
+    <string name="ts_income">Khoản thu</string>
+    <string name="ts_outcome">Khoản chi</string>
     <string name="ts_reward">Thưởng</string>
     <string name="ts_awarded">Được tặng</string>
     <string name="ts_sale">Bán đồ</string>
@@ -54,5 +56,10 @@
     <string name="ts_eating">Ăn uống</string>
     <string name="ts_invest">Đầu tư</string>
     <string name="ts_outcome_other">Khoản chi khác</string>
-
+    <string name="ts_income_max">Khoản thu lớn nhất</string>
+    <string name="ts_outcome_max">Khoản chi lớn nhất</string>
+    <string name="ts_income_grouped">Khoản thu xếp theo nhóm</string>
+    <string name="ts_outcome_grouped">Khoản chi xếp theo nhóm</string>
+    <string name="ts_income_altogether">Tổng lượng thu</string>
+    <string name="ts_outcome_altogether">Tổng lượng chi</string>
 </resources>

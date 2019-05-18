@@ -64,4 +64,61 @@ public class GetImage {
         }
         return bitmap;
     }
+
+    public static String checkTransactionGroup(Context context,String groupName)
+    {
+        Resources res = context.getResources();
+        if (res.getString(R.string.ts_withdraw).equals(groupName)) {
+            return res.getString(R.string.ts_outcome);
+        } else if (res.getString(R.string.ts_friend_n_love).equals(groupName)) {
+            return res.getString(R.string.ts_outcome);
+        } else if (res.getString(R.string.ts_insurance).equals(groupName)) {
+            return res.getString(R.string.ts_outcome);
+        } else if (res.getString(R.string.ts_fee).equals(groupName)) {
+            return res.getString(R.string.ts_outcome);
+        } else if (res.getString(R.string.ts_transport).equals(groupName)) {
+            return res.getString(R.string.ts_outcome);
+        } else if (res.getString(R.string.ts_home).equals(groupName)) {
+            return res.getString(R.string.ts_outcome);
+        } else if (res.getString(R.string.ts_travel).equals(groupName)) {
+            return res.getString(R.string.ts_outcome);
+        } else if (res.getString(R.string.ts_education).equals(groupName)) {
+            return res.getString(R.string.ts_outcome);
+        } else if (res.getString(R.string.ts_entertainment).equals(groupName)) {
+            return res.getString(R.string.ts_outcome);
+        } else if (res.getString(R.string.ts_bill).equals(groupName)) {
+            return res.getString(R.string.ts_outcome);
+        } else if (res.getString(R.string.ts_business).equals(groupName)) {
+            return res.getString(R.string.ts_outcome);
+        } else if (res.getString(R.string.ts_shopping).equals(groupName)) {
+            return res.getString(R.string.ts_outcome);
+        } else if (res.getString(R.string.ts_gift).equals(groupName)) {
+            return res.getString(R.string.ts_outcome);
+        } else if (res.getString(R.string.ts_health).equals(groupName)) {
+            return res.getString(R.string.ts_outcome);
+        } else if (res.getString(R.string.ts_eating).equals(groupName)) {
+            return res.getString(R.string.ts_outcome);
+        } else if (res.getString(R.string.ts_invest).equals(groupName)) {
+            return res.getString(R.string.ts_outcome);
+        } else if (res.getString(R.string.ts_outcome_other).equals(groupName)) {
+            return res.getString(R.string.ts_outcome);
+        }
+
+        if (res.getString(R.string.ts_deposit).equals(groupName)) {
+            return res.getString(R.string.ts_income);
+        } else if (res.getString(R.string.ts_interest).equals(groupName)) {
+            return res.getString(R.string.ts_income);
+        } else if (res.getString(R.string.ts_awarded).equals(groupName)) {
+            return res.getString(R.string.ts_income);
+        } else if (res.getString(R.string.ts_reward).equals(groupName)) {
+            return res.getString(R.string.ts_income);
+        } else if (res.getString(R.string.ts_salary).equals(groupName)) {
+            return res.getString(R.string.ts_income);
+        } else if (res.getString(R.string.ts_sale).equals(groupName)) {
+            return res.getString(R.string.ts_income);
+        } else if (res.getString(R.string.ts_income_other).equals(groupName)) {
+            return res.getString(R.string.ts_income);
+        }
+        return res.getString(R.string.ts_income);
+    }
 }

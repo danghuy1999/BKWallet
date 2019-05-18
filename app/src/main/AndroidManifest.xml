@@ -13,19 +13,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".Report.ReportActivity"
-            android:theme="@style/Theme.AppCompat.Light">
-        </activity>
+        <activity
+            android:name=".Report.Report2Activity"
+            android:theme="@style/Theme.AppCompat.Light" />
+        <activity
+            android:name=".Report.ReportActivity"
+            android:theme="@style/Theme.AppCompat.Light" />
         <activity android:name=".Authentication.UserInfoActivity" />
         <activity
             android:name=".QRCodeModule.QRCodeScannerActivity"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".Authentication.SplashScreenActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".Authentication.ForgetPasswordActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
@@ -57,14 +57,13 @@
         <activity
             android:name=".MinhLayout.DocActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
-
         <activity android:name=".MainSuKien.ActivityMainSuKien" />
         <activity android:name=".MainSuKien.ActivityThemSuKien" />
         <activity android:name=".MainSuKien.ActivityBieuTuongSuKien" />
-        <activity android:name=".MainSuKien.ActivitySuaSuKien"/>
-        <activity android:name=".MainSuKien.ActivityChiTietSuKien"
-            android:theme="@style/Theme.AppCompat.Light"/>
-
+        <activity android:name=".MainSuKien.ActivitySuaSuKien" />
+        <activity
+            android:name=".MainSuKien.ActivityChiTietSuKien"
+            android:theme="@style/Theme.AppCompat.Light" />
         <activity android:name=".MinhLayout.ThuChiActivity" />
         <activity android:name=".MinhLayout.ChonNhomActivity" />
         <activity android:name=".MinhLayout.EditThuChiActivity" />

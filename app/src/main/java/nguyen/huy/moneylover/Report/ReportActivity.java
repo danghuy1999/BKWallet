@@ -1,17 +1,14 @@
 package nguyen.huy.moneylover.Report;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.Button;
-import android.widget.EditText;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,17 +17,17 @@ import com.razerdp.widget.animatedpieview.AnimatedPieView;
 import com.razerdp.widget.animatedpieview.AnimatedPieViewConfig;
 import com.razerdp.widget.animatedpieview.callback.OnPieSelectListener;
 import com.razerdp.widget.animatedpieview.data.IPieInfo;
-import com.razerdp.widget.animatedpieview.data.SimplePieInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
-import nguyen.huy.moneylover.MainActivity;
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
+import nguyen.huy.moneylover.Tool.GetImage;
 
 public class ReportActivity extends AppCompatActivity {
     TextView txtIncomeValue, txtOutcomeValue;
@@ -48,7 +45,7 @@ public class ReportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         addControls();
         addEvents();
     }
@@ -69,6 +66,7 @@ public class ReportActivity extends AppCompatActivity {
 
         intent = getIntent();
 
+        //noinspection unchecked
         arrayObject = (ArrayList<ArrayList<ThuChi>>) intent.getSerializableExtra("ValueThisMonth");
         xuLyDuLieu();
         xuLyPieView();
@@ -79,20 +77,22 @@ public class ReportActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void xuLyDuLieu() {
         pieValue = new HashMap<>();
         for (ArrayList<ThuChi> dayThuChi : arrayObject) {
             for (ThuChi thuChi : dayThuChi) {
                 String nhom = thuChi.getNhom();
-//                if (!nhom.equals("Rút tiền")) {
+                if (GetImage.checkTransactionGroup(this,nhom).equals(getString(R.string.ts_outcome))) {
                     if (!pieValue.containsKey(nhom)) {
                         pieValue.put(nhom, Long.valueOf(thuChi.getSotien()));
                     } else {
+                        //noinspection ConstantConditions
                         long value = pieValue.get(nhom);
                         value += Long.valueOf(thuChi.getSotien());
                         pieValue.put(nhom,value);
                     }
-//                }
+                }
             }
         }
         MaxThuChi maxThuChi = chuyenDoiDuLieu();
@@ -125,6 +125,7 @@ public class ReportActivity extends AppCompatActivity {
                 .duration(2500)// Animation drawing duration
                 .startAngle(-90f)// Starting angle offset
                 .selectListener(new OnPieSelectListener<IPieInfo>() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onSelectPie(@NonNull IPieInfo pieInfo, boolean isFloatUp) {
                         if (isFloatUp)
@@ -191,14 +192,14 @@ public class ReportActivity extends AppCompatActivity {
 
         }
 
-        public MaxThuChi(String type, long value, int color,Bitmap bitmap) {
+        private MaxThuChi(String type, long value, int color,Bitmap bitmap) {
             this.type = type;
             this.value = value;
             this.color = color;
             this.bitmap = bitmap;
         }
 
-        public String getType() {
+        private String getType() {
             return type;
         }
 
@@ -229,5 +230,13 @@ public class ReportActivity extends AppCompatActivity {
         public void setBitmap(Bitmap bitmap) {
             this.bitmap = bitmap;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: finish();return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -26,6 +26,7 @@ import nguyen.huy.moneylover.MinhLayout.XuLyChuoiThuChi;
 import nguyen.huy.moneylover.MinhLayout.XuLyThuChi;
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
+import nguyen.huy.moneylover.Report.Report2Activity;
 import nguyen.huy.moneylover.Report.ReportActivity;
 
 public class FragmentThisMonth extends Fragment {
@@ -74,7 +75,7 @@ public class FragmentThisMonth extends Fragment {
         lyReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ReportActivity.class);
+                Intent intent = new Intent(getActivity(), Report2Activity.class);
                 intent.putExtra("ValueThisMonth", arrayObject);
                 startActivity(intent);
             }
