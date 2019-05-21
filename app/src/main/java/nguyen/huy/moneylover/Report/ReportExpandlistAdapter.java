@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nguyen.huy.moneylover.R;
+import nguyen.huy.moneylover.Tool.Convert;
 import nguyen.huy.moneylover.Tool.GetImage;
 import nguyen.huy.moneylover.Tool.SetupColor;
 
@@ -64,18 +65,17 @@ public class ReportExpandlistAdapter extends BaseExpandableListAdapter {
         return false;
     }
 
-    @SuppressLint({"SetTextI18n", "InflateParams"})
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
-        view = inflater.inflate(R.layout.custom_report_expandlist_header,null);
+        view = inflater.inflate(R.layout.custom_report_expandlist_header,parent,false);
         ImageView imgExListHeaderIcon = view.findViewById(R.id.imgExListHeaderIcon);
         TextView txtExListHeaderType = view.findViewById(R.id.txtExListHeaderType);
         TextView txtExListHeaderValue = view.findViewById(R.id.txtExListHeaderValue);
         LinearLayout llyHeader = view.findViewById(R.id.llyHeader);
         ReportHeader header = headerList.get(groupPosition);
         txtExListHeaderType.setText(header.getGroup());
-        txtExListHeaderValue.setText(header.getAltogether()+"");
+        txtExListHeaderValue.setText(Convert.Money(header.getAltogether()));
         Bitmap bitmap = GetImage.getBitmapFromString(context,header.getGroup());
         imgExListHeaderIcon.setImageBitmap(bitmap);
         llyHeader.setBackgroundResource(R.drawable.custom_header_report);
@@ -84,7 +84,6 @@ public class ReportExpandlistAdapter extends BaseExpandableListAdapter {
         return view;
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
@@ -94,7 +93,7 @@ public class ReportExpandlistAdapter extends BaseExpandableListAdapter {
         ReportDayValue dayValue = headerList.get(groupPosition).getDayValueList().get(childPosition);
         LinearLayout llyItem = view.findViewById(R.id.llyItem);
         txtExlistItemDay.setText(dayValue.getDay());
-        txtExlistItemValue.setText(dayValue.getValue()+"");
+        txtExlistItemValue.setText(Convert.Money(dayValue.getValue()));
         llyItem.setBackgroundResource(R.drawable.custom_item_report);
         GradientDrawable drawable = (GradientDrawable) llyItem.getBackground();
         drawable.setColor(SetupColor.getBestColor(listColor.get(groupPosition)));

@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import nguyen.huy.moneylover.R;
+import nguyen.huy.moneylover.Tool.Convert;
 import nguyen.huy.moneylover.Tool.DateConvert;
 import nguyen.huy.moneylover.Tool.FirebaseTool;
 import nguyen.huy.moneylover.Tool.GetImage;
@@ -100,10 +101,10 @@ public class FragmentReportIncome extends Fragment {
                     @Override
                     public void onSelectPie(@NonNull IPieInfo pieInfo, boolean isFloatUp) {
                         if (isFloatUp)
-                            txtIncomeInfo.setText(pieInfo.getDesc()+" : "+  (long) pieInfo.getValue());
+                            txtIncomeInfo.setText(pieInfo.getDesc()+" : "+  Convert.Money((long) pieInfo.getValue()));
                         else
                         {
-                            txtIncomeInfo.setText(getString(R.string.txt_allIncome)+allValueOfIncome);
+                            txtIncomeInfo.setText(getString(R.string.txt_allIncome)+ Convert.Money(allValueOfIncome));
                         }
                     }
                 })// Click callback
@@ -221,12 +222,12 @@ public class FragmentReportIncome extends Fragment {
                     ReportHeader header = Collections.max(headerList);
                     imgIncomeMax.setImageBitmap(GetImage.getBitmapFromString(context,header.getGroup()));
                     txtIncomeMaxType.setText(header.getGroup());
-                    txtIncomeMaxValue.setText(header.getAltogether()+"");
+                    txtIncomeMaxValue.setText(Convert.Money(header.getAltogether()));
                 }
                 adapter.notifyDataSetChanged();
                 pvIncome.applyConfig(config);
                 pvIncome.start();
-                txtIncomeInfo.setText(getString(R.string.txt_allIncome)+allValueOfIncome);
+                txtIncomeInfo.setText(getString(R.string.txt_allIncome)+ Convert.Money(allValueOfIncome));
                 setListViewHeight(-1);
             }
 
