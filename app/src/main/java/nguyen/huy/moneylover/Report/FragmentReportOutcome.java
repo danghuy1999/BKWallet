@@ -174,7 +174,7 @@ public class FragmentReportOutcome extends Fragment {
     private void getReportData() {
         String UID = FirebaseTool.getUserId();
         reference.child(UID).child("Thu chi").child(dateString[0])
-                .child("Giao dịch ra").addValueEventListener(new ValueEventListener() {
+                .child("Giao dịch ra").addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
