@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import nguyen.huy.moneylover.MinhLayout.AdapterParentListView;
 import nguyen.huy.moneylover.MinhLayout.XuLyChuoiThuChi;
@@ -27,6 +28,7 @@ import nguyen.huy.moneylover.MinhLayout.XuLyThuChi;
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
 import nguyen.huy.moneylover.Report.ReportActivity;
+import nguyen.huy.moneylover.Tool.Convert;
 
 public class FragmentThisMonth extends Fragment {
     public FragmentThisMonth() {
@@ -124,6 +126,7 @@ public class FragmentThisMonth extends Fragment {
                 }
                 XuLyThuChi.CapNhatTienVao(thang,tienvaothang);
                 XuLyThuChi.CapNhatTienRa(thang,tienrathang);
+                Collections.reverse(arrayObject);
                 adapterParentListView.notifyDataSetChanged();
             }
 
@@ -142,10 +145,12 @@ public class FragmentThisMonth extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.child("Tiền vào").getValue()!=null && dataSnapshot.child("Tiền ra").getValue()!=null) {
-                    txtSoTienVao.setText(dataSnapshot.child("Tiền vào").getValue().toString()+" đ");
-                    txtSoTienRa.setText(dataSnapshot.child("Tiền ra").getValue().toString()+" đ");
-                    long sodu = Long.parseLong(dataSnapshot.child("Tiền vào").getValue().toString()) - Long.parseLong(dataSnapshot.child("Tiền ra").getValue().toString());
-                    txtSoDu.setText(sodu + " đ");
+                    long tienvao=Long.parseLong(dataSnapshot.child("Tiền vào").getValue().toString());
+                    long tienra=Long.parseLong(dataSnapshot.child("Tiền ra").getValue().toString());
+                    txtSoTienVao.setText(Convert.Money(tienvao));
+                    txtSoTienRa.setText(Convert.Money(tienra));
+                    long sodu = tienvao-tienra;
+                    txtSoDu.setText(Convert.Money(sodu));
                     txtSoTienVao.setTextColor(Color.BLUE);
                     txtSoTienRa.setTextColor(Color.RED);
                     txtSoDu.setTextColor(Color.BLACK);

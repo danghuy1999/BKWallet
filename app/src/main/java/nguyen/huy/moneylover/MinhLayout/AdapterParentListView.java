@@ -32,6 +32,7 @@ import java.util.Set;
 import nguyen.huy.moneylover.MainLayout.MyListview;
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
+import nguyen.huy.moneylover.Tool.Convert;
 
 public class AdapterParentListView extends ArrayAdapter<ArrayList<ThuChi>> {
     Context context;
@@ -103,7 +104,7 @@ public class AdapterParentListView extends ArrayAdapter<ArrayList<ThuChi>> {
                     long tienvao = Long.parseLong(dataSnapshot.child("Tiền vào").getValue().toString());
                     long tienra = Long.parseLong(dataSnapshot.child("Tiền ra").getValue().toString());
                     long tiendu = tienvao - tienra;
-                    txtSoTienLV.setText(tiendu + " đ");
+                    txtSoTienLV.setText(Convert.Money(tiendu));
                     txtSoTienLV.setTextColor(Color.BLACK);
                 }
             }

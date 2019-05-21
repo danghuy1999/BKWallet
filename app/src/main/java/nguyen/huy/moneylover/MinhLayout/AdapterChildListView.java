@@ -21,6 +21,7 @@ import java.util.List;
 
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
+import nguyen.huy.moneylover.Tool.Convert;
 import nguyen.huy.moneylover.Tool.GetImage;
 
 public class AdapterChildListView extends ArrayAdapter<ThuChi> {
@@ -47,7 +48,8 @@ public class AdapterChildListView extends ArrayAdapter<ThuChi> {
         ImageView imageView=view.findViewById(R.id.imgViewLVChild);
 
         ThuChi thuChi=objects.get(position);
-        txtSoTien.setText(thuChi.getSotien()+" đ");
+        Long sotien=Long.parseLong(thuChi.getSotien());
+        txtSoTien.setText(Convert.Money(sotien));
         txtNhom.setText(thuChi.getNhom());
 
         if(thuChi.getGhichu()!=""){
