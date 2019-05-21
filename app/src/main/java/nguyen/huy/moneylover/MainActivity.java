@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,17 +54,32 @@ import nguyen.huy.moneylover.MinhLayout.XuLyThuChi;
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.QRCodeModule.QRCodeScannerActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
     private DrawerLayout drawerLayout;
     private FloatingActionButton fabAdd;
     private NavigationView navigationView;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private  TabAdapter adapter;
     private FirebaseAuth firebaseAuth;
+    private FirebaseUser user;
     private static final int QR_SCANNER = 1212;
     //Tạo firebase database
     //FirebaseDatabase firebaseDatabase;
     public static DatabaseReference databaseReference;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseAuth.addAuthStateListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        firebaseAuth.removeAuthStateListener(this);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
     private void createTabLayout() {
         viewPager = findViewById(R.id.view_pager);
         tabLayout = findViewById(R.id.tablayout_header);
-        TabAdapter adapter = new TabAdapter(getSupportFragmentManager());
+        adapter = new TabAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(1);
         tabLayout.setupWithViewPager(viewPager);
@@ -273,5 +289,13 @@ public class MainActivity extends AppCompatActivity {
         //TODO
         Toast.makeText(this,"Ke hoach okay",Toast.LENGTH_SHORT).show();
     }
+    @Override
+    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        user = firebaseAuth.getCurrentUser();
+        if (user!=null)
+        {
+            XuLyThuChi.user = user.getUid();
+        }
 
+    }
 }

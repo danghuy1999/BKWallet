@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +32,7 @@ import nguyen.huy.moneylover.R;
 import nguyen.huy.moneylover.Report.ReportActivity;
 import nguyen.huy.moneylover.Tool.Convert;
 
-public class FragmentThisMonth extends Fragment {
+public class FragmentThisMonth extends Fragment implements FirebaseAuth.AuthStateListener {
     public FragmentThisMonth() {
     }
 //    AdapterThuChi adapterThuChi;
@@ -42,11 +44,26 @@ public class FragmentThisMonth extends Fragment {
     TextView txtSoTienVao,txtSoTienRa,txtSoDu;
     String[] result;
     LinearLayout lyReport;
+    FirebaseAuth auth;
+    FirebaseUser user;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        auth.addAuthStateListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        auth.removeAuthStateListener(this);
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_this_month, container,false);
-
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
         listView=view.findViewById(R.id.listGiaoDichThuChi);
         adapterParentListView = new AdapterParentListView(getActivity(),R.layout.minh_custom_listview_parent, arrayObject);
         listView.setAdapter(adapterParentListView);
@@ -172,4 +189,16 @@ public class FragmentThisMonth extends Fragment {
         });
     }
 
+
+
+    @Override
+    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        user=FirebaseAuth.getInstance().getCurrentUser();
+        if (user!=null)
+        {
+            readAllDayinThisMonth(result[0]);
+            readTienVaoTienRa(result);
+            XuLyThuChi.setBalance();
+        }
+    }
 }
