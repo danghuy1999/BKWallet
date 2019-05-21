@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 public class ReportFragmentAdapter extends FragmentPagerAdapter {
-    public ReportFragmentAdapter(FragmentManager fm) {
+    ReportFragmentAdapter(FragmentManager fm) {
         super(fm);
     }
 

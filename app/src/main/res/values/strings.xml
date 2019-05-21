@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MoneyLoverTTCNPM</string>
+    <string name="app_name">BK Wallet</string>
     <string name="nav_logout">Log out</string>
 
 
@@ -27,6 +27,8 @@
     <string name="textclick_SignUpHere"><u>Sign Up Here</u></string>
     <string name="error_EmailType">Invalid Email type, please check it !</string>
     <string name="toast_PasswordResetSuccessfully">Check your email to complete reseting password.</string>
+    <string name="error_user_info">Fail, something wrong</string>
+    <string name="warning_user_password">At least 6 character</string>
     <!--end strings for authentication layout-->
 
     <!--item of transaction-->
@@ -62,4 +64,8 @@
     <string name="ts_outcome_grouped">Khoản chi xếp theo nhóm</string>
     <string name="ts_income_altogether">Tổng lượng thu</string>
     <string name="ts_outcome_altogether">Tổng lượng chi</string>
+
+    <string name="report">Báo cáo</string>
+    <string name="txt_allIncome">Tổng lượng thu : </string>
+    <string name="txt_allOutcome">Tổng lượng chi : </string>
 </resources>

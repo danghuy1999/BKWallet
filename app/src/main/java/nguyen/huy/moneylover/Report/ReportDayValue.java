@@ -4,14 +4,14 @@ public class ReportDayValue {
     private String day;
     private Long value;
 
-    public ReportDayValue() {
+    ReportDayValue() {
     }
 
-    public String getDay() {
+    String getDay() {
         return day;
     }
 
-    public void setDay(String day) {
+    void setDay(String day) {
         this.day = day;
     }
 

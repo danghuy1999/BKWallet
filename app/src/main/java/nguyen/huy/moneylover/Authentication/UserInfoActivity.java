@@ -1,5 +1,6 @@
 package nguyen.huy.moneylover.Authentication;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -48,6 +49,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import nguyen.huy.moneylover.R;
@@ -87,7 +89,7 @@ public class UserInfoActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && data != null && data.getData() != null) {
             Uri uri = data.getData();
-            Bitmap imageBitmat = null;
+            Bitmap imageBitmat;
             try {
                 imageBitmat = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 avtUser.setImageBitmap(imageBitmat);
@@ -118,6 +120,7 @@ public class UserInfoActivity extends AppCompatActivity {
 
         passwordDialog = new Dialog(this);
         passwordDialog.setContentView(R.layout.custom_userinfo_changepassdialog);
+
         customUsernameDialog();
         customPasswordDialog();
         if (user != null) {
@@ -206,12 +209,12 @@ public class UserInfoActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() < 6) {
-                    txtStatusPassDlg.setText("At least 6 character");
+                    txtStatusPassDlg.setText(getString(R.string.warning_user_password));
                 } else {
                     correctOldPass = false;
                     imgChk1PassDlg.setImageDrawable(getDrawable(R.drawable.ic_loop_blue_24dp));
                     AuthCredential credential = EmailAuthProvider
-                            .getCredential(user.getEmail(), s.toString());
+                            .getCredential(Objects.requireNonNull(user.getEmail()), s.toString());
                     user.reauthenticate(credential)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -245,7 +248,7 @@ public class UserInfoActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() < 6) {
-                    txtStatusPassDlg.setText("At least 6 character");
+                    txtStatusPassDlg.setText(getString(R.string.warning_user_password));
                     imgChk2PassDlg.setImageDrawable(getDrawable(R.drawable.ic_clear_yellow_24dp));
                     correctNewPass = false;
                 } else {
@@ -294,7 +297,7 @@ public class UserInfoActivity extends AppCompatActivity {
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    txtStatusPassDlg.setText("Fail, something wrong");
+                                    txtStatusPassDlg.setText(getString(R.string.error_user_info));
                                     loadDialog.dismiss();
                                 }
                             })
@@ -356,6 +359,7 @@ public class UserInfoActivity extends AppCompatActivity {
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         File directory = cw.getDir("profile", Context.MODE_PRIVATE);
         if (!directory.exists()) {
+            //noinspection ResultOfMethodCallIgnored
             directory.mkdir();
         }
         File mypath = new File(directory, "avatar.jpg");
@@ -387,6 +391,7 @@ public class UserInfoActivity extends AppCompatActivity {
     private void getBalance(String uid) {
         Log.e("UID", uid);
         databaseReference.child(uid).child("Balance").addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Long balance = dataSnapshot.getValue(Long.class);
@@ -425,11 +430,12 @@ public class UserInfoActivity extends AppCompatActivity {
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         File directory = cw.getDir("profile", Context.MODE_PRIVATE);
         if (!directory.exists()) {
+            //noinspection ResultOfMethodCallIgnored
             directory.mkdir();
         }
         File mypath = new File(directory, "avatar.jpg");
 
-        FileOutputStream fos = null;
+        FileOutputStream fos;
         try {
             fos = new FileOutputStream(mypath);
             imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);

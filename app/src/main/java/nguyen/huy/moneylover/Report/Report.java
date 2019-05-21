@@ -14,34 +14,19 @@ public class Report implements IPieInfo {
     public Report() {
     }
 
-    public Report(long pieValue, int pieColor, String pieDescription, Bitmap bitmap) {
-        this.pieValue = pieValue;
-        this.pieColor = pieColor;
-        this.pieDescription = pieDescription;
-        this.bitmap = bitmap;
-    }
-
-    public int getPieColor() {
-        return pieColor;
-    }
-
-    public void setPieColor(int pieColor) {
+    void setPieColor(int pieColor) {
         this.pieColor = pieColor;
     }
 
-    public String getPieDescription() {
-        return pieDescription;
-    }
-
-    public void setPieDescription(String pieDescription) {
+    void setPieDescription(String pieDescription) {
         this.pieDescription = pieDescription;
     }
 
-    public long getPieValue() {
+    long getPieValue() {
         return pieValue;
     }
 
-    public void setPieValue(long pieValue) {
+    void setPieValue(long pieValue) {
         this.pieValue = pieValue;
     }
 

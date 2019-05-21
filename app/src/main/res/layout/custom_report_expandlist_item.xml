@@ -1,28 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="55dip">
-
-    <TextView
-        android:id="@+id/txtExlistItemDay"
-        android:layout_gravity="center"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:textSize="17sp"
-        android:paddingTop="5dp"
-        android:text="123"
-        android:paddingBottom="5dp"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft" />
-    <TextView
-        android:id="@+id/txtExlistItemValue"
+    android:layout_height="55dip"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:id="@+id/llyItem"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:textSize="17sp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:layout_gravity="center"/>
+        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:paddingStart="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:paddingEnd="30dp"
+        tools:ignore="UselessParent">
+        <TextView
+            android:id="@+id/txtExlistItemDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingStart="30dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="1dp"
+            android:paddingBottom="5dp"
+            android:textColor="#FFFFFF"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/txtExlistItemValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="#FFFFFF"
+            android:gravity="end"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+
 
 </LinearLayout>
