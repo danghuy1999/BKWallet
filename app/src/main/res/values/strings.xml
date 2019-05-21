@@ -31,6 +31,8 @@
     <string name="warning_user_password">At least 6 character</string>
     <!--end strings for authentication layout-->
 
+    <string name="currency_type"> đ</string>
+
     <!--item of transaction-->
     <string name="ts_income">Khoản thu</string>
     <string name="ts_outcome">Khoản chi</string>
