@@ -22,8 +22,6 @@ public class ThuChiActivity extends AppCompatActivity{
     public static ImageView imgchonNhom;
     public static EditText edtChonNgay;
 
-    XuLyThuChi xuLyThuChi=new XuLyThuChi();
-    XuLyChuoiThuChi xuLyChuoiThuChi=new XuLyChuoiThuChi();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +30,7 @@ public class ThuChiActivity extends AppCompatActivity{
         addControls();
 
         //Khởi tạo ngày mặc định cho mục chọn ngày
-        edtChonNgay.setText(xuLyThuChi.getSimpleDateFormat().format(xuLyThuChi.getCalendar().getTime()));
+        edtChonNgay.setText(XuLyThuChi.simpleDateFormat.format(XuLyThuChi.calendar.getTime()));
     }
 
     private void addControls() {
@@ -61,12 +59,13 @@ public class ThuChiActivity extends AppCompatActivity{
             return;
         }
 
-        String result[]=xuLyChuoiThuChi.chuyenDinhDangNgay(edtChonNgay.getText().toString());
-        xuLyThuChi.xuLyLuuVaoDatabase(TaoGiaoDich(),result);
+        String result[]=XuLyChuoiThuChi.chuyenDinhDangNgay(edtChonNgay.getText().toString());
+        XuLyThuChi.xuLyLuuVaoDatabase(TaoGiaoDich(),result);
+        XuLyDatabaseSupport.SaveToDatabase(TaoGiaoDich());
         //Chuyển hình chọn nhóm về ban đầu
-        Resources res=getResources();
+        /*Resources res=getResources();
         Drawable drawable=res.getDrawable(R.drawable.question2);
-        imgchonNhom.setImageDrawable(drawable);
+        imgchonNhom.setImageDrawable(drawable);*/
 
         finish();
     }
@@ -96,7 +95,7 @@ public class ThuChiActivity extends AppCompatActivity{
     }
 
     public void xuLyHienThiNgay(View view) {
-        xuLyThuChi.xuLyHienThiNgayEditText(view,edtChonNgay,ThuChiActivity.this);
+        XuLyThuChi.xuLyHienThiNgayEditText(view,edtChonNgay,ThuChiActivity.this);
     }
 
 }

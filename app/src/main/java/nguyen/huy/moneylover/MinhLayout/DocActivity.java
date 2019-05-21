@@ -42,9 +42,6 @@ public class DocActivity extends AppCompatActivity {
     public static EditText edtEditNhom;
     EditText edtEditSoTien;
     public static ImageView imageViewEditNhom;
-    //Tạo biến xử lý chuỗi
-    XuLyChuoiThuChi xuLyChuoiThuChi=new XuLyChuoiThuChi();
-    XuLyThuChi xuLyThuChi=new XuLyThuChi();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +51,10 @@ public class DocActivity extends AppCompatActivity {
 
         addEvents();
 
-        int[] ngaythangnam=xuLyChuoiThuChi.tachNgayThangNam(thuChi.getNgay());
-        xuLyThuChi.getCalendar().set(Calendar.DAY_OF_MONTH,ngaythangnam[0]);
-        xuLyThuChi.getCalendar().set(Calendar.MONTH,ngaythangnam[1]-1);
-        xuLyThuChi.getCalendar().set(Calendar.YEAR,ngaythangnam[2]);
+        int[] ngaythangnam=XuLyChuoiThuChi.tachNgayThangNam(thuChi.getNgay());
+        XuLyThuChi.calendar.set(Calendar.DAY_OF_MONTH,ngaythangnam[0]);
+        XuLyThuChi.calendar.set(Calendar.MONTH,ngaythangnam[1]-1);
+        XuLyThuChi.calendar.set(Calendar.YEAR,ngaythangnam[2]);
     }
 
     private void addControls() {
@@ -71,7 +68,7 @@ public class DocActivity extends AppCompatActivity {
         thuChi = (ThuChi) intent.getSerializableExtra("Item");
         reference = FirebaseDatabase.getInstance().getReference();
         ngay = thuChi.getNgay();
-        result=xuLyChuoiThuChi.chuyenDinhDangNgay(ngay);
+        result=XuLyChuoiThuChi.chuyenDinhDangNgay(ngay);
     }
 
     private void addEvents() {
@@ -98,12 +95,8 @@ public class DocActivity extends AppCompatActivity {
     }
 
     public void xuLyXoaThuChi() {
-        if(XuLyThuChi.checkMoneyIO(thuChi)){
-            reference.child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch vào").child(thuChi.getThuchiKey()).removeValue();
-        }
-        else {
-            reference.child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch ra").child(thuChi.getThuchiKey()).removeValue();
-        }
+        reference.child(XuLyThuChi.user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").child(thuChi.getThuchiKey()).removeValue();
+        XuLyDatabaseSupport.DeleteFromDatabase(thuChi);
         finish();
     }
 
@@ -131,7 +124,7 @@ public class DocActivity extends AppCompatActivity {
     }
 
     public void xuLyHienThiNgay(View view) {
-        xuLyThuChi.xuLyHienThiNgayTextView(view,txtEditNgay,DocActivity.this);
+        XuLyThuChi.xuLyHienThiNgayTextView(view,txtEditNgay,DocActivity.this);
     }
 
     public void xuLySua(View view) {
@@ -147,16 +140,27 @@ public class DocActivity extends AppCompatActivity {
     }
 
     public void xuLyLuu(View view) {
-        if(XuLyThuChi.checkMoneyIO(thuChi)){
-            reference= FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch vào").child(thuChi.getThuchiKey());
-        }
-        else {
-            reference= FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch ra").child(thuChi.getThuchiKey());
-        }
-
+        /*reference= FirebaseDatabase.getInstance().getReference().child(XuLyThuChi.user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").child(thuChi.getThuchiKey());
         reference.child("nhom").setValue(edtEditNhom.getText().toString());
         reference.child("sotien").setValue(edtEditSoTien.getText().toString());
-        reference.child("ngay").setValue(txtEditNgay.getText().toString());
+        reference.child("ngay").setValue(txtEditNgay.getText().toString());*/
+        XuLyThuChi.xuLyLuuVaoDatabaseKhiEdit(thuChi,CreateTempTrans());
+        //XuLyDatabaseSupport.EditToDatabase(thuChi,CreateTempTrans(),DocActivity.this);
+        XuLyDatabaseSupport.supportEditToDatabase(thuChi,CreateTempTrans());
         finish();
+    }
+
+    private ThuChi CreateTempTrans() {
+        String SoTien=edtEditSoTien.getText().toString();
+        String Nhom=edtEditNhom.getText().toString();
+        String GhiChu=thuChi.getGhichu();
+        String Ngay=txtEditNgay.getText().toString();
+        String Vi=thuChi.getVi();
+        String Banbe=thuChi.getBanbe();
+        String NhacNho=thuChi.getNhacnho();
+        String SuKien=thuChi.getSukien();
+        //Khởi tạo giao dịch mới
+        ThuChi giaodich=new ThuChi(SoTien,Nhom,GhiChu,Ngay,Vi,Banbe,NhacNho,SuKien);
+        return giaodich;
     }
 }

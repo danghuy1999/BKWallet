@@ -45,7 +45,6 @@ public class AdapterParentListView extends ArrayAdapter<ArrayList<ThuChi>> {
 
     }
 
-    XuLyChuoiThuChi xuLyChuoiThuChi=new XuLyChuoiThuChi();
     XuLyThuChi xuLyThuChi=new XuLyThuChi();
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -95,8 +94,8 @@ public class AdapterParentListView extends ArrayAdapter<ArrayList<ThuChi>> {
     //Đọc số tiền dư trong ngày
 
     private void getMoneyRefunDay(final TextView txtSoTienLV, ThuChi thuChi){
-        final String[] result=xuLyChuoiThuChi.chuyenDinhDangNgay(thuChi.getNgay());
-        final DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]).child("Ngày").child(result[1]);
+        final String[] result=XuLyChuoiThuChi.chuyenDinhDangNgay(thuChi.getNgay());
+        final DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child(XuLyThuChi.user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -26,7 +26,6 @@ import nguyen.huy.moneylover.MinhLayout.XuLyChuoiThuChi;
 import nguyen.huy.moneylover.MinhLayout.XuLyThuChi;
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
-import nguyen.huy.moneylover.Report.Report2Activity;
 import nguyen.huy.moneylover.Report.ReportActivity;
 
 public class FragmentThisMonth extends Fragment {
@@ -39,8 +38,6 @@ public class FragmentThisMonth extends Fragment {
     ListView listView;
     DatabaseReference databaseReference;
     TextView txtSoTienVao,txtSoTienRa,txtSoDu;
-    XuLyChuoiThuChi xuLyChuoiThuChi=new XuLyChuoiThuChi();
-    XuLyThuChi xuLyThuChi=new XuLyThuChi();
     String[] result;
     LinearLayout lyReport;
     @Nullable
@@ -51,9 +48,9 @@ public class FragmentThisMonth extends Fragment {
         listView=view.findViewById(R.id.listGiaoDichThuChi);
         adapterParentListView = new AdapterParentListView(getActivity(),R.layout.minh_custom_listview_parent, arrayObject);
         listView.setAdapter(adapterParentListView);
-        String ngaythangnam=xuLyThuChi.getSimpleDateFormat().format(xuLyThuChi.getCalendar().getTime());
+        String ngaythangnam=XuLyThuChi.simpleDateFormat.format(XuLyThuChi.calendar.getTime());
         lyReport = view.findViewById(R.id.lyReport);
-        result= xuLyChuoiThuChi.chuyenDinhDangNgay(ngaythangnam);
+        result= XuLyChuoiThuChi.chuyenDinhDangNgay(ngaythangnam);
 
         readAllDayinThisMonth(result[0]);
 
@@ -65,7 +62,7 @@ public class FragmentThisMonth extends Fragment {
 
         addEvents();
 
-        xuLyThuChi.setBalance();
+        XuLyThuChi.setBalance();
 
         return view;
 
@@ -75,7 +72,7 @@ public class FragmentThisMonth extends Fragment {
         lyReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), Report2Activity.class);
+                Intent intent = new Intent(getActivity(), ReportActivity.class);
                 intent.putExtra("ValueThisMonth", arrayObject);
                 startActivity(intent);
             }
@@ -84,7 +81,7 @@ public class FragmentThisMonth extends Fragment {
     }
 
     private void readAllDayinThisMonth(final String thang){
-        databaseReference=FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(thang).child("Ngày");
+        databaseReference=FirebaseDatabase.getInstance().getReference().child(XuLyThuChi.user).child("Thu chi").child(thang).child("Ngày");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -97,7 +94,7 @@ public class FragmentThisMonth extends Fragment {
                     long tienrangay=0;
                     String ngay = snapshot.getKey();
                     ArrayList<ThuChi> arrThuChi = new ArrayList<>();
-                    for (DataSnapshot childSnapshot : snapshot.child("Giao dịch vào").getChildren())
+                    for (DataSnapshot childSnapshot : snapshot.child("Giao dịch").getChildren())
                     {
                         ThuChi thuChi = childSnapshot.getValue(ThuChi.class);
                         if(XuLyThuChi.checkMoneyIO(thuChi)){
@@ -108,20 +105,11 @@ public class FragmentThisMonth extends Fragment {
                         }
                         arrThuChi.add(thuChi);
                     }
-                    for(DataSnapshot childSnapshot:snapshot.child("Giao dịch ra").getChildren()){
-                        ThuChi thuChi = childSnapshot.getValue(ThuChi.class);
-                        if(XuLyThuChi.checkMoneyIO(thuChi)){
-                            tienvaongay=tienvaongay+Long.parseLong(thuChi.getSotien());
-                        }
-                        else{
-                            tienrangay=tienrangay+Long.parseLong(thuChi.getSotien());
-                        }
-                        arrThuChi.add(thuChi);
-                    }
+
                     tienvaothang=tienvaothang+tienvaongay;
                     tienrathang=tienrathang+tienrangay;
                     if(tienvaongay==0 && tienrangay==0) {
-                        DatabaseReference dt = FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(thang).child("Ngày").child(ngay);
+                        DatabaseReference dt = FirebaseDatabase.getInstance().getReference().child(XuLyThuChi.user).child("Thu chi").child(thang).child("Ngày").child(ngay);
                         dt.child("Tiền vào").setValue(null);
                         dt.child("Tiền ra").setValue(null);
                         break;
@@ -129,13 +117,13 @@ public class FragmentThisMonth extends Fragment {
 
                     arrayObject.add(arrThuChi);
 
-                    xuLyThuChi.CapNhatTienVaoTrongNgay(xuLyChuoiThuChi.chuyenDinhDangNgayLayThang(ngay),tienvaongay);
-                    xuLyThuChi.CapNhatTienRaTrongNgay(xuLyChuoiThuChi.chuyenDinhDangNgayLayThang(ngay),tienrangay);
+                    XuLyThuChi.CapNhatTienVaoTrongNgay(XuLyChuoiThuChi.chuyenDinhDangNgayLayThang(ngay),tienvaongay);
+                    XuLyThuChi.CapNhatTienRaTrongNgay(XuLyChuoiThuChi.chuyenDinhDangNgayLayThang(ngay),tienrangay);
 
 
                 }
-                xuLyThuChi.CapNhatTienVao(thang,tienvaothang);
-                xuLyThuChi.CapNhatTienRa(thang,tienrathang);
+                XuLyThuChi.CapNhatTienVao(thang,tienvaothang);
+                XuLyThuChi.CapNhatTienRa(thang,tienrathang);
                 adapterParentListView.notifyDataSetChanged();
             }
 
@@ -149,7 +137,7 @@ public class FragmentThisMonth extends Fragment {
 
     //Đọc lây tiền vào tiền ra
     private void readTienVaoTienRa(String[] result){
-        databaseReference=FirebaseDatabase.getInstance().getReference().child(xuLyThuChi.getUser()).child("Thu chi").child(result[0]);
+        databaseReference=FirebaseDatabase.getInstance().getReference().child(XuLyThuChi.user).child("Thu chi").child(result[0]);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -48,6 +48,7 @@ import nguyen.huy.moneylover.MainSuKien.ActivityMainSuKien;
 import nguyen.huy.moneylover.MinhLayout.ThuChiActivity;
 import nguyen.huy.moneylover.MainTietKiem.MainTietKiem;
 import nguyen.huy.moneylover.MinhLayout.XuLyChuoiThuChi;
+import nguyen.huy.moneylover.MinhLayout.XuLyDatabaseSupport;
 import nguyen.huy.moneylover.MinhLayout.XuLyThuChi;
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.QRCodeModule.QRCodeScannerActivity;
@@ -233,9 +234,7 @@ public class MainActivity extends AppCompatActivity {
     private void xuLyThemThuChi(final JSONArray items) {
         //TODO
         final ArrayList<ThuChi> list=new ArrayList<>();
-        final XuLyThuChi xuLyThuChi=new XuLyThuChi();
-        XuLyChuoiThuChi xuLyChuoiThuChi=new XuLyChuoiThuChi();
-        Log.e("Length =",items.length()+"");
+        //Log.e("Length =",items.length()+"");
         for(int i=0;i<items.length();i++){
             try {
                 final ThuChi thuChi=new ThuChi();
@@ -259,12 +258,14 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        final String[] result=xuLyChuoiThuChi.chuyenDinhDangNgay(list.get(0).getNgay());
+        final String[] result=XuLyChuoiThuChi.chuyenDinhDangNgay(list.get(0).getNgay());
         for (int i=0;i<list.size();i++)
         {
             ThuChi tc = list.get(i);
-            xuLyThuChi.xuLyLuuVaoDatabase(tc,result);
+            XuLyThuChi.xuLyLuuVaoDatabase(tc,result);
+            //XuLyDatabaseSupport.SaveToDatabase(tc);
         }
+        XuLyDatabaseSupport.SaveDataInQR(list);
         Toast.makeText(this,"Thu chi okay: success",Toast.LENGTH_SHORT).show();
     }
 
@@ -272,8 +273,5 @@ public class MainActivity extends AppCompatActivity {
         //TODO
         Toast.makeText(this,"Ke hoach okay",Toast.LENGTH_SHORT).show();
     }
-
-
-
 
 }

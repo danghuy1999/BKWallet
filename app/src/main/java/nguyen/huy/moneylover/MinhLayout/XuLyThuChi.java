@@ -26,78 +26,14 @@ import nguyen.huy.moneylover.R;
 import static nguyen.huy.moneylover.R.*;
 
 public class XuLyThuChi {
-    private DatabaseReference databaseReference;
-    private Calendar calendar;
-    private SimpleDateFormat simpleDateFormat;
-    private FirebaseAuth firebaseAuth;
-    private String user;
+    public static DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
+    public static Calendar calendar=Calendar.getInstance();
+    public static SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
+    public static String user=FirebaseAuth.getInstance().getCurrentUser().getUid();
     private long tienvao;
     private long tienra;
 
     public XuLyThuChi() {
-        databaseReference= FirebaseDatabase.getInstance().getReference();
-        calendar=Calendar.getInstance();
-        simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
-        firebaseAuth=FirebaseAuth.getInstance();
-        user=firebaseAuth.getCurrentUser().getUid();
-        tienvao=0;
-        tienra=0;
-    }
-
-    public DatabaseReference getDatabaseReference() {
-        return databaseReference;
-    }
-
-    public void setDatabaseReference(DatabaseReference databaseReference) {
-        this.databaseReference = databaseReference;
-    }
-
-    public Calendar getCalendar() {
-        return calendar;
-    }
-
-    public void setCalendar(Calendar calendar) {
-        this.calendar = calendar;
-    }
-
-    public SimpleDateFormat getSimpleDateFormat() {
-        return simpleDateFormat;
-    }
-
-    public void setSimpleDateFormat(SimpleDateFormat simpleDateFormat) {
-        this.simpleDateFormat = simpleDateFormat;
-    }
-
-    public FirebaseAuth getFirebaseAuth() {
-        return firebaseAuth;
-    }
-
-    public void setFirebaseAuth(FirebaseAuth firebaseAuth) {
-        this.firebaseAuth = firebaseAuth;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public long getTienvao() {
-        return tienvao;
-    }
-
-    public void setTienvao(long tienvao) {
-        this.tienvao = tienvao;
-    }
-
-    public long getTienra() {
-        return tienra;
-    }
-
-    public void setTienra(long tienra) {
-        this.tienra = tienra;
     }
 
     //Các hàm về xử lý Database
@@ -117,6 +53,20 @@ public class XuLyThuChi {
         }
         return check;
     }
+    public static boolean checkMoneyIOString(String nhom){
+        boolean check=false;
+        switch (nhom){
+            case "Gửi tiền": check=true; break;
+            case "Tiền lãi": check=true; break;
+            case "Được tặng": check=true; break;
+            case "Thưởng": check=true; break;
+            case "Lương": check=true; break;
+            case "Bán đồ": check=true; break;
+            case "Khoản thu khác": check=true; break;
+        }
+        return check;
+    }
+
 
     //hỗ trợ kiểm tra null
     public static void supportCheckNull(EditText editText, ImageView imageView, Bitmap bitmap,String string){
@@ -127,58 +77,50 @@ public class XuLyThuChi {
     }
 
     //Lưu giao dịch mới vào Database
-    public void xuLyLuuVaoDatabase(ThuChi giaodich, String[] result){
+    public static void xuLyLuuVaoDatabase(ThuChi giaodich, String[] result){
         databaseReference=FirebaseDatabase.getInstance().getReference();
-        if(checkMoneyIO(giaodich)){
-            giaodich.setThuchiKey(databaseReference.child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch vào").push().getKey());
-            databaseReference.child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch vào").child(giaodich.getThuchiKey()).setValue(giaodich);
-        }
-        else {
-            giaodich.setThuchiKey(databaseReference.child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch ra").push().getKey());
-            databaseReference.child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch ra").child(giaodich.getThuchiKey()).setValue(giaodich);
-        }
+        giaodich.setThuchiKey(databaseReference.child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").push().getKey());
+        databaseReference.child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").child(giaodich.getThuchiKey()).setValue(giaodich);
     }
 
     //Lưu giao dịch sau khi sửa vào database
 
-    public void xuLyLuuVaoDatabaseKhiEdit(ThuChi giaodich,String[] result,String thuchiKey){
+    public static void xuLyLuuVaoDatabaseKhiEdit(ThuChi giaodichOld,ThuChi giaodichNew){
         databaseReference=FirebaseDatabase.getInstance().getReference();
-        giaodich.setThuchiKey(thuchiKey);
-        if(checkMoneyIO(giaodich)){
-            databaseReference.child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch vào").child(giaodich.getThuchiKey()).setValue(giaodich);
-        }
-        else {
-            databaseReference.child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch ra").child(giaodich.getThuchiKey()).setValue(giaodich);
-        }
+        String[] resultOld=XuLyChuoiThuChi.chuyenDinhDangNgay(giaodichOld.getNgay());
+        String[] resultNew=XuLyChuoiThuChi.chuyenDinhDangNgay(giaodichNew.getNgay());
+        databaseReference.child(user).child("Thu chi").child(resultOld[0]).child("Ngày").child(resultOld[1]).child("Giao dịch").child(giaodichOld.getThuchiKey()).removeValue();
+
+        xuLyLuuVaoDatabase(giaodichNew,resultNew);
     }
 
     //Các hàm xử lý tiền vào tiền ra trong ngày
 
     //Cập nhật tiền vào trong ngày
-    public void CapNhatTienVaoTrongNgay(String[] result,long tienvao){
+    public static void CapNhatTienVaoTrongNgay(String[] result,long tienvao){
         databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Tiền vào");
         databaseReference.setValue(tienvao);
     }
     //Cập nhật tiền ra trong ngày
-    public void CapNhatTienRaTrongNgay(String[] result,long tienra){
+    public static void CapNhatTienRaTrongNgay(String[] result,long tienra){
         databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Tiền ra");
         databaseReference.setValue(tienra);
     }
 
 
     //Cập nhật lại tiền vào trong tháng
-    public void CapNhatTienVao(String thang,long tienvao){
+    public static void CapNhatTienVao(String thang,long tienvao){
         databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(thang).child("Tiền vào");
         databaseReference.setValue(tienvao);
     }
     //Cập nhật lại tiền ra trong tháng
-    public void CapNhatTienRa(String thang,long tienra){
+    public static void CapNhatTienRa(String thang,long tienra){
         databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(thang).child("Tiền ra");
         databaseReference.setValue(tienra);
     }
 
     //Cập nhật giá trị hiện tại của ví
-    public void setBalance(){
+    public static void setBalance(){
         databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -186,8 +128,10 @@ public class XuLyThuChi {
                 long tienvao=0;
                 long tienra=0;
                 for(DataSnapshot snapshot:dataSnapshot.getChildren()) {
-                    tienvao=tienvao+Long.parseLong(snapshot.child("Tiền vào").getValue().toString());
-                    tienra=tienra+Long.parseLong(snapshot.child("Tiền ra").getValue().toString());
+                    if(snapshot.child("Tiền vào").getValue()!=null && snapshot.child("Tiền ra").getValue()!=null) {
+                        tienvao = tienvao + Long.parseLong(snapshot.child("Tiền vào").getValue().toString());
+                        tienra = tienra + Long.parseLong(snapshot.child("Tiền ra").getValue().toString());
+                    }
                 }
                 long tiendu=tienvao-tienra;
                 databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Balance");
@@ -203,7 +147,7 @@ public class XuLyThuChi {
 
 
     //Hiển thị datatime picker và chọn ngày
-    public void xuLyHienThiNgayEditText(View view, final EditText edtChonNgay, Activity activity) {
+    public static void xuLyHienThiNgayEditText(View view, final EditText edtChonNgay, Activity activity) {
         DatePickerDialog.OnDateSetListener callBack=new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -216,7 +160,7 @@ public class XuLyThuChi {
         DatePickerDialog dialog=new DatePickerDialog(activity,callBack,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
         dialog.show();
     }
-    public void xuLyHienThiNgayTextView(View view, final TextView txtChonNgay, Activity activity) {
+    public static void xuLyHienThiNgayTextView(View view, final TextView txtChonNgay, Activity activity) {
         DatePickerDialog.OnDateSetListener callBack=new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

@@ -1,8 +1,11 @@
 package nguyen.huy.moneylover.MinhLayout;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import nguyen.huy.moneylover.MainActivity;
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
+import nguyen.huy.moneylover.Tool.GetImage;
 
 public class EditThuChiActivity extends AppCompatActivity {
 
@@ -24,7 +28,6 @@ public class EditThuChiActivity extends AppCompatActivity {
     ThuChi thuChi;
     Intent intent;
     XuLyThuChi xuLyThuChi=new XuLyThuChi();
-    XuLyChuoiThuChi xuLyChuoiThuChi=new XuLyChuoiThuChi();
     String[] result;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,20 +39,22 @@ public class EditThuChiActivity extends AppCompatActivity {
 
     private void addEvents() {
         setThuChiToEdit();
-        result=xuLyChuoiThuChi.chuyenDinhDangNgay(thuChi.getNgay());
+        result=XuLyChuoiThuChi.chuyenDinhDangNgay(thuChi.getNgay());
         khoiTaoHinhChonNhom();
     }
 
     private void khoiTaoHinhChonNhom() {
-        Resources resources=getResources();
+        /*Resources resources=getResources();
         Drawable drawable=resources.getDrawable(R.drawable.question2);
         if(edtChonNhom.getText().toString().equals("Rút tiền"))
             drawable=resources.getDrawable(R.drawable.ruttien);
         else if(edtChonNhom.getText().toString().equals("Gửi tiền"))
             drawable=resources.getDrawable(R.drawable.guitien);
         else if(edtChonNhom.getText().toString().equals("Tiền lãi"))
-            drawable=resources.getDrawable(R.drawable.tienlai);
-        imgchonNhom.setImageDrawable(drawable);
+            drawable=resources.getDrawable(R.drawable.tienlai);*/
+
+        Bitmap bitmap= GetImage.getBitmapFromString(this,edtChonNhom.getText().toString());
+        imgchonNhom.setImageBitmap(bitmap);
     }
 
     private void setThuChiToEdit() {
@@ -96,7 +101,25 @@ public class EditThuChiActivity extends AppCompatActivity {
     }
 
     public void xuLyLuu(View view) {
-        xuLyThuChi.xuLyLuuVaoDatabaseKhiEdit(TaoGiaoDich(),result,thuChi.getThuchiKey());
+        xuLyThuChi.xuLyLuuVaoDatabaseKhiEdit(thuChi,TaoGiaoDich());
+        //XuLyDatabaseSupport.EditToDatabase(thuChi,TaoGiaoDich(),EditThuChiActivity.this);
+        XuLyDatabaseSupport.supportEditToDatabase(thuChi,TaoGiaoDich());
+        /*AlertDialog.Builder dialog;
+        XuLyDatabaseSupport.DeleteFromDatabase(thuChi);
+        dialog=new AlertDialog.Builder(EditThuChiActivity.this);
+        dialog.setTitle("Sửa");
+        dialog.setMessage("Sửa thành công");
+        dialog.setCancelable(false);
+        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alertDialog=dialog.create();
+        alertDialog.show();
+
+        XuLyDatabaseSupport.SaveToDatabase(TaoGiaoDich());*/
         finish();
     }
 

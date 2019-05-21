@@ -9,7 +9,7 @@ public class XuLyChuoiThuChi {
 
     //Các hàm để xử lý về thu chi
     //Chuyển từ dạng dd/MM/yyyy -> dd+MM+yyyy
-    public String[] chuyenDinhDangNgay(String ngay){
+    public static String[] chuyenDinhDangNgay(String ngay){
         String[] words=ngay.split("[/]");
         String[] resultString=new String[2];
         resultString[0]=words[1]+ "+" + words[2];
@@ -17,7 +17,7 @@ public class XuLyChuoiThuChi {
         return resultString;
     }
     //Tách chuỗi từ dạng dd+MM+yyyy -> để lấy MM+yyyy
-    public String[] chuyenDinhDangNgayLayThang(String string){
+    public static String[] chuyenDinhDangNgayLayThang(String string){
         String[] words=string.split("[+]");
         String[] result=new String[2];
         result[0]=words[1]+ "+" + words[2];
@@ -26,7 +26,7 @@ public class XuLyChuoiThuChi {
     }
 
     //Tách chuỗi để lấy ngày tháng năm riêng biệt
-    public int[] tachNgayThangNam(String ngay){
+    public static int[] tachNgayThangNam(String ngay){
         String[] words=ngay.split("[/]");
         int[] result=new int[3];
         result[0]=Integer.parseInt(words[0]);
@@ -36,7 +36,7 @@ public class XuLyChuoiThuChi {
     }
 
     //Tách chuỗi để lấy tháng trước
-    public String[] tachNgayLayThangTruoc(String ngay){
+    public static String[] tachNgayLayThangTruoc(String ngay){
         String[] words=ngay.split("[/]");
         int[] number=new int[3];
         number[0]=Integer.parseInt(words[0]);
