@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_moneylover"
+    android:background="@drawable/background_simple1"
     tools:context=".Authentication.LogInActivity">
 
     <LinearLayout
@@ -99,7 +99,7 @@
             android:text="@string/loginGoogle"
             android:textAllCaps="false"
             android:textColor="@color/textLoginColor"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"

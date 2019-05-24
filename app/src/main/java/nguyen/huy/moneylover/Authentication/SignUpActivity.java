@@ -102,6 +102,7 @@ public class SignUpActivity extends AppCompatActivity {
                 {
                     Toast.makeText(SignUpActivity.this,"Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                     Intent intentTC = new Intent(SignUpActivity.this, MainActivity.class);
+                    intentTC.putExtra("FirstTime",true);
                     startActivity(intentTC);
                     finish();
                 }

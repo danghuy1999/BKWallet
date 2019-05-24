@@ -4,7 +4,7 @@
     <color name="colorPrimary">#1565C0</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorFloatButton">#4CAF50</color>
+    <color name="colorFloatButton">#1565C0</color>
     <color name="colorChonVi">#15811B</color>
     <color name="colorbackground">#BDBCBD</color>
     <color name="colorbackgroundlayoutdau">#FDFBFD</color>
@@ -17,12 +17,12 @@
     <color name="colorLayoutTaskbar">#F1EFEF</color>
     <color name="colorbackgroundBack">#FFFFFF</color>
     <color name="colorbackgroundLuu">#FFFFFF</color>
-    <color name="colorTabIn">#82C886</color>
+    <color name="colorTabIn">#4285F4</color>
     <color name="colorbackgroundListView">#D4D3D4</color>
 
     <color name="transparentBackgroundLogin">#668A97E4</color>
     <color name="textLoginColor">#FFFFFF</color>
-    <color name="backgroundLoginGoogle">#46B3E6</color>
+    <color name="backgroundLoginGoogle">#0D47A1</color>
     <color name="cardFragmentToolbarBackground">#5314D0</color>
     <color name="colorbackgroundActionbar">#E5E4E5</color>
 

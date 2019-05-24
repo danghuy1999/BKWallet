@@ -9,8 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/background_simple3"
         android:descendantFocusability="blocksDescendants"
-        android:background="@drawable/custom_income_background"
         android:orientation="vertical">
 
         <TextView

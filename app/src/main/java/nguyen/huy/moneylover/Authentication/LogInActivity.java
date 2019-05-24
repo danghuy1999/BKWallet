@@ -162,6 +162,7 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
         {
             Toast.makeText(this,"Đăng nhập thành công", Toast.LENGTH_SHORT).show();
             Intent intentTC = new Intent(this, MainActivity.class);
+            intentTC.putExtra("FirstTime",false);
             startActivity(intentTC);
             finish();
         }
