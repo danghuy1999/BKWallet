@@ -62,6 +62,12 @@ public class GetImage {
         else if(res.getString(R.string.ts_outcome_other).equals(BitmapString)){
             bitmap=BitmapFactory.decodeResource(res,R.drawable.minh_donate96);
         }
+        else if(res.getString(R.string.ts_lend).equals(BitmapString)){
+            bitmap=BitmapFactory.decodeResource(res,R.drawable.ic_category_loan);
+        }
+        else if(res.getString(R.string.ts_pay).equals(BitmapString)){
+            bitmap=BitmapFactory.decodeResource(res,R.drawable.ic_category_give);
+        }
         return bitmap;
     }
 

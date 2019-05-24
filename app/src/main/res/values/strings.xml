@@ -67,6 +67,9 @@
     <string name="ts_income_altogether">Tổng lượng thu</string>
     <string name="ts_outcome_altogether">Tổng lượng chi</string>
 
+    <string name="ts_lend">Cho vay</string>
+    <string name="ts_pay">Trả nợ</string>
+
     <string name="report">Báo cáo</string>
     <string name="txt_allIncome">Tổng lượng thu : </string>
     <string name="txt_allOutcome">Tổng lượng chi : </string>

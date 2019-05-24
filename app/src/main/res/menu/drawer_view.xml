@@ -11,6 +11,12 @@
             android:id="@+id/nav_SuKien"
             android:icon="@drawable/ic_bk_events"
             android:title="Sự kiện" />
+
+        <item
+            android:id="@+id/nav_Bill"
+            android:icon="@drawable/ic_menu_bills"
+            android:title="Hóa đơn"/>
+
     </group>
     <group android:checkableBehavior="single"
         android:id="@+id/group2">

@@ -16,8 +16,6 @@ import java.util.List;
 import nguyen.huy.moneylover.Model.SuKien;
 import nguyen.huy.moneylover.R;
 
-import static android.support.v4.graphics.drawable.IconCompat.*;
-
 public class AdapterSuKienDangApDung extends ArrayAdapter<SuKien> {
 
     Activity context=null;

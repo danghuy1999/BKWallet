@@ -63,6 +63,12 @@
         <activity android:name=".MinhLayout.ThuChiActivity" />
         <activity android:name=".MinhLayout.ChonNhomActivity" />
         <activity android:name=".MinhLayout.EditThuChiActivity" />
+
+        <activity android:name=".MainBill.ActivitySelectGroup"/>
+        <activity android:name=".MainBill.ActivityAddBill" />
+        <activity android:name=".MainBill.MainBill" />
+        <activity android:name=".MainBill.ActivityDialogRepeat"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert"/>
     </application>
 
 </manifest>

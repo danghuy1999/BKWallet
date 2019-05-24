@@ -1,5 +1,6 @@
 package nguyen.huy.moneylover.MainSuKien;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import nguyen.huy.moneylover.Model.SuKien;
 import nguyen.huy.moneylover.R;
@@ -42,12 +44,13 @@ public class ActivityThemSuKien extends AppCompatActivity {
     public ImageView imgSymbol;
 
     Calendar cal;
+    @SuppressLint("SimpleDateFormat")
     SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
     //SimpleDateFormat sdf2=new SimpleDateFormat("HH:mm");
 
 
     FirebaseAuth auth = FirebaseAuth.getInstance();
-    String UserID = auth.getCurrentUser().getUid();
+    String UserID = Objects.requireNonNull(auth.getCurrentUser()).getUid();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference();
     SuKien sk = new SuKien();
@@ -152,7 +155,9 @@ public class ActivityThemSuKien extends AppCompatActivity {
         String key = myRef.push().getKey();
         sk.setId(key);
 
-        myRef.child(key).setValue(sk);
+        if (key != null) {
+            myRef.child(key).setValue(sk);
+        }
         Intent intent = new Intent(ActivityThemSuKien.this, ActivityMainSuKien.class);
         startActivity(intent);
     }

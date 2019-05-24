@@ -43,7 +43,6 @@ public class FragmentDangApDung extends Fragment implements ChildEventListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.truong_fragment_dangapdung,container, false);
 
-
         addControls();
         addEvents();
 

@@ -54,6 +54,8 @@ import nguyen.huy.moneylover.MinhLayout.XuLyThuChi;
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.QRCodeModule.QRCodeScannerActivity;
 
+import nguyen.huy.moneylover.MainBill.MainBill;
+
 public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
     private DrawerLayout drawerLayout;
     private FloatingActionButton fabAdd;
@@ -171,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         switch (itemId){
             case R.id.nav_TietKiem : doTietKiem() ; break;
             case R.id.nav_SuKien : doSuKien() ; break;
+            case R.id.nav_Bill: doBill(); break;
             case R.id.nav_logout :
             {
                 firebaseAuth.signOut();
@@ -219,6 +222,10 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         startActivity(intent);
     }
 
+    private void doBill() {
+        Intent intent= new Intent(MainActivity.this,MainBill.class);
+        startActivity(intent);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
