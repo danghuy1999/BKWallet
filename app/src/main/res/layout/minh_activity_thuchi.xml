@@ -11,7 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/colorLayoutTaskbar"
+        android:background="@color/colorPrimary"
         android:orientation="horizontal">
 
         <ImageButton
@@ -22,9 +22,9 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:layout_weight="1"
-            android:background="@color/colorLayoutTaskbar"
-            app:srcCompat="@drawable/back2_picture"
-            android:onClick="xuLyThoat"/>
+            android:background="@color/colorPrimary"
+            android:onClick="xuLyThoat"
+            app:srcCompat="@drawable/back2_picture" />
 
         <TextView
             android:id="@+id/txtThemGiaoDich"
@@ -33,6 +33,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Thêm giao dịch"
+            android:textColor="@color/colorbackgroundLuu"
             android:textSize="18sp" />
 
         <TextView
@@ -43,6 +44,7 @@
             android:gravity="center"
             android:onClick="xuLyLuu"
             android:text="Lưu"
+            android:textColor="@color/colorbackgroundLuu"
             android:textSize="18sp" />
 
     </LinearLayout>

@@ -210,13 +210,13 @@ public class XuLyDatabaseSupport {
     private static void setNullWhenSumEqualZero(ThuChi thuChi,String[] result){
         if(XuLyThuChi.checkMoneyIO(thuChi)){
             databaseReference= FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch vào").child(thuChi.getNhom());
-            databaseReference.child("Ngày").setValue(null);
-            databaseReference.child("Tổng").setValue(null);
+            databaseReference.child("Ngày").child(result[1]).setValue(null);
+            //databaseReference.child("Tổng").setValue(null);
         }
         else {
             databaseReference = FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch ra").child(thuChi.getNhom());
-            databaseReference.child("Ngày").setValue(null);
-            databaseReference.child("Tổng").setValue(null);
+            databaseReference.child("Ngày").child(result[1]).setValue(null);
+            //databaseReference.child("Tổng").setValue(null);
         }
     }
 

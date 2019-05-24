@@ -10,9 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.QuickContactBadge;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,8 +34,9 @@ import nguyen.huy.moneylover.MinhLayout.XuLyChuoiThuChi;
 import nguyen.huy.moneylover.MinhLayout.XuLyThuChi;
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
+import nguyen.huy.moneylover.Report.ReportActivity;
 
-public class FragmentLastMonth extends Fragment {
+public class FragmentLastMonth extends Fragment implements FirebaseAuth.AuthStateListener{
     public FragmentLastMonth() {
     }
 
@@ -40,32 +45,62 @@ public class FragmentLastMonth extends Fragment {
     ListView listView;
     DatabaseReference databaseReference;
     TextView txtSoTienVao,txtSoTienRa,txtSoDu;
+    LinearLayout lyReportLastMonth;
+    FirebaseAuth auth;
+    FirebaseUser user;
+    String[] result;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        auth.addAuthStateListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        auth.removeAuthStateListener(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_last_month,container,false);
 
+        auth=FirebaseAuth.getInstance();
+        user=auth.getCurrentUser();
         listView=view.findViewById(R.id.listGiaoDichThuChiLastMonth);
         adapterParentListView=new AdapterParentListView(getActivity(),R.layout.minh_custom_listview_parent,arrayObjest);
         listView.setAdapter(adapterParentListView);
         String ngaythangnam=XuLyThuChi.simpleDateFormat.format(XuLyThuChi.calendar.getTime());
 
-        String[] result= XuLyChuoiThuChi.tachNgayLayThangTruoc(ngaythangnam);
+        result= XuLyChuoiThuChi.tachNgayLayThangTruoc(ngaythangnam);
         readAllDayinThisMonth(result[0]);
 
         txtSoTienVao=view.findViewById(R.id.txtSoTienVaoListViewLastMonth);
         txtSoTienRa=view.findViewById(R.id.txtSoTienRaListViewLastMonth);
         txtSoDu=view.findViewById(R.id.txtSoTienDuListViewLastMonth);
 
+        lyReportLastMonth=view.findViewById(R.id.lyReportLastMonth);
+
         readTienVaoTienRa(result);
 
         addEvents();
+
+        XuLyThuChi.setBalance();
 
         return view;
     }
 
     private void addEvents() {
-
+        lyReportLastMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), ReportActivity.class);
+                intent.putExtra("ValueThisMonth",arrayObjest);
+                startActivity(intent);
+            }
+        });
     }
 
     private void readAllDayinThisMonth(final String thang){
@@ -154,4 +189,13 @@ public class FragmentLastMonth extends Fragment {
         });
     }
 
+    @Override
+    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        user=FirebaseAuth.getInstance().getCurrentUser();
+        if(user!=null){
+            readAllDayinThisMonth(result[0]);
+            readTienVaoTienRa(result);
+            XuLyThuChi.setBalance();
+        }
+    }
 }
