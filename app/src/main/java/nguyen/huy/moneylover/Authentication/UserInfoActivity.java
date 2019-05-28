@@ -136,7 +136,6 @@ public class UserInfoActivity extends AppCompatActivity {
     }
 
     private void customUsernameDialog() {
-//        usernameDialog.getWindow().setLayout(600,700);
         edtUsernameDialog = usernameDialog.findViewById(R.id.edtUsernameDialog);
         Button btnCancelDialog = usernameDialog.findViewById(R.id.btnCancelDialog);
         Button btnSaveDialog = usernameDialog.findViewById(R.id.btnSaveDialog);

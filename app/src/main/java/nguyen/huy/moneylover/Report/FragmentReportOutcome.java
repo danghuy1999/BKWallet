@@ -76,9 +76,9 @@ public class FragmentReportOutcome extends Fragment {
         return view;
     }
     private void addControls() {
-        elvOutcome.setTranscriptMode(ExpandableListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-        elvOutcome.setIndicatorBounds(0,0);
-        elvOutcome.setStackFromBottom(true);
+//        elvOutcome.setTranscriptMode(ExpandableListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+//        elvOutcome.setIndicatorBounds(0,0);
+//        elvOutcome.setStackFromBottom(true);
         adapter = new ReportExpandlistAdapter(getActivity(),headerList,listColor);
         elvOutcome.setAdapter(adapter);
         dateString = DateConvert.getCurrentDay();

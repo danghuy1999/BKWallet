@@ -2,8 +2,12 @@ package nguyen.huy.moneylover;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -23,10 +27,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,14 +41,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import nguyen.huy.moneylover.Authentication.LogInActivity;
 import nguyen.huy.moneylover.Authentication.UserInfoActivity;
 import nguyen.huy.moneylover.MainLayout.TabAdapter;
@@ -63,8 +77,14 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private  TabAdapter adapter;
+    private LinearLayout lyUserInfo;
+    private CircleImageView imgUserAvatarMain;
+    private TextView txtUserNameMain;
+
+    Bitmap bitmap;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
+    private StorageReference storageReference;
     private static final int QR_SCANNER = 1212;
     //Tạo firebase database
     //FirebaseDatabase firebaseDatabase;
@@ -74,6 +94,13 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     protected void onStart() {
         super.onStart();
         firebaseAuth.addAuthStateListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPhoto();
+        getUserName();
     }
 
     @Override
@@ -111,6 +138,10 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        lyUserInfo = header.findViewById(R.id.lyUserInfo);
+        txtUserNameMain = header.findViewById(R.id.txtUserNameMain);
+        imgUserAvatarMain = header.findViewById(R.id.imgUserAvatarMain);
     }
 
     private void createTabLayout() {
@@ -141,7 +172,10 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     private void addControls() {
         fabAdd = findViewById(R.id.fabAdd);
         firebaseAuth = FirebaseAuth.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        storageReference = FirebaseStorage.getInstance().getReference().child(user.getUid());
     }
+
 
     private void addEvent() {
         navigationView.setNavigationItemSelectedListener(
@@ -159,7 +193,14 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                         return true;
                     }
                 });
-
+        lyUserInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.closeDrawers();
+                Intent intent = new Intent(MainActivity.this, UserInfoActivity.class);
+                startActivity(intent);
+            }
+        });
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,6 +209,66 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         });
     }
 
+    private void getUserName() {
+        if (user!=null)
+        {
+            String name = user.getDisplayName();
+            if (name != null) txtUserNameMain.setText(name);
+        }
+    }
+
+    private void getPhoto() {
+        final long TEN_MEGABYTE = 10 * 1024 * 1024;
+
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        File directory = cw.getDir("profile", Context.MODE_PRIVATE);
+        if (!directory.exists()) {
+            //noinspection ResultOfMethodCallIgnored
+            directory.mkdir();
+        }
+        File mypath = new File(directory, "avatar.jpg");
+        try {
+            FileInputStream fis = new FileInputStream(mypath);
+            Bitmap retrievedBitmap = BitmapFactory.decodeStream(fis);
+            imgUserAvatarMain.setImageBitmap(retrievedBitmap);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.images);
+            imgUserAvatarMain.setImageDrawable(getDrawable(R.drawable.images));
+        }
+
+        storageReference.child("avatar").getBytes(TEN_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                imgUserAvatarMain.setImageBitmap(bitmap);
+                saveBitmapToInternalStorage(bitmap);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
+    void saveBitmapToInternalStorage(Bitmap imageBitmap) {
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        File directory = cw.getDir("profile", Context.MODE_PRIVATE);
+        if (!directory.exists()) {
+            //noinspection ResultOfMethodCallIgnored
+            directory.mkdir();
+        }
+        File mypath = new File(directory, "avatar.jpg");
+
+        FileOutputStream fos;
+        try {
+            fos = new FileOutputStream(mypath);
+            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+        } catch (Exception e) {
+            Log.e("SAVE_IMAGE", e.getMessage(), e);
+        }
+    }
 
     private void handleItemClicked(int itemId) {
         switch (itemId){
@@ -196,11 +297,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
             {
                 Intent intent = new Intent(MainActivity.this, QRCodeScannerActivity.class);
                 startActivityForResult(intent,QR_SCANNER);
-            } return true;
-            case R.id.mnuUserInfo:
-            {
-                Intent intent = new Intent(MainActivity.this, UserInfoActivity.class);
-                startActivity(intent);
             } return true;
         }
         return super.onOptionsItemSelected(item);
@@ -255,7 +351,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
     private void xuLyThemThuChi(final JSONArray items) {
-        //TODO
         final ArrayList<ThuChi> list=new ArrayList<>();
         //Log.e("Length =",items.length()+"");
         for(int i=0;i<items.length();i++){

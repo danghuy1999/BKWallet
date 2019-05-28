@@ -9,17 +9,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/lyReport"
         android:layout_marginBottom="5dp"
         android:background="@color/colorbackgroundBack"
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/lyReport"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginRight="10dp"
+            android:duplicateParentState="true"
             android:orientation="vertical">
 
             <TextView
@@ -51,6 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
+            android:duplicateParentState="true"
             android:background="@color/colorbackgroundBack"
             android:orientation="horizontal">
 
@@ -79,6 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_weight="1"
+            android:duplicateParentState="true"
             android:background="@color/colorbackgroundBack"
             android:orientation="horizontal">
 
@@ -102,6 +105,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:duplicateParentState="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"

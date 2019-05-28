@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_simple1"
+    android:background="@drawable/background_simple2"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".Authentication.LogInActivity">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        app:srcCompat="@drawable/logo_main_text"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="40dp"
-        android:paddingTop="40dp"
+        android:paddingTop="10dp"
         android:paddingRight="40dp"
-        android:paddingBottom="30dp"
-        >
+        android:paddingBottom="10dp">
 
-        <!--android:background="@color/transparentBackgroundLogin"-->
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="300dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
-            app:srcCompat="@drawable/logo_2" />
 
         <EditText
             android:id="@+id/edtEmailLogIn"
@@ -34,13 +34,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:backgroundTint="@color/textLoginColor"
-            android:drawableLeft="@drawable/ic_perm_identity_white_24dp"
+            android:drawableStart="@drawable/ic_perm_identity_white_24dp"
             android:drawablePadding="10dp"
             android:ems="10"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:textColor="@color/textLoginColor"
-            android:textColorHint="@color/textLoginColor" />
+            android:textColorHint="@color/textLoginColor"
+            tools:ignore="Autofill" />
 
         <EditText
             android:id="@+id/edtPasswordLogIn"
@@ -48,13 +49,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:backgroundTint="@color/textLoginColor"
-            android:drawableLeft="@drawable/ic_lock_outline_white_24dp"
+            android:drawableStart="@drawable/ic_lock_outline_white_24dp"
             android:drawablePadding="10dp"
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
             android:textColor="@color/textLoginColor"
-            android:textColorHint="@color/textLoginColor" />
+            android:textColorHint="@color/textLoginColor"
+            tools:ignore="Autofill" />
 
         <Button
             android:id="@+id/btnLogIn"
@@ -63,28 +65,11 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:background="@drawable/radius_button"
-            android:drawableLeft="@drawable/ic_exit_to_app_white_24dp"
+            android:drawableStart="@drawable/ic_exit_to_app_white_24dp"
             android:paddingLeft="80dp"
             android:paddingRight="80dp"
             android:text="@string/login"
-            android:textColor="@color/textLoginColor"/>
-
-        <!--android:drawableTint="@color/transparentBackgroundLogin"-->
-
-        <!--<Button-->
-        <!--android:id="@+id/btnLoginFacebook"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="5dp"-->
-        <!--android:layout_marginTop="5dp"-->
-        <!--android:layout_marginRight="5dp"-->
-        <!--android:background="@color/colorFacebook"-->
-        <!--android:drawableLeft="@drawable/icon_facebook"-->
-        <!--android:paddingLeft="10dp"-->
-        <!--android:text="@string/loginFacebook"-->
-        <!--android:textAllCaps="false"-->
-        <!--android:textColor="@color/colorAccent"-->
-        <!--android:textSize="16sp" />-->
+            android:textColor="@color/textLoginColor" />
 
         <Button
             android:id="@+id/btnLoginGoogle"
@@ -94,8 +79,9 @@
             android:layout_marginTop="15dp"
             android:layout_marginRight="5dp"
             android:background="@color/backgroundLoginGoogle"
-            android:drawableLeft="@drawable/icon_google"
-            android:paddingLeft="10dp"
+            android:drawableStart="@drawable/icon_google"
+            android:paddingStart="10dp"
+            android:paddingEnd="0dp"
             android:text="@string/loginGoogle"
             android:textAllCaps="false"
             android:textColor="@color/textLoginColor"
@@ -103,7 +89,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="10dp"
@@ -114,19 +100,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/forgetPassword"
-                android:textColor="@color/textLoginColor" />
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="@string/retrievePassword"
+                android:textColor="@color/textLoginColor"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtSignUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_weight="1"
+                android:gravity="end"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
                 android:text="@string/signUp"
-                android:textAlignment="viewEnd"
                 android:textColor="@color/textLoginColor"
-                tools:ignore="RtlCompat" />
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>
