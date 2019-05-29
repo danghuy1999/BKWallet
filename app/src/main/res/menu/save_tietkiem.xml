@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/saveEconomy2"
+        android:icon="@drawable/ic_truong_save"
+        app:showAsAction="always"
+        android:title="Edit" />
+    <item
+        android:id="@+id/cancelEconomy"
+        android:icon="@drawable/cancel_black"
+        app:showAsAction="always"
+        android:title="Delete" />
+</menu>
