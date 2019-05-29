@@ -1,5 +1,6 @@
 package nguyen.huy.moneylover.MainBill;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -34,10 +35,15 @@ public class ActivityDialogRepeat extends Activity {
 
     Calendar cal,calStart,calFinish;
 
+    @SuppressLint("SimpleDateFormat")
     SimpleDateFormat sdf1=new SimpleDateFormat("dd/MM/yyyy");
+    @SuppressLint("SimpleDateFormat")
     SimpleDateFormat sdf2=new SimpleDateFormat("dd");
+    @SuppressLint("SimpleDateFormat")
     SimpleDateFormat sdf3=new SimpleDateFormat("E");
+    @SuppressLint("SimpleDateFormat")
     SimpleDateFormat sdf4=new SimpleDateFormat("E, dd/MM/yyyy");
+    @SuppressLint("SimpleDateFormat")
     SimpleDateFormat sdf5=new SimpleDateFormat("HH:mm");
 
 
@@ -63,6 +69,7 @@ public class ActivityDialogRepeat extends Activity {
         addEvents();
     }
 
+    @SuppressLint("SetTextI18n")
     private void addControls() {
 
         spRepeat=findViewById(R.id.spRepeat);
@@ -179,7 +186,6 @@ public class ActivityDialogRepeat extends Activity {
                 toPrecessOpenFirstDate();
             }
         });
-
 
         txtLastDate.setOnClickListener(new View.OnClickListener() {
             @Override

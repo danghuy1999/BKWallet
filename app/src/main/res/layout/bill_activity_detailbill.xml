@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="36dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainBill.ActivityDetailBill">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:src="@drawable/icon_not_selected"
+            android:layout_marginLeft="12dp"
+            android:id="@+id/imgIconBillDetail"
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
+
+        <TextView
+            android:textSize="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="24dp"
+            android:id="@+id/txtNameBillDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        android:textSize="36dp"
+        android:layout_marginLeft="84dp"
+        android:layout_marginTop="24dp"
+        android:text="0"
+        android:id="@+id/txtAmountBillDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/ic_truong_edit1"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="36dp"
+            android:id="@+id/txtNoteBillDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/ic_bk_events"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="36dp"
+            android:id="@+id/txtDateBillDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgTypePayDetail"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/icon_not_selected"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="36dp"
+            android:id="@+id/txtTypePayDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <View
+        android:background="@android:color/darker_gray"
+        android:layout_marginTop="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+</LinearLayout>

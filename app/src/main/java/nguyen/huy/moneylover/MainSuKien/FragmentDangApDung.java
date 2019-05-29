@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import nguyen.huy.moneylover.Model.SuKien;
 import nguyen.huy.moneylover.R;
@@ -33,9 +34,9 @@ public class FragmentDangApDung extends Fragment implements ChildEventListener {
     ListView lvSuKienDangApDung;
     ArrayList<SuKien> arrSuKienDangApDung;
     AdapterSuKienDangApDung adapterSuKienDangApDung;
-    List<String> keyList=new ArrayList<String>();
+    List<String> keyList=new ArrayList<>();
     FirebaseAuth auth=FirebaseAuth.getInstance();
-    String UserID=auth.getCurrentUser().getUid();
+    String UserID= Objects.requireNonNull(auth.getCurrentUser()).getUid();
     FirebaseDatabase database=FirebaseDatabase.getInstance();
     DatabaseReference myRef=database.getReference().child(UserID).child("Sự kiện").child("Đang áp dụng");
 
@@ -75,8 +76,7 @@ public class FragmentDangApDung extends Fragment implements ChildEventListener {
         SuKien suKien=dataSnapshot.getValue(SuKien.class);
         arrSuKienDangApDung.add(suKien);
         keyList.add(dataSnapshot.getKey());
-        if(arrSuKienDangApDung.size()>0)
-            adapterSuKienDangApDung.notifyDataSetChanged();
+        adapterSuKienDangApDung.notifyDataSetChanged();
     }
 
     @Override
@@ -93,8 +93,7 @@ public class FragmentDangApDung extends Fragment implements ChildEventListener {
         int index=keyList.indexOf(dataSnapshot.getKey());
         arrSuKienDangApDung.remove(index);
         keyList.remove(index);
-        if(arrSuKienDangApDung.size()>=0)
-            adapterSuKienDangApDung.notifyDataSetChanged();
+        adapterSuKienDangApDung.notifyDataSetChanged();
     }
 
     @Override

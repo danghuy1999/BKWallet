@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import nguyen.huy.moneylover.Model.SuKien;
 import nguyen.huy.moneylover.R;
@@ -33,9 +34,9 @@ public class FragmentDaKetThuc extends Fragment implements ChildEventListener {
     ListView lvSuKienDaKetThuc;
     ArrayList<SuKien> arrSuKienDaKetThuc;
     AdapterSuKienDangApDung adapterSuKienDaKetThuc;
-    List<String> keyList=new ArrayList<String>();
+    List<String> keyList= new ArrayList<>();
     FirebaseAuth auth=FirebaseAuth.getInstance();
-    String UserID=auth.getCurrentUser().getUid();
+    String UserID= Objects.requireNonNull(auth.getCurrentUser()).getUid();
     FirebaseDatabase database=FirebaseDatabase.getInstance();
     DatabaseReference myRef=database.getReference().child(UserID).child("Sự kiện").child("Đã kết thúc");
 
@@ -74,7 +75,7 @@ public class FragmentDaKetThuc extends Fragment implements ChildEventListener {
         SuKien suKien=dataSnapshot.getValue(SuKien.class);
         arrSuKienDaKetThuc.add(suKien);
         keyList.add(dataSnapshot.getKey());
-        if(arrSuKienDaKetThuc.size()>=0)
+        if(arrSuKienDaKetThuc.size()>0)
             adapterSuKienDaKetThuc.notifyDataSetChanged();
     }
 
@@ -92,7 +93,7 @@ public class FragmentDaKetThuc extends Fragment implements ChildEventListener {
         int index=keyList.indexOf(dataSnapshot.getKey());
         arrSuKienDaKetThuc.remove(index);
         keyList.remove(index);
-        if(arrSuKienDaKetThuc.size()>=0)
+        if(arrSuKienDaKetThuc.size()>0)
             adapterSuKienDaKetThuc.notifyDataSetChanged();
     }
 

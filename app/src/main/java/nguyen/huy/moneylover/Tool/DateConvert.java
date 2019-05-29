@@ -10,9 +10,10 @@ public class DateConvert {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String currentDay = simpleDateFormat.format(calendar.getTime());
         String[] words=currentDay.split("[/]");
-        String[] resultString=new String[2];
+        String[] resultString=new String[3];
         resultString[0]=words[1]+ "+" + words[2];
         resultString[1]= words[0]+ "+" +words[1]+ "+" + words[2];
+        resultString[2]= currentDay;
         return resultString;
     }
     public static String firebasenode2StringDay (String s)

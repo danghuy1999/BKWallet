@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,7 +45,6 @@ public class ActivityThemSuKien extends AppCompatActivity {
     Calendar cal;
     @SuppressLint("SimpleDateFormat")
     SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
-    //SimpleDateFormat sdf2=new SimpleDateFormat("HH:mm");
 
 
     FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -54,7 +52,7 @@ public class ActivityThemSuKien extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference();
     SuKien sk = new SuKien();
-    ArrayList<SuKien> arrSuKien = new ArrayList<SuKien>();
+    ArrayList<SuKien> arrSuKien = new ArrayList<>();
 
     Long diff;
 
@@ -66,6 +64,7 @@ public class ActivityThemSuKien extends AppCompatActivity {
         toolbar2=findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar2);
         actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setTitle("Thêm sự kiện");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -106,6 +105,7 @@ public class ActivityThemSuKien extends AppCompatActivity {
         {
             if(resultCode== Activity.RESULT_OK)
             {
+                assert data != null;
                 pos = data.getIntExtra("SYMBOL",R.drawable.icon_not_selected);
                 Bitmap bitmap;
                 bitmap = BitmapFactory.decodeResource(getResources(),pos);
@@ -176,6 +176,7 @@ public class ActivityThemSuKien extends AppCompatActivity {
 
         try {
             datesukien = simpleDateFormat.parse(sk.getNgayketthuc());
+            assert date != null;
             diff = datesukien.getTime() - date.getTime();
         } catch (ParseException e) {
             e.printStackTrace();
@@ -206,19 +207,19 @@ public class ActivityThemSuKien extends AppCompatActivity {
         DatePickerDialog.OnDateSetListener callback1=new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                cal.set(cal.YEAR,year);
-                cal.set(cal.MONTH,month);
-                cal.set(cal.DAY_OF_MONTH,dayOfMonth);
-                editNgayKetThuc.setText(sdf1.format(cal.getTime()).toString());
+                cal.set(Calendar.YEAR,year);
+                cal.set(Calendar.MONTH,month);
+                cal.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+                editNgayKetThuc.setText(sdf1.format(cal.getTime()));
 
             }
         };
 
         DatePickerDialog datePickerDialog=new DatePickerDialog(ActivityThemSuKien.this,
                 callback1,
-                cal.get(cal.YEAR),
-                cal.get(cal.MONTH),
-                cal.get(cal.DAY_OF_MONTH));
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH));
 
         datePickerDialog.show();
     }

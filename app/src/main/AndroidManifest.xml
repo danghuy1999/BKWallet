@@ -70,6 +70,10 @@
         <activity android:name=".MainBill.MainBill" />
         <activity android:name=".MainBill.ActivityDialogRepeat"
             android:theme="@style/Theme.AppCompat.Dialog.Alert"/>
+        <activity android:name=".MainBill.ActivityDetailBill"
+            android:theme="@style/Theme.AppCompat.Light"/>
+        <activity android:name=".MainBill.ActivityEditBill"
+            android:theme="@style/Theme.AppCompat.Light"/>
     </application>
 
 </manifest>

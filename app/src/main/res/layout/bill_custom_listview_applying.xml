@@ -28,25 +28,21 @@
                 android:id="@+id/txtNameBill"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp" />
-            <TextView
-                android:id="@+id/txtNote"
-                android:layout_marginTop="12dp"
-                android:layout_marginLeft="12dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
 
             <TextView
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="6dp"
                 android:layout_marginLeft="12dp"
                 android:id="@+id/txtText1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <Button
+            <TextView
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bill_custom_txtpay"
+                android:gravity="center_vertical"
                 android:textColor="@android:color/white"
-                android:background="@android:color/holo_red_dark"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="12dp"
                 android:id="@+id/btnPay"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp" />

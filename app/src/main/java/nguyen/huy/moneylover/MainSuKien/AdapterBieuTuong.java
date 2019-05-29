@@ -1,6 +1,8 @@
 package nguyen.huy.moneylover.MainSuKien;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,22 +14,23 @@ import java.util.List;
 import nguyen.huy.moneylover.R;
 
 public class AdapterBieuTuong extends ArrayAdapter<Integer> {
-    Activity context;
-    int resource;
-    List<Integer> objects;
+    private Activity context;
+    private int resource;
+    private List<Integer> objects;
 
-    public AdapterBieuTuong(Activity context, int resource, List<Integer> objects) {
+    AdapterBieuTuong(Activity context, int resource, List<Integer> objects) {
         super(context, resource, objects);
         this.context=context;
         this.resource=resource;
         this.objects=objects;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater=this.context.getLayoutInflater();
-        View row=inflater.inflate(this.resource,null);
-        ImageView img= row.<ImageView>findViewById(R.id.imgIconEvent);
+        @SuppressLint("ViewHolder") View row=inflater.inflate(this.resource,null);
+        ImageView img= row.findViewById(R.id.imgIconEvent);
         img.setImageResource(this.objects.get(position));
         return row;
     }

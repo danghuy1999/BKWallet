@@ -1,9 +1,8 @@
 package nguyen.huy.moneylover.MainBill;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
@@ -15,27 +14,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 import nguyen.huy.moneylover.Model.Bill;
@@ -51,15 +42,19 @@ public class ActivityAddBill extends AppCompatActivity {
     public static final int INTENT_ACTIVITY_RESULT2 = 202;
     public static final int INTENT_ACTIVITY_RESULT3 = 203;
 
+    @SuppressLint("SimpleDateFormat")
+    SimpleDateFormat sdf1=new SimpleDateFormat("E, dd/MM/yyyy");
+    Calendar cal;
+
     private String namegroup="";
-    private Toolbar toolbarAddBill;
+    Toolbar toolbarAddBill;
     private EditText editAmout,editGroup,editNote,editRepeat,editLastDate;
     private TextView txtMoneyTotal,getTxtMoneyToDay,getTxtMoneyFuture;
     private ImageView imgIc;
     private ListView lvApplyingToDay,getLvApplyingFuture;
 
     private Bill bill=new Bill();
-    private ArrayList<Bill>arrBill=new ArrayList<Bill>();
+    ArrayList<Bill>arrBill= new ArrayList<>();
 
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String UserID = Objects.requireNonNull(auth.getCurrentUser()).getUid();
@@ -105,25 +100,28 @@ public class ActivityAddBill extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==INTENT_ACTIVITY_SELECT_GROUP){
             if(resultCode== Activity.RESULT_OK){
+                assert data != null;
                 namegroup=data.getStringExtra("PAY");
             }
             else if (resultCode==1){
+                assert data != null;
                 namegroup=data.getStringExtra("LOAN");
             }
         }
         if(requestCode==INTENT_ACTIVITY_SELECT_REPEAT){
             if(resultCode==INTENT_ACTIVITY_RESULT0){
-                Log.e("Day",data.getStringExtra("DAY"));
                 editRepeat.setText(data.getStringExtra("DAY"));
             }
         }
         if(requestCode==INTENT_ACTIVITY_SELECT_REPEAT){
             if(resultCode==INTENT_ACTIVITY_RESULT1){
+                assert data != null;
                 editRepeat.setText(data.getStringExtra("WEEK"));
             }
         }
         if(requestCode==INTENT_ACTIVITY_SELECT_REPEAT){
             if(resultCode==INTENT_ACTIVITY_RESULT2){
+                assert data != null;
                 editRepeat.setText(data.getStringExtra("MONTH"));
             }
         }
@@ -153,9 +151,8 @@ public class ActivityAddBill extends AppCompatActivity {
         if (key != null) {
             myRef.child(key).setValue(bill);
         }
-        Intent intent = new Intent(ActivityAddBill.this, MainBill.class);
-        startActivity(intent);
 
+        finish();
     }
 
     private void addEvents() {
@@ -166,18 +163,46 @@ public class ActivityAddBill extends AppCompatActivity {
             }
         });
 
+//        editRepeat.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent=new Intent(ActivityAddBill.this,ActivityDialogRepeat.class);
+//                startActivityForResult(intent,INTENT_ACTIVITY_SELECT_REPEAT);
+//            }
+//        });
+
         editRepeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(ActivityAddBill.this,ActivityDialogRepeat.class);
-                startActivityForResult(intent,INTENT_ACTIVITY_SELECT_REPEAT);
+                toProcessOpenDateTime();
             }
         });
 
     }
 
+    private void toProcessOpenDateTime() {
+        DatePickerDialog.OnDateSetListener callback1=new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                cal.set(Calendar.YEAR,year);
+                cal.set(Calendar.MONTH,month);
+                cal.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+                editRepeat.setText(sdf1.format(cal.getTime()));
+            }
+        };
+
+        DatePickerDialog datePickerDialog=new DatePickerDialog(ActivityAddBill.this,
+                callback1,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH));
+
+        datePickerDialog.show();
+    }
+
     private void toProcessSelectGroup() {
         Intent intent=new Intent(ActivityAddBill.this,ActivitySelectGroup.class);
+        intent.putExtra("CODE", 1);
         startActivityForResult(intent,INTENT_ACTIVITY_SELECT_GROUP);
     }
 
@@ -185,6 +210,7 @@ public class ActivityAddBill extends AppCompatActivity {
         toolbarAddBill=findViewById(R.id.toolbarAddBill);
         setSupportActionBar(toolbarAddBill);
         ActionBar actionBar=getSupportActionBar();
+        assert actionBar != null;
         actionBar.setTitle("Thêm hóa đơn");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -194,5 +220,6 @@ public class ActivityAddBill extends AppCompatActivity {
         editRepeat=findViewById(R.id.editRepeat);
         imgIc=findViewById(R.id.imgIc);
 
+        cal=Calendar.getInstance();
     }
 }

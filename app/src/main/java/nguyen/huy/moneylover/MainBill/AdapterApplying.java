@@ -3,6 +3,8 @@ package nguyen.huy.moneylover.MainBill;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,14 +17,22 @@ import android.widget.TextView;
 
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
+import nguyen.huy.moneylover.MinhLayout.XuLyChuoiThuChi;
+import nguyen.huy.moneylover.MinhLayout.XuLyDatabaseSupport;
+import nguyen.huy.moneylover.MinhLayout.XuLyThuChi;
 import nguyen.huy.moneylover.Model.Bill;
+import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
 import nguyen.huy.moneylover.Tool.Convert;
+import nguyen.huy.moneylover.Tool.DateConvert;
 import nguyen.huy.moneylover.Tool.GetImage;
 
 public class AdapterApplying extends ArrayAdapter<Bill> {
@@ -30,6 +40,12 @@ public class AdapterApplying extends ArrayAdapter<Bill> {
     private Activity context=null;
     private int resource;
     private List<Bill> objects=null;
+
+    ImageView imgIcApplying;
+    TextView txtNameBill;
+    TextView txtNote;
+    TextView txtText1;
+    TextView btnPay;
 
     private FirebaseAuth auth=FirebaseAuth.getInstance();
     private String UserID=auth.getCurrentUser().getUid();
@@ -48,21 +64,19 @@ public class AdapterApplying extends ArrayAdapter<Bill> {
         LayoutInflater inflater=this.context.getLayoutInflater();
         convertView=inflater.inflate(this.resource,null);
 
-        ImageView imgIcApplying=convertView.findViewById(R.id.imgIcApplying);
-        TextView txtNameBill=convertView.findViewById(R.id.txtNameBill);
-        TextView txtNote=convertView.findViewById(R.id.txtNote);
-        TextView txtText1=convertView.findViewById(R.id.txtText1);
-        Button btnPay=convertView.findViewById(R.id.btnPay);
+        imgIcApplying=convertView.findViewById(R.id.imgIcApplying);
+        txtNameBill=convertView.findViewById(R.id.txtNameBill);
+        txtText1=convertView.findViewById(R.id.txtText1);
+        btnPay=convertView.findViewById(R.id.btnPay);
 
         final Bill bill=this.objects.get(position);
 
         Bitmap bitmap= GetImage.getBitmapFromString(getContext(),bill.getGroup());
         imgIcApplying.setImageBitmap(bitmap);
         txtNameBill.setText(bill.getGroup());
-        txtNote.setText(bill.getNote());
         txtText1.setText("Hóa đơn tiếp theo là "+bill.getRepeat());
         long amount=Long.parseLong(bill.getAmount());
-        btnPay.setText("TRẢ "+ Convert.Money(amount));
+        btnPay.setText(" TRẢ "+ Convert.Money(amount)+" ");
 
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +90,14 @@ public class AdapterApplying extends ArrayAdapter<Bill> {
                         Bill bill1=bill;
                         myRef.child("Đã thanh toán").child(bill1.getIdbill()).setValue(bill1);
                         myRef.child("Đang áp dụng").child(bill1.getIdbill()).removeValue();
+                        ThuChi thuChi = new ThuChi();
+                        thuChi.setNhom(context.getResources().getString(R.string.ts_bill));
+                        thuChi.setGhichu(bill1.getNote());
+                        thuChi.setSotien(bill1.getAmount());
+                        String[] result= DateConvert.getCurrentDay();
+                        thuChi.setNgay(result[2]);
+                        XuLyThuChi.xuLyLuuVaoDatabase(thuChi,result);
+                        XuLyDatabaseSupport.SaveToDatabase(thuChi);
                     }
                 });
                 builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
@@ -86,6 +108,7 @@ public class AdapterApplying extends ArrayAdapter<Bill> {
                 });
                 AlertDialog alertDialog=builder.create();
                 alertDialog.show();
+
             }
         });
 

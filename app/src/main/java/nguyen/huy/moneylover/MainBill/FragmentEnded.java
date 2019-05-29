@@ -21,6 +21,7 @@ import java.util.List;
 
 import nguyen.huy.moneylover.Model.Bill;
 import nguyen.huy.moneylover.R;
+import nguyen.huy.moneylover.Tool.Convert;
 
 public class FragmentEnded extends Fragment {
     public FragmentEnded(){};
@@ -70,7 +71,10 @@ public class FragmentEnded extends Fragment {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
+                int index=keyList.indexOf(dataSnapshot.getKey());
+                arrBillEnded.remove(index);
+                keyList.remove(index);
+                adapterEnded.notifyDataSetChanged();
             }
 
             @Override

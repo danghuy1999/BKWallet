@@ -1,8 +1,10 @@
 package nguyen.huy.moneylover.MainSuKien;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +19,9 @@ import nguyen.huy.moneylover.R;
 
 public class AdapterSuKienDaKetThuc extends ArrayAdapter<SuKien> {
 
-    Activity context=null;
-    int resource;
-    List<SuKien> objects=null;
+    private Activity context;
+    private int resource;
+    private List<SuKien> objects;
 
     public AdapterSuKienDaKetThuc(Activity context, int resource, List<SuKien> objects) {
         super(context, resource, objects);
@@ -28,12 +30,14 @@ public class AdapterSuKienDaKetThuc extends ArrayAdapter<SuKien> {
         this.objects=objects;
     }
 
+    @SuppressLint("ViewHolder")
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater=this.context.getLayoutInflater();
         convertView=inflater.inflate(this.resource,null);
 
-        TextView txtkeHoach= convertView.<TextView>findViewById(R.id.txtkeHoach);
+        TextView txtkeHoach= convertView.findViewById(R.id.txtkeHoach);
         ImageView imgIcon=convertView.findViewById(R.id.imgIcon);
 
         SuKien suKien=this.objects.get(position);

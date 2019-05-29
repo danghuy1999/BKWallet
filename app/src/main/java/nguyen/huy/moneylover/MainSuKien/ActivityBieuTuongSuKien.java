@@ -74,6 +74,7 @@ public class ActivityBieuTuongSuKien extends AppCompatActivity {
         toolbarSymbol=findViewById(R.id.toolbarSymbol);
         setSupportActionBar(toolbarSymbol);
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setTitle("Chọn biểu tượng");
         actionBar.setDisplayHomeAsUpEnabled(true);
 

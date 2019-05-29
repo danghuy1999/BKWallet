@@ -3,9 +3,11 @@ package nguyen.huy.moneylover.MainBill;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +39,7 @@ public class AdapterEnded extends ArrayAdapter<Bill> {
     private FirebaseAuth auth=FirebaseAuth.getInstance();
     private String UserID= Objects.requireNonNull(auth.getCurrentUser()).getUid();
     private FirebaseDatabase database=FirebaseDatabase.getInstance();
-    private DatabaseReference myRef=database.getReference().child(UserID).child("Hóa đơn").child("Đã thanh toán");
+    private DatabaseReference myRef=database.getReference().child(UserID).child("Hóa đơn");
 
     public AdapterEnded(Activity context, int resource, List<Bill> objects) {
         super(context, resource, objects);
@@ -57,6 +59,7 @@ public class AdapterEnded extends ArrayAdapter<Bill> {
         TextView txtNameBill=convertView.findViewById(R.id.txtNameBill);
         TextView txtNote=convertView.findViewById(R.id.txtNote);
         TextView txtAmount=convertView.findViewById(R.id.txtAmount);
+        ImageView imgDelete=convertView.findViewById(R.id.imgDelete);
 
         final Bill bill=this.objects.get(position);
 
@@ -66,6 +69,29 @@ public class AdapterEnded extends ArrayAdapter<Bill> {
         txtNote.setText(bill.getNote());
         long amount=Long.parseLong(bill.getAmount());
         txtAmount.setText(Convert.Money(amount));
+        imgDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+                builder.setMessage("Bạn có muốn xóa hóa đơn này không?");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Bill bill1=bill;
+                        myRef.child("Đã thanh toán").child(bill1.getIdbill()).removeValue();
+                    }
+                });
+                builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                AlertDialog alertDialog=builder.create();
+                alertDialog.show();
+            }
+        });
 
         return convertView;
     }

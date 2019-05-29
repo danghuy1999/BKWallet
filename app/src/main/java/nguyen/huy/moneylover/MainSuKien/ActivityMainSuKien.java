@@ -1,26 +1,18 @@
 package nguyen.huy.moneylover.MainSuKien;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import nguyen.huy.moneylover.Authentication.LogInActivity;
 import nguyen.huy.moneylover.R;
 
-import static android.support.design.widget.NavigationView.*;
 
 public class ActivityMainSuKien extends AppCompatActivity {
 
@@ -28,8 +20,6 @@ public class ActivityMainSuKien extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
     FloatingActionButton fabThemKeHoach;
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,21 +32,17 @@ public class ActivityMainSuKien extends AppCompatActivity {
 
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.drawer_view,menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
+                onBackPressed();
                 return true;
+
+            default:
+                break;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -87,36 +73,6 @@ public class ActivityMainSuKien extends AppCompatActivity {
             }
         });
 
-        navigationView.setNavigationItemSelectedListener(new OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                menuItem.setChecked(true);
-                drawerLayout.closeDrawers();
-                return true;
-            }
-        });
-
-        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerSlide(@NonNull View view, float v) {
-
-            }
-
-            @Override
-            public void onDrawerOpened(@NonNull View view) {
-
-            }
-
-            @Override
-            public void onDrawerClosed(@NonNull View view) {
-
-            }
-
-            @Override
-            public void onDrawerStateChanged(int i) {
-
-            }
-        });
     }
 
 
@@ -124,6 +80,7 @@ public class ActivityMainSuKien extends AppCompatActivity {
         toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar=getSupportActionBar();
+        assert actionBar != null;
         actionBar.setTitle("Sự kiện");
 
         tabLayout=findViewById(R.id.tabs);
@@ -137,8 +94,5 @@ public class ActivityMainSuKien extends AppCompatActivity {
         fabThemKeHoach=findViewById(R.id.fabThemKeHoach);
 
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        drawerLayout=findViewById(R.id.drawer_layout);
-        navigationView=findViewById(R.id.nav_view);
     }
 }

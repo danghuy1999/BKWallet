@@ -1,6 +1,7 @@
 package nguyen.huy.moneylover.MainBill;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,7 +30,7 @@ import nguyen.huy.moneylover.R;
 import nguyen.huy.moneylover.Tool.Convert;
 
 public class FragmentApplying extends Fragment {
-    public FragmentApplying(){};
+    public FragmentApplying(){}
 
     View view;
     long totalMoneyFuture=0;
@@ -36,9 +38,9 @@ public class FragmentApplying extends Fragment {
     ListView lvApplyingFuture;
     ArrayList<Bill>arrBillApplying;
     AdapterApplying adapterApplying;
-    List<String> keyList=new ArrayList<String>();
+    List<String> keyList= new ArrayList<>();
     FirebaseAuth auth=FirebaseAuth.getInstance();
-    String UserID=auth.getCurrentUser().getUid();
+    String UserID= Objects.requireNonNull(auth.getCurrentUser()).getUid();
     FirebaseDatabase database=FirebaseDatabase.getInstance();
     DatabaseReference myRef=database.getReference().child(UserID);
 
@@ -82,13 +84,16 @@ public class FragmentApplying extends Fragment {
                 txtMoneyFuture.setText(Convert.Money(totalMoneyFuture));
                 arrBillApplying.add(bill);
                 keyList.add(dataSnapshot.getKey());
-                if(arrBillApplying.size()>0)
-                    adapterApplying.notifyDataSetChanged();
+                adapterApplying.notifyDataSetChanged();
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                Bill bill=dataSnapshot.getValue(Bill.class);
+                String key=dataSnapshot.getKey();
+                int index=keyList.indexOf(key);
+                arrBillApplying.set(index,bill);
+                adapterApplying.notifyDataSetChanged();
             }
 
             @Override
@@ -99,8 +104,7 @@ public class FragmentApplying extends Fragment {
                 txtMoneyFuture.setText(Convert.Money(totalMoneyFuture));
                 arrBillApplying.remove(index);
                 keyList.remove(index);
-                if(arrBillApplying.size()>=0)
-                    adapterApplying.notifyDataSetChanged();
+                adapterApplying.notifyDataSetChanged();
             }
 
             @Override
@@ -117,6 +121,14 @@ public class FragmentApplying extends Fragment {
     }
 
     private void addEvents() {
+        lvApplyingFuture.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent(getActivity(),ActivityDetailBill.class);
+                intent.putExtra("BILL",arrBillApplying.get(position));
+                startActivity(intent);
+            }
+        });
     }
 
     private void addControls() {
@@ -126,7 +138,6 @@ public class FragmentApplying extends Fragment {
         arrBillApplying=new ArrayList<>();
         adapterApplying=new AdapterApplying(getActivity(),R.layout.bill_custom_listview_applying,arrBillApplying);
         lvApplyingFuture.setAdapter(adapterApplying);
-
     }
 
 

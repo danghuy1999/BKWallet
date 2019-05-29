@@ -1,6 +1,8 @@
 package nguyen.huy.moneylover.Model;
 
-public class Bill {
+import java.io.Serializable;
+
+public class Bill implements Serializable {
     private String amount;
     private String group;
     private String note;

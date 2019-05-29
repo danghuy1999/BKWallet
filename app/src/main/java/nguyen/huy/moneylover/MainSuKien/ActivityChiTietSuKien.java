@@ -1,5 +1,6 @@
 package nguyen.huy.moneylover.MainSuKien;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 
@@ -27,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import nguyen.huy.moneylover.Model.SuKien;
 import nguyen.huy.moneylover.R;
@@ -39,7 +41,7 @@ public class ActivityChiTietSuKien extends AppCompatActivity {
     ImageView imgIcon;
     Button btnChuaHoanTat,btnDSGiaoDich;
     FirebaseAuth auth=FirebaseAuth.getInstance();
-    String UserID=auth.getCurrentUser().getUid();
+    String UserID= Objects.requireNonNull(auth.getCurrentUser()).getUid();
     FirebaseDatabase database=FirebaseDatabase.getInstance();
     DatabaseReference myRef=database.getReference().child(UserID).child("Sự kiện");
     SuKien suKien;
@@ -52,6 +54,7 @@ public class ActivityChiTietSuKien extends AppCompatActivity {
         setContentView(R.layout.truong_activity_chitietsukien);
 
         ActionBar actionBar=getSupportActionBar();
+        assert actionBar != null;
         actionBar.setTitle("Chi tiết sự kiện");
         actionBar.setDisplayHomeAsUpEnabled(true);
         addControls();
@@ -129,6 +132,7 @@ public class ActivityChiTietSuKien extends AppCompatActivity {
 
         if(requestCode==INTENT_ACTIVITY_EDITEVENT){
             if(resultCode==RESULT_OK){
+                assert data != null;
                 SuKien suKien1= (SuKien) data.getSerializableExtra("EVENT_EDITED");
                 Bitmap bitmap;
                 bitmap = BitmapFactory.decodeResource(getResources(),suKien1.getIcon());
@@ -141,14 +145,15 @@ public class ActivityChiTietSuKien extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("CutPasteId")
     private void addControls() {
         imgIcon=findViewById(R.id.imgIcon);
-        txtDKeHoach= this.<TextView>findViewById(R.id.txtDKeHoach);
-        txtDThoiGian= this.<TextView>findViewById(R.id.txtDThoiGian);
-        txtDXacThucThoiGian= this.<TextView>findViewById(R.id.txtDXacThucThoiGian);
+        txtDKeHoach= findViewById(R.id.txtDKeHoach);
+        txtDThoiGian= findViewById(R.id.txtDThoiGian);
+        txtDXacThucThoiGian= findViewById(R.id.txtDXacThucThoiGian);
 
-        btnChuaHoanTat= this.<Button>findViewById(R.id.btnChuaHoanTat);
-        btnDSGiaoDich= this.<Button>findViewById(R.id.btnChuaHoanTat);
+        btnChuaHoanTat= findViewById(R.id.btnChuaHoanTat);
+        btnDSGiaoDich= findViewById(R.id.btnChuaHoanTat);
 
         Intent intent=getIntent();
 
@@ -165,6 +170,7 @@ public class ActivityChiTietSuKien extends AppCompatActivity {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void toProcessTimePeriod(SuKien sk) {
         Calendar cal=Calendar.getInstance();
         final SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -184,6 +190,8 @@ public class ActivityChiTietSuKien extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        assert timeKeHoach != null;
+        assert date != null;
         diff=(timeKeHoach.getTime()- date.getTime())/(24*60*60*1000);
         Log.e("diff",diff+"");
         String output="Còn lại "+diff.toString()+" ngày ";

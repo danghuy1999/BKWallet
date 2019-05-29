@@ -1,5 +1,6 @@
 package nguyen.huy.moneylover.MainSuKien;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import nguyen.huy.moneylover.Model.SuKien;
 import nguyen.huy.moneylover.R;
@@ -42,11 +44,12 @@ public class ActivitySuaSuKien extends AppCompatActivity {
     Toolbar toolbarEditEvent;
 
     Calendar cal;
+    @SuppressLint("SimpleDateFormat")
     SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
     Long diff;
 
     FirebaseAuth auth = FirebaseAuth.getInstance();
-    String UserID = auth.getCurrentUser().getUid();
+    String UserID = Objects.requireNonNull(auth.getCurrentUser()).getUid();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference();
 
@@ -136,19 +139,19 @@ public class ActivitySuaSuKien extends AppCompatActivity {
         DatePickerDialog.OnDateSetListener callback1=new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                cal.set(cal.YEAR,year);
-                cal.set(cal.MONTH,month);
-                cal.set(cal.DAY_OF_MONTH,dayOfMonth);
-                editNgayKetThuc.setText(sdf1.format(cal.getTime()).toString());
+                cal.set(Calendar.YEAR,year);
+                cal.set(Calendar.MONTH,month);
+                cal.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+                editNgayKetThuc.setText(sdf1.format(cal.getTime()));
 
             }
         };
 
         DatePickerDialog datePickerDialog=new DatePickerDialog(ActivitySuaSuKien.this,
                 callback1,
-                cal.get(cal.YEAR),
-                cal.get(cal.MONTH),
-                cal.get(cal.DAY_OF_MONTH));
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH));
 
         datePickerDialog.show();
     }
@@ -161,6 +164,7 @@ public class ActivitySuaSuKien extends AppCompatActivity {
         {
             if(resultCode== Activity.RESULT_OK)
             {
+                assert data != null;
                 pos = data.getIntExtra("SYMBOL",R.drawable.icon_not_selected);
                 Bitmap bitmap;
                 bitmap = BitmapFactory.decodeResource(getResources(),pos);
@@ -173,6 +177,7 @@ public class ActivitySuaSuKien extends AppCompatActivity {
         toolbarEditEvent=findViewById(R.id.toolbarEditEvent);
         setSupportActionBar(toolbarEditEvent);
         ActionBar actionBar=getSupportActionBar();
+        assert actionBar != null;
         actionBar.setTitle("Sửa sự kiện");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -214,6 +219,8 @@ public class ActivitySuaSuKien extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        assert timeKeHoach != null;
+        assert date != null;
         diff=(timeKeHoach.getTime()- date.getTime());
     }
 }
