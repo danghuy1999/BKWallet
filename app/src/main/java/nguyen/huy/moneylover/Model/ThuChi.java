@@ -5,12 +5,11 @@ import java.io.Serializable;
 public class ThuChi implements Serializable {
 
     private String thuchiKey;
-    private int thuchiID;
     private String sotien;
     private String nhom;
     private String ghichu;
     private String ngay;
-    private String vi;
+    private String thanhtoan;
     private String banbe;
     private String nhacnho;
     private String sukien;
@@ -18,22 +17,22 @@ public class ThuChi implements Serializable {
     public ThuChi(){
 
     }
-    public ThuChi(String sotien, String nhom, String ghichu, String ngay, String vi, String banbe, String nhacnho, String sukien) {
+    public ThuChi(String sotien, String nhom, String ghichu, String ngay, String thanhtoan, String banbe, String nhacnho, String sukien) {
         this.sotien = sotien;
         this.nhom = nhom;
         this.ghichu = ghichu;
         this.ngay = ngay;
-        this.vi = vi;
+        this.thanhtoan = thanhtoan;
         this.banbe = banbe;
         this.nhacnho = nhacnho;
         this.sukien = sukien;
     }
 
-    public ThuChi(String sotien, String nhom, String ghichu, String vi, String banbe, String nhacnho, String sukien) {
+    public ThuChi(String sotien, String nhom, String ghichu, String thanhtoan, String banbe, String nhacnho, String sukien) {
         this.sotien = sotien;
         this.nhom = nhom;
         this.ghichu = ghichu;
-        this.vi = vi;
+        this.thanhtoan = thanhtoan;
         this.banbe = banbe;
         this.nhacnho = nhacnho;
         this.sukien = sukien;
@@ -45,14 +44,6 @@ public class ThuChi implements Serializable {
 
     public void setThuchiKey(String thuchiKey) {
         this.thuchiKey = thuchiKey;
-    }
-
-    public int getThuchiID() {
-        return thuchiID;
-    }
-
-    public void setThuchiID(int thuchiID) {
-        this.thuchiID = thuchiID;
     }
 
     public String getSotien() {
@@ -87,12 +78,12 @@ public class ThuChi implements Serializable {
         this.ngay = ngay;
     }
 
-    public String getVi() {
-        return vi;
+    public String getThanhtoan() {
+        return thanhtoan;
     }
 
-    public void setVi(String vi) {
-        this.vi = vi;
+    public void setThanhtoan(String thanhtoan) {
+        this.thanhtoan = thanhtoan;
     }
 
     public String getBanbe() {

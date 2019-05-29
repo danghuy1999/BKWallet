@@ -67,6 +67,12 @@
     <string name="ts_outcome_grouped">Khoản chi xếp theo nhóm</string>
     <string name="ts_income_altogether">Tổng lượng thu</string>
     <string name="ts_outcome_altogether">Tổng lượng chi</string>
+    <string name="ts_savemoney">Tiết kiệm</string>
+
+    <!--Phương thức thanh toán -->
+    <string name="pttt_creditcard">Thẻ tín dụng</string>
+    <string name="pttt_cash">Tiền mặt</string>
+    <string name="pttt_electronicwallet">Ví điện tử</string>
 
     <string name="ts_lend">Cho vay</string>
     <string name="ts_pay">Trả nợ</string>

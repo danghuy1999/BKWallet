@@ -16,6 +16,7 @@
         <activity
             android:name=".Report.ReportActivity" />
         <activity android:name=".Authentication.UserInfoActivity" />
+        <activity android:name=".MinhLayout.PhuongThucThanhToanActivity"></activity>
         <activity
             android:name=".QRCodeModule.QRCodeScannerActivity"
             android:theme="@style/AppTheme" />

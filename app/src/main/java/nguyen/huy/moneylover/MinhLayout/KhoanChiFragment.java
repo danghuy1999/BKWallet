@@ -63,6 +63,7 @@ public class KhoanChiFragment extends Fragment {
         arrayListChonNhomKhoanChi.add(getString(R.string.ts_health));
         arrayListChonNhomKhoanChi.add(getString(R.string.ts_eating));
         arrayListChonNhomKhoanChi.add(getString(R.string.ts_invest));
+        arrayListChonNhomKhoanChi.add(getString(R.string.ts_savemoney));
         arrayListChonNhomKhoanChi.add(getString(R.string.ts_outcome_other));
     }
 }

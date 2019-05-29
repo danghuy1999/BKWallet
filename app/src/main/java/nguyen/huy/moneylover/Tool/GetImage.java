@@ -68,6 +68,18 @@ public class GetImage {
         else if(res.getString(R.string.ts_pay).equals(BitmapString)){
             bitmap=BitmapFactory.decodeResource(res,R.drawable.ic_category_give);
         }
+        else if(res.getString(R.string.ts_savemoney).equals(BitmapString)){
+            bitmap=BitmapFactory.decodeResource(res,R.drawable.minh_wallet);
+        }
+        else if(res.getString(R.string.pttt_cash).equals(BitmapString)){
+            bitmap=BitmapFactory.decodeResource(res,R.drawable.minh_cash96);
+        }
+        else if(res.getString(R.string.pttt_creditcard).equals(BitmapString)){
+            bitmap=BitmapFactory.decodeResource(res,R.drawable.minh_creditcard96);
+        }
+        else if(res.getString(R.string.pttt_electronicwallet).equals(BitmapString)){
+            bitmap=BitmapFactory.decodeResource(res,R.drawable.minh_electronicwallet96);
+        }
         return bitmap;
     }
 

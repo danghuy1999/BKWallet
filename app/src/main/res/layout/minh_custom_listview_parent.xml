@@ -62,7 +62,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="2"
+                android:text="Đang tính toán..."
                 android:textColor="@color/common_google_signin_btn_text_dark_focused"
                 android:textSize="13sp" />
 

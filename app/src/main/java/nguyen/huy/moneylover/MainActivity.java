@@ -369,8 +369,8 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                     thuChi.setSotien(jsonObject.getString("sotien"));
                 if(jsonObject.has("sukien"))
                     thuChi.setSukien(jsonObject.getString("sukien"));
-                if(jsonObject.has("vi"))
-                    thuChi.setVi(jsonObject.getString("vi"));
+                if(jsonObject.has("thanhtoan"))
+                    thuChi.setThanhtoan(jsonObject.getString("thanhtoan"));
                 list.add(thuChi);
             } catch (JSONException e) {
                 e.printStackTrace();

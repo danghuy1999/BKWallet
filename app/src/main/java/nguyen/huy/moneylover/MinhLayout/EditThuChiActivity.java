@@ -1,30 +1,26 @@
 package nguyen.huy.moneylover.MinhLayout;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.google.firebase.database.FirebaseDatabase;
-
-import nguyen.huy.moneylover.MainActivity;
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
 import nguyen.huy.moneylover.Tool.GetImage;
 
 public class EditThuChiActivity extends AppCompatActivity {
 
-    EditText edtNhapSoTien,edtThemGhiChu,edtChonVi,edtThemBan,edtDatNhacNho,edtChonSuKien;
+    EditText edtNhapSoTien,edtThemGhiChu ,edtThemBan,edtDatNhacNho,edtChonSuKien;
     public static EditText edtChonNhom;
     public static ImageView imgchonNhom;
     public static EditText edtChonNgay;
+
+    public static EditText edtPhuongThucTT;
+    public static ImageView imgPhuongThucTT;
     ThuChi thuChi;
     Intent intent;
     XuLyThuChi xuLyThuChi=new XuLyThuChi();
@@ -55,6 +51,8 @@ public class EditThuChiActivity extends AppCompatActivity {
 
         Bitmap bitmap= GetImage.getBitmapFromString(this,edtChonNhom.getText().toString());
         imgchonNhom.setImageBitmap(bitmap);
+        Bitmap bitmap1=GetImage.getBitmapFromString(this,thuChi.getThanhtoan());
+        imgPhuongThucTT.setImageBitmap(bitmap1);
     }
 
     private void setThuChiToEdit() {
@@ -62,7 +60,7 @@ public class EditThuChiActivity extends AppCompatActivity {
         edtChonNhom.setText(thuChi.getNhom());
         edtThemGhiChu.setText(thuChi.getGhichu());
         edtChonNgay.setText(thuChi.getNgay());
-        edtChonVi.setText(thuChi.getVi());
+        edtPhuongThucTT.setText(thuChi.getThanhtoan());
         edtThemBan.setText(thuChi.getBanbe());
         edtDatNhacNho.setText(thuChi.getNhacnho());
         edtChonSuKien.setText(thuChi.getSukien());
@@ -73,11 +71,12 @@ public class EditThuChiActivity extends AppCompatActivity {
         edtChonNhom=findViewById(R.id.edtChonNhom);
         edtThemGhiChu=findViewById(R.id.edtThemGhiChu);
         edtChonNgay=findViewById(R.id.edtChonNgay);
-        edtChonVi=findViewById(R.id.edtChonVi);
+        edtPhuongThucTT =findViewById(R.id.edtPhuongThucTTEdit);
         edtThemBan=findViewById(R.id.edtThemBan);
         edtDatNhacNho=findViewById(R.id.edtDatNhacNho);
         edtChonSuKien=findViewById(R.id.edtChonSuKien);
         imgchonNhom=findViewById(R.id.imgChonNhom);
+        imgPhuongThucTT=findViewById(R.id.imgPhuongThucTTEdit);
         intent = getIntent();
         thuChi = (ThuChi) intent.getSerializableExtra("Item1");
     }
@@ -87,7 +86,7 @@ public class EditThuChiActivity extends AppCompatActivity {
         String Nhom=edtChonNhom.getText().toString();
         String GhiChu=edtThemGhiChu.getText().toString();
         String Ngay=edtChonNgay.getText().toString();
-        String Vi=edtChonVi.getText().toString();
+        String Vi= edtPhuongThucTT.getText().toString();
         String Banbe=edtThemBan.getText().toString();
         String NhacNho=edtDatNhacNho.getText().toString();
         String SuKien=edtChonSuKien.getText().toString();
@@ -130,5 +129,10 @@ public class EditThuChiActivity extends AppCompatActivity {
 
     public void xuLyHienThiNgay(View view) {
         xuLyThuChi.xuLyHienThiNgayEditText(view,edtChonNgay,EditThuChiActivity.this);
+    }
+
+    public void xuLyChonPhuongThucEdit(View view) {
+        Intent intent=new Intent(EditThuChiActivity.this,PhuongThucThanhToanActivity.class);
+        startActivity(intent);
     }
 }

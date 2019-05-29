@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/colorLayoutTaskbar"
+        android:background="@color/colorFloatButton"
         android:orientation="horizontal">
 
         <ImageButton
@@ -21,7 +21,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:layout_weight="1"
-            android:background="@color/colorLayoutTaskbar"
+            android:background="@color/colorFloatButton"
             android:onClick="xuLyThoat"
             android:paddingRight="10dp"
             app:srcCompat="@drawable/back2_picture" />
@@ -33,6 +33,7 @@
             android:layout_weight="1"
             android:gravity="center|left"
             android:text="Chọn nhóm"
+            android:textColor="@color/colorbackgroundLuu"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -44,7 +45,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="15dp"
             android:layout_weight="1"
-            android:background="@color/colorLayoutTaskbar"
+            android:background="@color/colorFloatButton"
             android:paddingRight="10dp"
             app:srcCompat="@drawable/search1" />
 
@@ -54,10 +55,10 @@
         android:id="@+id/tabChonNhom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorLayoutTaskbar"
-        app:tabIndicatorColor="@color/colorTabIn"
+        android:background="@color/colorFloatButton"
+        app:tabIndicatorColor="@color/colorbackgroundBack"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/colorChonVi">
+        app:tabSelectedTextColor="@color/colorbackgroundBack">
 
     </android.support.design.widget.TabLayout>
 

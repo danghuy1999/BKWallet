@@ -193,7 +193,7 @@ public class ActivitySuaSuKien extends AppCompatActivity {
         editNgayKetThuc.setText(suKien.getNgayketthuc());
         key=suKien.getId();
 //        editDonViTienTe.setText(suKien.getDonvitiente());
-//        editChonVi.setText(suKien.getVi());
+//        editChonVi.setText(suKien.getThanhtoan());
     }
 
     private void toProcessTimePeriod(String enddate) {

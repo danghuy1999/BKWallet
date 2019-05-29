@@ -1,32 +1,21 @@
 package nguyen.huy.moneylover.MinhLayout;
 
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import nguyen.huy.moneylover.MainActivity;
 import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
 import nguyen.huy.moneylover.Tool.GetImage;
@@ -38,10 +27,12 @@ public class DocActivity extends AppCompatActivity {
     DatabaseReference delReference;
     String ngay;
     String result[];
-    TextView txtEditNgay,txtEditVi;
+    TextView txtEditNgay;
     public static EditText edtEditNhom;
+    public static EditText edtPhuongThuc;
     EditText edtEditSoTien;
     public static ImageView imageViewEditNhom;
+    public static ImageView imgPhuongThuc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +51,10 @@ public class DocActivity extends AppCompatActivity {
     private void addControls() {
         edtEditNhom=findViewById(R.id.edtEditNhom);
         txtEditNgay=findViewById(R.id.txtEditNgay);
-        txtEditVi=findViewById(R.id.txtEditVi);
+        edtPhuongThuc=findViewById(R.id.edtPhuongThucDoc);
         edtEditSoTien=findViewById(R.id.edtEditSoTien);
         imageViewEditNhom=findViewById(R.id.imgViewEditNhom);
+        imgPhuongThuc=findViewById(R.id.imgPhuongThucDoc);
 
         intent = getIntent();
         thuChi = (ThuChi) intent.getSerializableExtra("Item");
@@ -76,7 +68,7 @@ public class DocActivity extends AppCompatActivity {
     }
 
     private void ganThongTin() {
-        txtEditVi.setText(thuChi.getVi());
+        edtPhuongThuc.setText(thuChi.getThanhtoan());
         txtEditNgay.setText(thuChi.getNgay());
         edtEditNhom.setText(thuChi.getNhom());
         edtEditSoTien.setText(thuChi.getSotien());
@@ -92,6 +84,9 @@ public class DocActivity extends AppCompatActivity {
         imageViewEditNhom.setImageDrawable(drawable);*/
         Bitmap bitmap= GetImage.getBitmapFromString(this,thuChi.getNhom());
         imageViewEditNhom.setImageBitmap(bitmap);
+
+        Bitmap bitmap1=GetImage.getBitmapFromString(this,thuChi.getThanhtoan());
+        imgPhuongThuc.setImageBitmap(bitmap1);
     }
 
     public void xuLyXoaThuChi() {
@@ -155,12 +150,17 @@ public class DocActivity extends AppCompatActivity {
         String Nhom=edtEditNhom.getText().toString();
         String GhiChu=thuChi.getGhichu();
         String Ngay=txtEditNgay.getText().toString();
-        String Vi=thuChi.getVi();
+        String PhuongThuc=edtPhuongThuc.getText().toString();
         String Banbe=thuChi.getBanbe();
         String NhacNho=thuChi.getNhacnho();
         String SuKien=thuChi.getSukien();
         //Khởi tạo giao dịch mới
-        ThuChi giaodich=new ThuChi(SoTien,Nhom,GhiChu,Ngay,Vi,Banbe,NhacNho,SuKien);
+        ThuChi giaodich=new ThuChi(SoTien,Nhom,GhiChu,Ngay,PhuongThuc,Banbe,NhacNho,SuKien);
         return giaodich;
+    }
+
+    public void xuLyChonPhuongThucDoc(View view) {
+        Intent intent=new Intent(DocActivity.this,PhuongThucThanhToanActivity.class);
+        startActivity(intent);
     }
 }

@@ -1,10 +1,7 @@
 package nguyen.huy.moneylover.MinhLayout;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -17,10 +14,12 @@ import nguyen.huy.moneylover.R;
 
 public class ThuChiActivity extends AppCompatActivity{
 
-    EditText edtNhapSoTien,edtThemGhiChu,edtChonVi,edtThemBan,edtDatNhacNho,edtChonSuKien;
+    EditText edtNhapSoTien,edtThemGhiChu,edtThemBan,edtDatNhacNho,edtChonSuKien;
     public static EditText edtChonNhom;
     public static ImageView imgchonNhom;
     public static EditText edtChonNgay;
+    public static EditText edtChonPhuongThuc;
+    public static ImageView imgChonPhuongThuc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +37,12 @@ public class ThuChiActivity extends AppCompatActivity{
         edtChonNhom=findViewById(R.id.edtChonNhom);
         edtThemGhiChu=findViewById(R.id.edtThemGhiChu);
         edtChonNgay=findViewById(R.id.edtChonNgay);
-        edtChonVi=findViewById(R.id.edtChonVi);
+        edtChonPhuongThuc =findViewById(R.id.edtPhuongThucTT);
         edtThemBan=findViewById(R.id.edtThemBan);
         edtDatNhacNho=findViewById(R.id.edtDatNhacNho);
         edtChonSuKien=findViewById(R.id.edtChonSuKien);
         imgchonNhom=findViewById(R.id.imgChonNhom);
+        imgChonPhuongThuc=findViewById(R.id.imgPhuongThucTT);
     }
 
     public void xuLyLuu(View view) {
@@ -54,8 +54,8 @@ public class ThuChiActivity extends AppCompatActivity{
             Toast.makeText(getApplicationContext(),"Bạn chưa chọn nhóm",Toast.LENGTH_LONG).show();
             return;
         }
-        if(TextUtils.isEmpty(edtChonVi.getText().toString())){
-            edtChonVi.setError("Bạn chưa chọn ví");
+        if(TextUtils.isEmpty(edtChonPhuongThuc.getText().toString())){
+            edtChonPhuongThuc.setError("Bạn chưa chọn phương thức thanh toán");
             return;
         }
 
@@ -75,12 +75,12 @@ public class ThuChiActivity extends AppCompatActivity{
         String Nhom=edtChonNhom.getText().toString();
         String GhiChu=edtThemGhiChu.getText().toString();
         String Ngay=edtChonNgay.getText().toString();
-        String Vi=edtChonVi.getText().toString();
+        String PhuongThuc= edtChonPhuongThuc.getText().toString();
         String Banbe=edtThemBan.getText().toString();
         String NhacNho=edtDatNhacNho.getText().toString();
         String SuKien=edtChonSuKien.getText().toString();
         //Khởi tạo giao dịch mới
-        ThuChi giaodich=new ThuChi(SoTien,Nhom,GhiChu,Ngay,Vi,Banbe,NhacNho,SuKien);
+        ThuChi giaodich=new ThuChi(SoTien,Nhom,GhiChu,Ngay,PhuongThuc,Banbe,NhacNho,SuKien);
         return giaodich;
     }
 
@@ -98,4 +98,8 @@ public class ThuChiActivity extends AppCompatActivity{
         XuLyThuChi.xuLyHienThiNgayEditText(view,edtChonNgay,ThuChiActivity.this);
     }
 
+    public void xuLyChonPhuongThuc(View view) {
+        Intent intent=new Intent(ThuChiActivity.this,PhuongThucThanhToanActivity.class);
+        startActivity(intent);
+    }
 }

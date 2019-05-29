@@ -175,25 +175,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="5dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:onClick="xuLyChonPhuongThuc">
 
                     <ImageView
-                        android:id="@+id/imageView4"
-                        android:layout_width="30dp"
-                        android:layout_height="22dp"
+                        android:id="@+id/imgPhuongThucTT"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_gravity="center"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        android:layout_weight="1"
+                        android:onClick="xuLyChonPhuongThuc"
+                        android:scaleType="fitXY"
                         app:srcCompat="@drawable/wallet_picture" />
 
                     <EditText
-                        android:id="@+id/edtChonVi"
+                        android:onClick="xuLyChonPhuongThuc"
+                        android:id="@+id/edtPhuongThucTT"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
-                        android:hint="Chọn ví"
+                        android:hint="Chọn phương thức thanh toán"
+                        android:focusable="false"
                         android:inputType="textPersonName"
                         android:textSize="14sp" />
 
