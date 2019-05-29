@@ -1,4 +1,4 @@
-package nguyen.huy.moneylover.Report;
+package nguyen.huy.moneylover.Report.Controller;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nguyen.huy.moneylover.R;
+import nguyen.huy.moneylover.Report.Model.ReportDayValue;
+import nguyen.huy.moneylover.Report.Model.ReportHeader;
 import nguyen.huy.moneylover.Tool.Convert;
 import nguyen.huy.moneylover.Tool.GetImage;
 import nguyen.huy.moneylover.Tool.SetupColor;
@@ -24,7 +26,7 @@ public class ReportExpandlistAdapter extends BaseExpandableListAdapter {
     private Activity context;
     private List<ReportHeader> headerList;
     private ArrayList<Integer> listColor;
-    ReportExpandlistAdapter(Activity context, List<ReportHeader> headerList, ArrayList<Integer> listColor) {
+    public ReportExpandlistAdapter(Activity context, List<ReportHeader> headerList, ArrayList<Integer> listColor) {
         this.context = context;
         this.headerList = headerList;
         this.listColor = listColor;

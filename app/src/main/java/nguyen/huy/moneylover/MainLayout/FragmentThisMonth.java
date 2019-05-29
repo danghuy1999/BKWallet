@@ -29,7 +29,7 @@ import nguyen.huy.moneylover.Transaction.Adapter.AdapterParentListView;
 import nguyen.huy.moneylover.Transaction.Controller.TransactionManager;
 import nguyen.huy.moneylover.Transaction.Controller.DayTimeManager;
 import nguyen.huy.moneylover.R;
-import nguyen.huy.moneylover.Report.ReportActivity;
+import nguyen.huy.moneylover.Report.View.ReportActivity;
 import nguyen.huy.moneylover.Tool.Convert;
 
 public class FragmentThisMonth extends Fragment implements FirebaseAuth.AuthStateListener {

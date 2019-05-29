@@ -1,12 +1,15 @@
-package nguyen.huy.moneylover.Report;
+package nguyen.huy.moneylover.Report.Controller;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import nguyen.huy.moneylover.Report.View.FragmentReportIncome;
+import nguyen.huy.moneylover.Report.View.FragmentReportOutcome;
+
 public class ReportFragmentAdapter extends FragmentPagerAdapter {
-    ReportFragmentAdapter(FragmentManager fm) {
+    public ReportFragmentAdapter(FragmentManager fm) {
         super(fm);
     }
 

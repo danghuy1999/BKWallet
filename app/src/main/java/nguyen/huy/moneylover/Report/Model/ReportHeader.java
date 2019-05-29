@@ -1,4 +1,4 @@
-package nguyen.huy.moneylover.Report;
+package nguyen.huy.moneylover.Report.Model;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package nguyen.huy.moneylover.Report;
+package nguyen.huy.moneylover.Report.View;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -27,23 +26,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import nguyen.huy.moneylover.R;
+import nguyen.huy.moneylover.Report.Model.Report;
+import nguyen.huy.moneylover.Report.Model.ReportDayValue;
+import nguyen.huy.moneylover.Report.Controller.ReportExpandlistAdapter;
+import nguyen.huy.moneylover.Report.Model.ReportHeader;
 import nguyen.huy.moneylover.Tool.Convert;
 import nguyen.huy.moneylover.Tool.DateConvert;
 import nguyen.huy.moneylover.Tool.FirebaseTool;
 import nguyen.huy.moneylover.Tool.GetImage;
 import nguyen.huy.moneylover.Tool.SetupColor;
 
-public class FragmentReportIncome extends Fragment {
-    ScrollView scvIncome;
-    ExpandableListView elvIncome;
-    AnimatedPieView pvIncome;
-    TextView txtIncomeInfo;
-    ImageView imgIncomeMax;
-    TextView txtIncomeMaxType;
-    TextView txtIncomeMaxValue;
+public class FragmentReportOutcome extends Fragment {
+    ExpandableListView elvOutcome;
+    AnimatedPieView pvOutcome;
+    TextView txtOutcomeInfo;
+    ImageView imgOutcomeMax;
+    TextView txtOutcomeMaxType;
+    TextView txtOutcomeMaxValue;
 
-    Long maxIncome;
-    Long allValueOfIncome;
+    Long maxOutcome;
+    Long allValueOfOutcome;
     ArrayList<Integer> listColor;
     ArrayList<ReportHeader> headerList = new ArrayList<>();
     ReportExpandlistAdapter adapter;
@@ -51,40 +53,40 @@ public class FragmentReportIncome extends Fragment {
     DatabaseReference reference;
     String dateString[];
     Context context;
-    public FragmentReportIncome() {
+
+    public FragmentReportOutcome() {
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_report_income,container,false);
+        View view = inflater.inflate(R.layout.fragment_report_outcome,container,false);
         reference = FirebaseTool.baseReference();
-        scvIncome = view.findViewById(R.id.scvIncome);
-        elvIncome = view.findViewById(R.id.elvIncome);
-        pvIncome = view.findViewById(R.id.pvIncome);
-        txtIncomeInfo = view.findViewById(R.id.txtIncomeInfo);
-        imgIncomeMax = view.findViewById(R.id.imgIncomeMax);
-        txtIncomeMaxType = view.findViewById(R.id.txtIncomeMaxType);
-        txtIncomeMaxValue = view.findViewById(R.id.txtIncomeMaxValue);
+        elvOutcome = view.findViewById(R.id.elvOutcome);
+        pvOutcome = view.findViewById(R.id.pvOutcome);
+        txtOutcomeInfo = view.findViewById(R.id.txtOutcomeInfo);
+        imgOutcomeMax = view.findViewById(R.id.imgOutcomeMax);
+        txtOutcomeMaxType = view.findViewById(R.id.txtOutcomeMaxType);
+        txtOutcomeMaxValue = view.findViewById(R.id.txtOutcomeMaxValue);
         this.context = getContext();
         listColor = SetupColor.randomListOf16();
 
         addControls();
         addEvents();
         getReportData();
-
         return view;
     }
-
     private void addControls() {
+//        elvOutcome.setTranscriptMode(ExpandableListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+//        elvOutcome.setIndicatorBounds(0,0);
+//        elvOutcome.setStackFromBottom(true);
         adapter = new ReportExpandlistAdapter(getActivity(),headerList,listColor);
-        elvIncome.setAdapter(adapter);
+        elvOutcome.setAdapter(adapter);
         dateString = DateConvert.getCurrentDay();
 
         baseConfig = new AnimatedPieViewConfig();
         setupForPieChart();
     }
-
     private void setupForPieChart() {
         baseConfig.animOnTouch(true)
                 .floatExpandAngle(10f)// Selected pie's angle of expansion
@@ -101,10 +103,10 @@ public class FragmentReportIncome extends Fragment {
                     @Override
                     public void onSelectPie(@NonNull IPieInfo pieInfo, boolean isFloatUp) {
                         if (isFloatUp)
-                            txtIncomeInfo.setText(pieInfo.getDesc()+" : "+  Convert.Money((long) pieInfo.getValue()));
+                            txtOutcomeInfo.setText(pieInfo.getDesc()+" : "+ Convert.Money((long) pieInfo.getValue()));
                         else
                         {
-                            txtIncomeInfo.setText(getString(R.string.txt_allIncome)+ Convert.Money(allValueOfIncome));
+                            txtOutcomeInfo.setText(getString(R.string.txt_allOutcome)+ Convert.Money(allValueOfOutcome));
                         }
                     }
                 })// Click callback
@@ -119,14 +121,13 @@ public class FragmentReportIncome extends Fragment {
                 .guideLineMarginStart(5)// Guide point margin from chart
                 .textGravity(AnimatedPieViewConfig.ABOVE)
                 .canTouch(true)// Whether to allow the pie click to enlarge
-                .splitAngle(1.5f)// Clearance angle
+                .splitAngle(1f)// Clearance angle
                 .focusAlphaType(AnimatedPieViewConfig.FOCUS_WITH_ALPHA_REV)// Alpha change mode for selected pie
 //                .interpolator(new DecelerateInterpolator())// Set animation interpolator
                 .focusAlpha(150); // Alpha for selected pie (depend on focusAlphaType)
     }
-
     private void addEvents() {
-        elvIncome.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+        elvOutcome.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 setListViewHeight(groupPosition);
@@ -134,57 +135,54 @@ public class FragmentReportIncome extends Fragment {
             }
         });
     }
-
     private void setListViewHeight(int group) {
-        ReportExpandlistAdapter listAdapter = (ReportExpandlistAdapter) elvIncome.getExpandableListAdapter();
+        ReportExpandlistAdapter listAdapter = (ReportExpandlistAdapter) elvOutcome.getExpandableListAdapter();
         int totalHeight = 0;
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(elvIncome.getWidth(),
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(elvOutcome.getWidth(),
                 View.MeasureSpec.EXACTLY);
         for (int i = 0; i < listAdapter.getGroupCount(); i++) {
-            View groupItem = listAdapter.getGroupView(i, false, null, elvIncome);
+            View groupItem = listAdapter.getGroupView(i, false, null, elvOutcome);
             groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
 
             totalHeight += groupItem.getMeasuredHeight();
 
-            if (((elvIncome.isGroupExpanded(i)) && (i != group))
-                    || ((!elvIncome.isGroupExpanded(i)) && (i == group))) {
+            if (((elvOutcome.isGroupExpanded(i)) && (i != group))
+                    || ((!elvOutcome.isGroupExpanded(i)) && (i == group))) {
                 for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
                     View listItem = listAdapter.getChildView(i, j, false, null,
-                            elvIncome);
+                            elvOutcome);
                     listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
 
                     totalHeight += listItem.getMeasuredHeight();
 
                 }
                 //Add Divider Height
-                totalHeight += elvIncome.getDividerHeight() * (listAdapter.getChildrenCount(i) - 1);
+                totalHeight += elvOutcome.getDividerHeight() * (listAdapter.getChildrenCount(i) - 1);
             }
         }
         //Add Divider Height
-        totalHeight += elvIncome.getDividerHeight() * (listAdapter.getGroupCount() - 1);
+        totalHeight += elvOutcome.getDividerHeight() * (listAdapter.getGroupCount() - 1);
 
-        ViewGroup.LayoutParams params = elvIncome.getLayoutParams();
+        ViewGroup.LayoutParams params = elvOutcome.getLayoutParams();
         int height = totalHeight
-                + (elvIncome.getDividerHeight() * (listAdapter.getGroupCount() - 1));
+                + (elvOutcome.getDividerHeight() * (listAdapter.getGroupCount() - 1));
         if (height < 10)
             height = 200;
         params.height = height;
-        elvIncome.setLayoutParams(params);
-        elvIncome.requestLayout();
+        elvOutcome.setLayoutParams(params);
+        elvOutcome.requestLayout();
     }
-
-
     private void getReportData() {
         String UID = FirebaseTool.getUserId();
         reference.child(UID).child("Thu chi").child(dateString[0])
-                .child("Giao dịch vào").addListenerForSingleValueEvent(new ValueEventListener() {
+                .child("Giao dịch ra").addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!headerList.isEmpty()) headerList.clear();
                 AnimatedPieViewConfig config = new AnimatedPieViewConfig(baseConfig);
-                allValueOfIncome = 0L;
-                maxIncome = 0L;
+                allValueOfOutcome = 0L;
+                maxOutcome = 0L;
                 int i = 0;
                 for (DataSnapshot snapshot:dataSnapshot.getChildren())
                 {
@@ -215,19 +213,19 @@ public class FragmentReportIncome extends Fragment {
                     report.setPieColor(SetupColor.getBestColor(listColor.get(i)));
                     config.addData(report);
                     i++;
-                    allValueOfIncome+=report.getPieValue();
+                    allValueOfOutcome+=report.getPieValue();
                 }
                 if (!headerList.isEmpty())
                 {
                     ReportHeader header = Collections.max(headerList);
-                    imgIncomeMax.setImageBitmap(GetImage.getBitmapFromString(context,header.getGroup()));
-                    txtIncomeMaxType.setText(header.getGroup());
-                    txtIncomeMaxValue.setText(Convert.Money(header.getAltogether()));
+                    imgOutcomeMax.setImageBitmap(GetImage.getBitmapFromString(context,header.getGroup()));
+                    txtOutcomeMaxType.setText(header.getGroup());
+                    txtOutcomeMaxValue.setText(Convert.Money(header.getAltogether()));
                 }
                 adapter.notifyDataSetChanged();
-                pvIncome.applyConfig(config);
-                pvIncome.start();
-                txtIncomeInfo.setText(getString(R.string.txt_allIncome)+ Convert.Money(allValueOfIncome));
+                pvOutcome.applyConfig(config);
+                pvOutcome.start();
+                txtOutcomeInfo.setText(getString(R.string.txt_allOutcome)+ Convert.Money(allValueOfOutcome));
                 setListViewHeight(-1);
             }
 
@@ -237,4 +235,5 @@ public class FragmentReportIncome extends Fragment {
             }
         });
     }
+
 }

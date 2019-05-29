@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".Report.ReportActivity" />
+            android:name=".Report.View.ReportActivity" />
         <activity android:name=".Authentication.UserInfoActivity" />
         <activity android:name=".Transaction.View.PaymentMethodActivity"></activity>
         <activity

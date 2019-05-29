@@ -1,4 +1,4 @@
-package nguyen.huy.moneylover.Report;
+package nguyen.huy.moneylover.Report.View;
 
 import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.TabLayout;
@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import nguyen.huy.moneylover.R;
+import nguyen.huy.moneylover.Report.Controller.ReportFragmentAdapter;
 
 public class ReportActivity extends AppCompatActivity {
     @Override

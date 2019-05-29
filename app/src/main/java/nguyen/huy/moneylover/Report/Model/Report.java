@@ -1,4 +1,4 @@
-package nguyen.huy.moneylover.Report;
+package nguyen.huy.moneylover.Report.Model;
 
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
@@ -14,19 +14,19 @@ public class Report implements IPieInfo {
     public Report() {
     }
 
-    void setPieColor(int pieColor) {
+    public void setPieColor(int pieColor) {
         this.pieColor = pieColor;
     }
 
-    void setPieDescription(String pieDescription) {
+    public void setPieDescription(String pieDescription) {
         this.pieDescription = pieDescription;
     }
 
-    long getPieValue() {
+    public long getPieValue() {
         return pieValue;
     }
 
-    void setPieValue(long pieValue) {
+    public void setPieValue(long pieValue) {
         this.pieValue = pieValue;
     }
 

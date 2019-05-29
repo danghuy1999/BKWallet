@@ -1,17 +1,17 @@
-package nguyen.huy.moneylover.Report;
+package nguyen.huy.moneylover.Report.Model;
 
 public class ReportDayValue {
     private String day;
     private Long value;
 
-    ReportDayValue() {
+    public ReportDayValue() {
     }
 
-    String getDay() {
+    public String getDay() {
         return day;
     }
 
-    void setDay(String day) {
+    public void setDay(String day) {
         this.day = day;
     }
 
