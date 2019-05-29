@@ -17,27 +17,27 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import nguyen.huy.moneylover.R;
 
-public class ForgetPasswordActivity extends AppCompatActivity implements View.OnClickListener  {
-    TextView txtSignUpFP;
+public class RetrievePasswordActivity extends AppCompatActivity implements View.OnClickListener  {
+    TextView txtSignUpRP;
     Button btnResetPassword;
-    EditText edtEmailFP;
+    EditText edtEmailRP;
     FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forget_password);
+        setContentView(R.layout.activity_retrieve_password);
         addControls();
         addEvents();
     }
     private void addControls() {
-        txtSignUpFP = findViewById(R.id.txtSignUpFP);
+        txtSignUpRP = findViewById(R.id.txtSignUpRP);
         btnResetPassword = findViewById(R.id.btnResetPassword);
-        edtEmailFP = findViewById(R.id.edtEmailFP);
+        edtEmailRP = findViewById(R.id.edtEmailRP);
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
     private void addEvents() {
-        txtSignUpFP.setOnClickListener(this);
+        txtSignUpRP.setOnClickListener(this);
         btnResetPassword.setOnClickListener(this);
     }
 
@@ -46,8 +46,8 @@ public class ForgetPasswordActivity extends AppCompatActivity implements View.On
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    private void resetPassword() {
-        String email = edtEmailFP.getText().toString();
+    public void requestResetPassword() {
+        String email = edtEmailRP.getText().toString();
         boolean checkEmail = checkEmailString(email);
         if (checkEmail)
         {
@@ -56,14 +56,14 @@ public class ForgetPasswordActivity extends AppCompatActivity implements View.On
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful())
                     {
-                        Toast.makeText(ForgetPasswordActivity.this,getString(R.string.toast_PasswordResetSuccessfully),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RetrievePasswordActivity.this,getString(R.string.toast_PasswordResetSuccessfully),Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 }
             });
         } else
         {
-            Toast.makeText(ForgetPasswordActivity.this,getString(R.string.error_EmailType),Toast.LENGTH_SHORT).show();
+            Toast.makeText(RetrievePasswordActivity.this,getString(R.string.error_EmailType),Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -75,8 +75,8 @@ public class ForgetPasswordActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
         switch (v.getId())
         {
-            case R.id.btnResetPassword: resetPassword(); break;
-            case R.id.txtSignUpFP : signUp(); break;
+            case R.id.btnResetPassword: requestResetPassword(); break;
+            case R.id.txtSignUpRP : signUp(); break;
         }
     }
 }

@@ -24,7 +24,7 @@
             android:name=".Authentication.SplashScreenActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".Authentication.ForgetPasswordActivity"
+            android:name=".Authentication.RetrievePasswordActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".Authentication.SignUpActivity"

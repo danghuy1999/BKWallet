@@ -29,12 +29,16 @@ public class ReportActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
         }
+        setUpView();
+    }
+
+    public void setUpView() {
         ViewPager viewPager = findViewById(R.id.vpgReport);
-        TabLayout tabLayout = findViewById(R.id.tlyReport);
+        TabLayout tlyReport = findViewById(R.id.tlyReport);
         ReportFragmentAdapter adapter = new ReportFragmentAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tlyReport.setupWithViewPager(viewPager);
+        tlyReport.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 

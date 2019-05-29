@@ -53,7 +53,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
-    private void createNewAccount() {
+    public void createNewAccount() {
         final String email = edtEmailSignUp.getText().toString();
         final String password = edtPasswordSignUp.getText().toString();
         String password_confirm = edtPasswordSignUpConfirm.getText().toString();
@@ -81,7 +81,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 ,getString(R.string.signUp_Successfully)
                                 ,Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
-                        logInWithEmailAndPassword(email,password);
+                        logInWithEmailAndPasswordCreated(email,password);
 
                     }
 
@@ -90,7 +90,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         }
     }
-    private void logInWithEmailAndPassword(String email, String password) {
+    private void logInWithEmailAndPasswordCreated(String email, String password) {
         firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {

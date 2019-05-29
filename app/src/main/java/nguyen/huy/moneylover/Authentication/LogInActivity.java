@@ -38,7 +38,7 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
     FirebaseAuth firebaseAuth;
 
     TextView txtSignUp;
-    TextView txtForgetPassword;
+    TextView txtRetrievePassword;
 
     int CHECK_LOGIN_METHOD = 0;
     final int REQUESTCODE_GOOGLE_LOGIN = 99;
@@ -75,7 +75,7 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
         btnLogIn = findViewById(R.id.btnLogIn);
         edtEmailLogIn = findViewById(R.id.edtEmailLogIn);
         edtPasswordLogIn = findViewById(R.id.edtPasswordLogIn);
-        txtForgetPassword = findViewById(R.id.txtForgetPassword);
+        txtRetrievePassword = findViewById(R.id.txtForgetPassword);
     }
 
 
@@ -83,10 +83,10 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
         btnLoginGoogle.setOnClickListener(this);
         txtSignUp.setOnClickListener(this);
         btnLogIn.setOnClickListener(this);
-        txtForgetPassword.setOnClickListener(this);
+        txtRetrievePassword.setOnClickListener(this);
     }
 
-    private void createGoogleClient() {
+    public void createGoogleClient() {
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder()
                 .requestIdToken(getString(R.string.server_client_id))
                 .requestEmail()
@@ -97,7 +97,7 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
                 .build();
     }
 
-    private void signInWithEmailAndPassword() {
+    public void logInWithEmailAndPassword() {
         String email = edtEmailLogIn.getText().toString();
         String password = edtPasswordLogIn.getText().toString();
         firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -111,7 +111,7 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
         });
     }
 
-    private void signinGoogle(GoogleApiClient apiClient) {
+    public void logInWithGoogleAccount(GoogleApiClient apiClient) {
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(apiClient);
         CHECK_LOGIN_METHOD = 1;
         startActivityForResult(intent,REQUESTCODE_GOOGLE_LOGIN);
@@ -168,21 +168,21 @@ public class LogInActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }
 
-    private void signUpAccount() {
+    public void signUpAccount() {
         Intent dk_intent = new Intent(this, SignUpActivity.class);
         startActivity(dk_intent);
     }
-    private void forgetPassword() {
-        Intent FP_intent = new Intent(this,ForgetPasswordActivity.class);
+    public void forgetPassword() {
+        Intent FP_intent = new Intent(this, RetrievePasswordActivity.class);
         startActivity(FP_intent);
     }
     @Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id){
-            case R.id.btnLoginGoogle: signinGoogle(apiClient);break;
+            case R.id.btnLoginGoogle: logInWithGoogleAccount(apiClient);break;
             case R.id.txtSignUp: signUpAccount();break;
-            case R.id.btnLogIn: signInWithEmailAndPassword();break;
+            case R.id.btnLogIn: logInWithEmailAndPassword();break;
             case R.id.txtForgetPassword: forgetPassword();
         }
     }
