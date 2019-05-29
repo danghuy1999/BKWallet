@@ -1,8 +1,8 @@
-package nguyen.huy.moneylover.Model;
+package nguyen.huy.moneylover.Transaction.Model;
 
 import java.io.Serializable;
 
-public class ThuChi implements Serializable {
+public class Transaction implements Serializable {
 
     private String thuchiKey;
     private String sotien;
@@ -14,10 +14,10 @@ public class ThuChi implements Serializable {
     private String nhacnho;
     private String sukien;
 
-    public ThuChi(){
+    public Transaction(){
 
     }
-    public ThuChi(String sotien, String nhom, String ghichu, String ngay, String thanhtoan, String banbe, String nhacnho, String sukien) {
+    public Transaction(String sotien, String nhom, String ghichu, String ngay, String thanhtoan, String banbe, String nhacnho, String sukien) {
         this.sotien = sotien;
         this.nhom = nhom;
         this.ghichu = ghichu;
@@ -28,7 +28,7 @@ public class ThuChi implements Serializable {
         this.sukien = sukien;
     }
 
-    public ThuChi(String sotien, String nhom, String ghichu, String thanhtoan, String banbe, String nhacnho, String sukien) {
+    public Transaction(String sotien, String nhom, String ghichu, String thanhtoan, String banbe, String nhacnho, String sukien) {
         this.sotien = sotien;
         this.nhom = nhom;
         this.ghichu = ghichu;

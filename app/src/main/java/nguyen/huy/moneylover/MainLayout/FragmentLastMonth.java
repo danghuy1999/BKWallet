@@ -1,6 +1,5 @@
 package nguyen.huy.moneylover.MainLayout;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,15 +8,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.QuickContactBadge;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,23 +21,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import nguyen.huy.moneylover.MinhLayout.AdapterParentListView;
-import nguyen.huy.moneylover.MinhLayout.AdapterThuChi;
-import nguyen.huy.moneylover.MinhLayout.DocActivity;
-import nguyen.huy.moneylover.MinhLayout.XuLyChuoiThuChi;
-import nguyen.huy.moneylover.MinhLayout.XuLyThuChi;
-import nguyen.huy.moneylover.Model.ThuChi;
+import nguyen.huy.moneylover.Transaction.Model.Transaction;
+import nguyen.huy.moneylover.Transaction.Adapter.AdapterParentListView;
+import nguyen.huy.moneylover.Transaction.Controller.TransactionManager;
+import nguyen.huy.moneylover.Transaction.Controller.DayTimeManager;
 import nguyen.huy.moneylover.R;
-import nguyen.huy.moneylover.Report.ReportActivity;
 
 public class FragmentLastMonth extends Fragment implements FirebaseAuth.AuthStateListener{
     public FragmentLastMonth() {
     }
 
     AdapterParentListView adapterParentListView;
-    ArrayList<ArrayList<ThuChi>> arrayObjest = new ArrayList<>();
+    ArrayList<ArrayList<Transaction>> arrayObjest = new ArrayList<>();
     ListView listView;
     DatabaseReference databaseReference;
     TextView txtSoTienVao,txtSoTienRa,txtSoDu;
@@ -72,9 +64,9 @@ public class FragmentLastMonth extends Fragment implements FirebaseAuth.AuthStat
         listView=view.findViewById(R.id.listGiaoDichThuChiLastMonth);
         adapterParentListView=new AdapterParentListView(getActivity(),R.layout.minh_custom_listview_parent,arrayObjest);
         listView.setAdapter(adapterParentListView);
-        String ngaythangnam=XuLyThuChi.simpleDateFormat.format(XuLyThuChi.calendar.getTime());
+        String ngaythangnam= TransactionManager.simpleDateFormat.format(TransactionManager.calendar.getTime());
 
-        result= XuLyChuoiThuChi.tachNgayLayThangTruoc(ngaythangnam);
+        result= DayTimeManager.splitDayGetPreviousMonth(ngaythangnam);
         readAllDayinThisMonth(result[0]);
 
         txtSoTienVao=view.findViewById(R.id.txtSoTienVaoListViewLastMonth);
@@ -87,7 +79,7 @@ public class FragmentLastMonth extends Fragment implements FirebaseAuth.AuthStat
 
         //addEvents();
 
-        XuLyThuChi.setBalance();
+        TransactionManager.setBalance();
 
         return view;
     }
@@ -104,7 +96,7 @@ public class FragmentLastMonth extends Fragment implements FirebaseAuth.AuthStat
     }*/
 
     private void readAllDayinThisMonth(final String thang){
-        databaseReference=FirebaseDatabase.getInstance().getReference().child(XuLyThuChi.user).child("Thu chi").child(thang).child("Ngày");
+        databaseReference=FirebaseDatabase.getInstance().getReference().child(TransactionManager.user).child("Thu chi").child(thang).child("Ngày");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -116,37 +108,37 @@ public class FragmentLastMonth extends Fragment implements FirebaseAuth.AuthStat
                     long tienvaongay=0;
                     long tienrangay=0;
                     String ngay = snapshot.getKey();
-                    ArrayList<ThuChi> arrThuChi = new ArrayList<>();
+                    ArrayList<Transaction> arrTransaction = new ArrayList<>();
                     for (DataSnapshot childSnapshot : snapshot.child("Giao dịch").getChildren())
                     {
-                        ThuChi thuChi = childSnapshot.getValue(ThuChi.class);
-                        if(XuLyThuChi.checkMoneyIO(thuChi)){
-                            tienvaongay=tienvaongay+Long.parseLong(thuChi.getSotien());
+                        Transaction transaction = childSnapshot.getValue(Transaction.class);
+                        if(TransactionManager.checkMoneyIO(transaction)){
+                            tienvaongay=tienvaongay+Long.parseLong(transaction.getSotien());
                         }
                         else{
-                            tienrangay=tienrangay+Long.parseLong(thuChi.getSotien());
+                            tienrangay=tienrangay+Long.parseLong(transaction.getSotien());
                         }
-                        arrThuChi.add(thuChi);
+                        arrTransaction.add(transaction);
                     }
 
                     tienvaothang=tienvaothang+tienvaongay;
                     tienrathang=tienrathang+tienrangay;
                     if(tienvaongay==0 && tienrangay==0) {
-                        DatabaseReference dt = FirebaseDatabase.getInstance().getReference().child(XuLyThuChi.user).child("Thu chi").child(thang).child("Ngày").child(ngay);
+                        DatabaseReference dt = FirebaseDatabase.getInstance().getReference().child(TransactionManager.user).child("Thu chi").child(thang).child("Ngày").child(ngay);
                         dt.child("Tiền vào").setValue(null);
                         dt.child("Tiền ra").setValue(null);
                         break;
                     }
 
-                    arrayObjest.add(arrThuChi);
+                    arrayObjest.add(arrTransaction);
 
-                    XuLyThuChi.CapNhatTienVaoTrongNgay(XuLyChuoiThuChi.chuyenDinhDangNgayLayThang(ngay),tienvaongay);
-                    XuLyThuChi.CapNhatTienRaTrongNgay(XuLyChuoiThuChi.chuyenDinhDangNgayLayThang(ngay),tienrangay);
+                    TransactionManager.UpdateMoneyOutcomeInDay(DayTimeManager.ConvertFormatDayGetMonth(ngay),tienvaongay);
+                    TransactionManager.UpdateMoneyIncomeDay(DayTimeManager.ConvertFormatDayGetMonth(ngay),tienrangay);
 
 
                 }
-                XuLyThuChi.CapNhatTienVao(thang,tienvaothang);
-                XuLyThuChi.CapNhatTienRa(thang,tienrathang);
+                TransactionManager.UpdateMoneyIncomeMonth(thang,tienvaothang);
+                TransactionManager.UpdateMoneyOutcomeMonth(thang,tienrathang);
                 adapterParentListView.notifyDataSetChanged();
             }
 
@@ -159,7 +151,7 @@ public class FragmentLastMonth extends Fragment implements FirebaseAuth.AuthStat
 
     //Đọc lây tiền vào tiền ra
     private void readTienVaoTienRa(String[] result){
-        databaseReference=FirebaseDatabase.getInstance().getReference().child(XuLyThuChi.user).child("Thu chi").child(result[0]);
+        databaseReference=FirebaseDatabase.getInstance().getReference().child(TransactionManager.user).child("Thu chi").child(result[0]);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -195,7 +187,7 @@ public class FragmentLastMonth extends Fragment implements FirebaseAuth.AuthStat
         if(user!=null){
             readAllDayinThisMonth(result[0]);
             readTienVaoTienRa(result);
-            XuLyThuChi.setBalance();
+            TransactionManager.setBalance();
         }
     }
 }

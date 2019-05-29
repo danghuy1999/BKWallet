@@ -1,4 +1,4 @@
-package nguyen.huy.moneylover.MinhLayout;
+package nguyen.huy.moneylover.Transaction.Controller;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -20,12 +20,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import nguyen.huy.moneylover.Model.ThuChi;
-import nguyen.huy.moneylover.R;
+import nguyen.huy.moneylover.Transaction.Model.Transaction;
 
-import static nguyen.huy.moneylover.R.*;
-
-public class XuLyThuChi {
+public class TransactionManager {
     public static DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
     public static Calendar calendar=Calendar.getInstance();
     public static SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
@@ -33,14 +30,14 @@ public class XuLyThuChi {
     private long tienvao;
     private long tienra;
 
-    public XuLyThuChi() {
+    public TransactionManager() {
     }
 
     //Các hàm về xử lý Database
 
     //Hàm xét giao dịch thuộc tiền vào hay tiền ra
     //Tiền vào return true, tiền ra return false
-    public static boolean checkMoneyIO(ThuChi giaodich){
+    public static boolean checkMoneyIO(Transaction giaodich){
         boolean check=false;
         switch (giaodich.getNhom()){
             case "Gửi tiền": check=true; break;
@@ -77,7 +74,7 @@ public class XuLyThuChi {
     }
 
     //Lưu giao dịch mới vào Database
-    public static void xuLyLuuVaoDatabase(ThuChi giaodich, String[] result){
+    public static void SaveTransactionToDatabase(Transaction giaodich, String[] result){
         databaseReference=FirebaseDatabase.getInstance().getReference();
         giaodich.setThuchiKey(databaseReference.child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").push().getKey());
         databaseReference.child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").child(giaodich.getThuchiKey()).setValue(giaodich);
@@ -85,36 +82,36 @@ public class XuLyThuChi {
 
     //Lưu giao dịch sau khi sửa vào database
 
-    public static void xuLyLuuVaoDatabaseKhiEdit(ThuChi giaodichOld,ThuChi giaodichNew){
+    public static void SaveTransactionToDatabaseEdit(Transaction giaodichOld, Transaction giaodichNew){
         databaseReference=FirebaseDatabase.getInstance().getReference();
-        String[] resultOld=XuLyChuoiThuChi.chuyenDinhDangNgay(giaodichOld.getNgay());
-        String[] resultNew=XuLyChuoiThuChi.chuyenDinhDangNgay(giaodichNew.getNgay());
+        String[] resultOld= DayTimeManager.ConvertFormatDay(giaodichOld.getNgay());
+        String[] resultNew= DayTimeManager.ConvertFormatDay(giaodichNew.getNgay());
         databaseReference.child(user).child("Thu chi").child(resultOld[0]).child("Ngày").child(resultOld[1]).child("Giao dịch").child(giaodichOld.getThuchiKey()).removeValue();
 
-        xuLyLuuVaoDatabase(giaodichNew,resultNew);
+        SaveTransactionToDatabase(giaodichNew,resultNew);
     }
 
     //Các hàm xử lý tiền vào tiền ra trong ngày
 
     //Cập nhật tiền vào trong ngày
-    public static void CapNhatTienVaoTrongNgay(String[] result,long tienvao){
+    public static void UpdateMoneyOutcomeInDay(String[] result, long tienvao){
         databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Tiền vào");
         databaseReference.setValue(tienvao);
     }
     //Cập nhật tiền ra trong ngày
-    public static void CapNhatTienRaTrongNgay(String[] result,long tienra){
+    public static void UpdateMoneyIncomeDay(String[] result, long tienra){
         databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Tiền ra");
         databaseReference.setValue(tienra);
     }
 
 
     //Cập nhật lại tiền vào trong tháng
-    public static void CapNhatTienVao(String thang,long tienvao){
+    public static void UpdateMoneyIncomeMonth(String thang, long tienvao){
         databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(thang).child("Tiền vào");
         databaseReference.setValue(tienvao);
     }
     //Cập nhật lại tiền ra trong tháng
-    public static void CapNhatTienRa(String thang,long tienra){
+    public static void UpdateMoneyOutcomeMonth(String thang, long tienra){
         databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(thang).child("Tiền ra");
         databaseReference.setValue(tienra);
     }
@@ -147,7 +144,7 @@ public class XuLyThuChi {
 
 
     //Hiển thị datatime picker và chọn ngày
-    public static void xuLyHienThiNgayEditText(View view, final EditText edtChonNgay, Activity activity) {
+    public static void displayDayEditText(View view, final EditText edtChonNgay, Activity activity) {
         DatePickerDialog.OnDateSetListener callBack=new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -160,7 +157,7 @@ public class XuLyThuChi {
         DatePickerDialog dialog=new DatePickerDialog(activity,callBack,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
         dialog.show();
     }
-    public static void xuLyHienThiNgayTextView(View view, final TextView txtChonNgay, Activity activity) {
+    public static void displayDayTextView(View view, final TextView txtChonNgay, Activity activity) {
         DatePickerDialog.OnDateSetListener callBack=new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

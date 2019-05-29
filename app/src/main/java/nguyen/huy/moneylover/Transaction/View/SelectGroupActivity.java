@@ -1,23 +1,17 @@
-package nguyen.huy.moneylover.MinhLayout;
+package nguyen.huy.moneylover.Transaction.View;
 
-import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ListView;
 
-import java.util.ArrayList;
-
-import nguyen.huy.moneylover.Model.ThuChi;
+import nguyen.huy.moneylover.Transaction.Adapter.MyAdapter;
 import nguyen.huy.moneylover.R;
-import nguyen.huy.moneylover.Tool.GetImage;
 
-public class ChonNhomActivity extends AppCompatActivity {
+public class SelectGroupActivity extends AppCompatActivity {
 
     Resources res;
     Drawable drawable;

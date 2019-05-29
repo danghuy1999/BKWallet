@@ -1,4 +1,4 @@
-package nguyen.huy.moneylover.MinhLayout;
+package nguyen.huy.moneylover.Transaction.View;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,11 +8,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import nguyen.huy.moneylover.Model.ThuChi;
+import nguyen.huy.moneylover.Transaction.Model.Transaction;
+import nguyen.huy.moneylover.Transaction.Controller.DayTimeManager;
+import nguyen.huy.moneylover.Transaction.Controller.ReportDatabaseManager;
+import nguyen.huy.moneylover.Transaction.Controller.TransactionManager;
 import nguyen.huy.moneylover.R;
 import nguyen.huy.moneylover.Tool.GetImage;
 
-public class EditThuChiActivity extends AppCompatActivity {
+public class EditTransactionActivity extends AppCompatActivity {
 
     EditText edtNhapSoTien,edtThemGhiChu ,edtThemBan,edtDatNhacNho,edtChonSuKien;
     public static EditText edtChonNhom;
@@ -21,9 +24,9 @@ public class EditThuChiActivity extends AppCompatActivity {
 
     public static EditText edtPhuongThucTT;
     public static ImageView imgPhuongThucTT;
-    ThuChi thuChi;
+    Transaction transaction;
     Intent intent;
-    XuLyThuChi xuLyThuChi=new XuLyThuChi();
+    //TransactionManager transactionManager =new TransactionManager();
     String[] result;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,7 @@ public class EditThuChiActivity extends AppCompatActivity {
 
     private void addEvents() {
         setThuChiToEdit();
-        result=XuLyChuoiThuChi.chuyenDinhDangNgay(thuChi.getNgay());
+        result= DayTimeManager.ConvertFormatDay(transaction.getNgay());
         khoiTaoHinhChonNhom();
     }
 
@@ -51,19 +54,19 @@ public class EditThuChiActivity extends AppCompatActivity {
 
         Bitmap bitmap= GetImage.getBitmapFromString(this,edtChonNhom.getText().toString());
         imgchonNhom.setImageBitmap(bitmap);
-        Bitmap bitmap1=GetImage.getBitmapFromString(this,thuChi.getThanhtoan());
+        Bitmap bitmap1=GetImage.getBitmapFromString(this, transaction.getThanhtoan());
         imgPhuongThucTT.setImageBitmap(bitmap1);
     }
 
     private void setThuChiToEdit() {
-        edtNhapSoTien.setText(thuChi.getSotien());
-        edtChonNhom.setText(thuChi.getNhom());
-        edtThemGhiChu.setText(thuChi.getGhichu());
-        edtChonNgay.setText(thuChi.getNgay());
-        edtPhuongThucTT.setText(thuChi.getThanhtoan());
-        edtThemBan.setText(thuChi.getBanbe());
-        edtDatNhacNho.setText(thuChi.getNhacnho());
-        edtChonSuKien.setText(thuChi.getSukien());
+        edtNhapSoTien.setText(transaction.getSotien());
+        edtChonNhom.setText(transaction.getNhom());
+        edtThemGhiChu.setText(transaction.getGhichu());
+        edtChonNgay.setText(transaction.getNgay());
+        edtPhuongThucTT.setText(transaction.getThanhtoan());
+        edtThemBan.setText(transaction.getBanbe());
+        edtDatNhacNho.setText(transaction.getNhacnho());
+        edtChonSuKien.setText(transaction.getSukien());
     }
 
     private void addControlls() {
@@ -78,10 +81,10 @@ public class EditThuChiActivity extends AppCompatActivity {
         imgchonNhom=findViewById(R.id.imgChonNhom);
         imgPhuongThucTT=findViewById(R.id.imgPhuongThucTTEdit);
         intent = getIntent();
-        thuChi = (ThuChi) intent.getSerializableExtra("Item1");
+        transaction = (Transaction) intent.getSerializableExtra("Item1");
     }
 
-    private ThuChi TaoGiaoDich(){
+    private Transaction TaoGiaoDich(){
         String SoTien=edtNhapSoTien.getText().toString();
         String Nhom=edtChonNhom.getText().toString();
         String GhiChu=edtThemGhiChu.getText().toString();
@@ -91,7 +94,7 @@ public class EditThuChiActivity extends AppCompatActivity {
         String NhacNho=edtDatNhacNho.getText().toString();
         String SuKien=edtChonSuKien.getText().toString();
         //Khởi tạo giao dịch mới
-        ThuChi giaodich=new ThuChi(SoTien,Nhom,GhiChu,Ngay,Vi,Banbe,NhacNho,SuKien);
+        Transaction giaodich=new Transaction(SoTien,Nhom,GhiChu,Ngay,Vi,Banbe,NhacNho,SuKien);
         return giaodich;
     }
 
@@ -100,12 +103,12 @@ public class EditThuChiActivity extends AppCompatActivity {
     }
 
     public void xuLyLuu(View view) {
-        xuLyThuChi.xuLyLuuVaoDatabaseKhiEdit(thuChi,TaoGiaoDich());
-        //XuLyDatabaseSupport.EditToDatabase(thuChi,TaoGiaoDich(),EditThuChiActivity.this);
-        XuLyDatabaseSupport.supportEditToDatabase(thuChi,TaoGiaoDich());
+        TransactionManager.SaveTransactionToDatabaseEdit(transaction,TaoGiaoDich());
+        //ReportDatabaseManager.EditToDatabase(transaction,TaoGiaoDich(),EditTransactionActivity.this);
+        ReportDatabaseManager.supportEditToDatabase(transaction,TaoGiaoDich());
         /*AlertDialog.Builder dialog;
-        XuLyDatabaseSupport.DeleteFromDatabase(thuChi);
-        dialog=new AlertDialog.Builder(EditThuChiActivity.this);
+        ReportDatabaseManager.DeleteFromDatabase(transaction);
+        dialog=new AlertDialog.Builder(EditTransactionActivity.this);
         dialog.setTitle("Sửa");
         dialog.setMessage("Sửa thành công");
         dialog.setCancelable(false);
@@ -118,21 +121,21 @@ public class EditThuChiActivity extends AppCompatActivity {
         AlertDialog alertDialog=dialog.create();
         alertDialog.show();
 
-        XuLyDatabaseSupport.SaveToDatabase(TaoGiaoDich());*/
+        ReportDatabaseManager.SaveTransactionToDatabase(TaoGiaoDich());*/
         finish();
     }
 
     public void xuLyChonNhom(View view) {
-        Intent intent=new Intent(EditThuChiActivity.this,ChonNhomActivity.class);
+        Intent intent=new Intent(EditTransactionActivity.this, SelectGroupActivity.class);
         startActivity(intent);
     }
 
     public void xuLyHienThiNgay(View view) {
-        xuLyThuChi.xuLyHienThiNgayEditText(view,edtChonNgay,EditThuChiActivity.this);
+        TransactionManager.displayDayEditText(view,edtChonNgay, EditTransactionActivity.this);
     }
 
     public void xuLyChonPhuongThucEdit(View view) {
-        Intent intent=new Intent(EditThuChiActivity.this,PhuongThucThanhToanActivity.class);
+        Intent intent=new Intent(EditTransactionActivity.this, PaymentMethodActivity.class);
         startActivity(intent);
     }
 }

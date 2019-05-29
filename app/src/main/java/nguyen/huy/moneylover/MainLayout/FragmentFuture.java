@@ -11,12 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,9 +28,7 @@ import java.util.Objects;
 
 import nguyen.huy.moneylover.MainBill.ActivityDetailBill;
 import nguyen.huy.moneylover.MainBill.AdapterApplying;
-import nguyen.huy.moneylover.MinhLayout.AdapterParentListView;
 import nguyen.huy.moneylover.Model.Bill;
-import nguyen.huy.moneylover.Model.ThuChi;
 import nguyen.huy.moneylover.R;
 import nguyen.huy.moneylover.Tool.Convert;
 
@@ -74,7 +70,8 @@ public class FragmentFuture extends Fragment {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                totalBalance=Long.parseLong(Objects.requireNonNull(dataSnapshot.child("Balance").getValue()).toString());
+                if(dataSnapshot.child("Balance").getValue()!=null)
+                    totalBalance=Long.parseLong(Objects.requireNonNull(dataSnapshot.child("Balance").getValue()).toString());
                 txtMoneyIn.setText(Convert.Money(totalBalance));
             }
 

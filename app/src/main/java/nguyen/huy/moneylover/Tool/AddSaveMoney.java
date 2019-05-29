@@ -1,14 +1,9 @@
 package nguyen.huy.moneylover.Tool;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
-import java.util.Objects;
-
-import nguyen.huy.moneylover.MinhLayout.XuLyChuoiThuChi;
-import nguyen.huy.moneylover.MinhLayout.XuLyDatabaseSupport;
-import nguyen.huy.moneylover.MinhLayout.XuLyThuChi;
-import nguyen.huy.moneylover.Model.ThuChi;
+import nguyen.huy.moneylover.Transaction.Model.Transaction;
+import nguyen.huy.moneylover.Transaction.Controller.TransactionManager;
+import nguyen.huy.moneylover.Transaction.Controller.DayTimeManager;
+import nguyen.huy.moneylover.Transaction.Controller.ReportDatabaseManager;
 
 
 public class AddSaveMoney {
@@ -16,22 +11,22 @@ public class AddSaveMoney {
         if(ngay==null || mucdich==null){
             return;
         }
-        String[] result= XuLyChuoiThuChi.chuyenDinhDangNgay(ngay);
-        ThuChi thuChi= TaoGiaoDich(sotien,mucdich,ngay);
-        XuLyThuChi.xuLyLuuVaoDatabase(thuChi,result);
-        XuLyDatabaseSupport.SaveToDatabase(thuChi);
+        String[] result= DayTimeManager.ConvertFormatDay(ngay);
+        Transaction transaction = TaoGiaoDich(sotien,mucdich,ngay);
+        TransactionManager.SaveTransactionToDatabase(transaction,result);
+        ReportDatabaseManager.SaveToDatabase(transaction);
     }
-    private static ThuChi TaoGiaoDich(long sotien,String mucdich,String ngay){
+    private static Transaction TaoGiaoDich(long sotien, String mucdich, String ngay){
         String SoTien=sotien+"";
         String Nhom= "Tiết kiệm";
         String GhiChu=mucdich;
         String Ngay=ngay;
-        String Vi="";
+        String ThanhToan="Tiền mặt";
         String Banbe="";
         String NhacNho="";
         String SuKien="";
         //Khởi tạo giao dịch mới
-        ThuChi giaodich=new ThuChi(SoTien,Nhom,GhiChu,Ngay,Vi,Banbe,NhacNho,SuKien);
+        Transaction giaodich=new Transaction(SoTien,Nhom,GhiChu,Ngay,ThanhToan,Banbe,NhacNho,SuKien);
         return giaodich;
     }
 }

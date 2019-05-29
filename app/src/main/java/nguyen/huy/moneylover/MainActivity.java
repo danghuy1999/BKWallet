@@ -1,11 +1,9 @@
 package nguyen.huy.moneylover;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
@@ -13,8 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -23,12 +19,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,11 +30,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -53,19 +44,18 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import nguyen.huy.moneylover.Authentication.LogInActivity;
 import nguyen.huy.moneylover.Authentication.UserInfoActivity;
 import nguyen.huy.moneylover.MainLayout.TabAdapter;
 import nguyen.huy.moneylover.MainSuKien.ActivityMainSuKien;
-import nguyen.huy.moneylover.MinhLayout.ThuChiActivity;
+import nguyen.huy.moneylover.Transaction.Controller.ReportDatabaseManager;
+import nguyen.huy.moneylover.Transaction.View.TransactionActivity;
 import nguyen.huy.moneylover.MainTietKiem.MainTietKiem;
-import nguyen.huy.moneylover.MinhLayout.XuLyChuoiThuChi;
-import nguyen.huy.moneylover.MinhLayout.XuLyDatabaseSupport;
-import nguyen.huy.moneylover.MinhLayout.XuLyThuChi;
-import nguyen.huy.moneylover.Model.ThuChi;
+import nguyen.huy.moneylover.Transaction.Controller.TransactionManager;
+import nguyen.huy.moneylover.Transaction.Controller.DayTimeManager;
+import nguyen.huy.moneylover.Transaction.Model.Transaction;
 import nguyen.huy.moneylover.QRCodeModule.QRCodeScannerActivity;
 
 import nguyen.huy.moneylover.MainBill.MainBill;
@@ -304,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     private void doQuanLyThuChi() {
         //them thu chi (+)
-        Intent intent=new Intent(MainActivity.this, ThuChiActivity.class);
+        Intent intent=new Intent(MainActivity.this, TransactionActivity.class);
         startActivity(intent);
     }
 
@@ -338,7 +328,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                         String type = initObject.getString("Type");
                         switch (type)
                         {
-                            case "ThuChi": xuLyThemThuChi(initObject.getJSONArray("items"));break;
+                            case "Transaction": xuLyThemThuChi(initObject.getJSONArray("items"));break;
                             case "KeHoach" : xuLyThemKeHoach (initObject.getJSONArray("items"));break;
                         }
 
@@ -351,39 +341,39 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
     private void xuLyThemThuChi(final JSONArray items) {
-        final ArrayList<ThuChi> list=new ArrayList<>();
+        final ArrayList<Transaction> list=new ArrayList<>();
         //Log.e("Length =",items.length()+"");
         for(int i=0;i<items.length();i++){
             try {
-                final ThuChi thuChi=new ThuChi();
+                final Transaction transaction =new Transaction();
                 JSONObject jsonObject=items.getJSONObject(i);
                 if(jsonObject.has("ghichu"))
-                    thuChi.setGhichu(jsonObject.getString("ghichu"));
+                    transaction.setGhichu(jsonObject.getString("ghichu"));
                 if(jsonObject.has("ngay"))
-                    thuChi.setNgay(jsonObject.getString("ngay"));
+                    transaction.setNgay(jsonObject.getString("ngay"));
                 if(jsonObject.has("nhacnho"))
-                    thuChi.setNhacnho(jsonObject.getString("nhacnho"));
+                    transaction.setNhacnho(jsonObject.getString("nhacnho"));
                 if(jsonObject.has("nhom"))
-                    thuChi.setNhom(jsonObject.getString("nhom"));
+                    transaction.setNhom(jsonObject.getString("nhom"));
                 if(jsonObject.has("sotien"))
-                    thuChi.setSotien(jsonObject.getString("sotien"));
+                    transaction.setSotien(jsonObject.getString("sotien"));
                 if(jsonObject.has("sukien"))
-                    thuChi.setSukien(jsonObject.getString("sukien"));
+                    transaction.setSukien(jsonObject.getString("sukien"));
                 if(jsonObject.has("thanhtoan"))
-                    thuChi.setThanhtoan(jsonObject.getString("thanhtoan"));
-                list.add(thuChi);
+                    transaction.setThanhtoan(jsonObject.getString("thanhtoan"));
+                list.add(transaction);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        final String[] result=XuLyChuoiThuChi.chuyenDinhDangNgay(list.get(0).getNgay());
+        final String[] result= DayTimeManager.ConvertFormatDay(list.get(0).getNgay());
         for (int i=0;i<list.size();i++)
         {
-            ThuChi tc = list.get(i);
-            XuLyThuChi.xuLyLuuVaoDatabase(tc,result);
-            //XuLyDatabaseSupport.SaveToDatabase(tc);
+            Transaction tc = list.get(i);
+            TransactionManager.SaveTransactionToDatabase(tc,result);
+            //ReportDatabaseManager.SaveTransactionToDatabase(tc);
         }
-        XuLyDatabaseSupport.SaveDataInQR(list);
+        ReportDatabaseManager.SaveDataInQR(list);
         Toast.makeText(this,"Thu chi okay: success",Toast.LENGTH_SHORT).show();
     }
 
@@ -396,7 +386,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         user = firebaseAuth.getCurrentUser();
         if (user!=null)
         {
-            XuLyThuChi.user = user.getUid();
+            TransactionManager.user = user.getUid();
         }
 
     }

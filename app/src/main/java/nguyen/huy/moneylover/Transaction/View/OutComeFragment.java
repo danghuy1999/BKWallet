@@ -1,4 +1,4 @@
-package nguyen.huy.moneylover.MinhLayout;
+package nguyen.huy.moneylover.Transaction.View;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -13,14 +13,16 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import nguyen.huy.moneylover.Transaction.Adapter.AdapterTransaction;
+import nguyen.huy.moneylover.Transaction.Controller.TransactionManager;
 import nguyen.huy.moneylover.R;
 import nguyen.huy.moneylover.Tool.GetImage;
 
-public class KhoanChiFragment extends Fragment {
-    public KhoanChiFragment() {
+public class OutComeFragment extends Fragment {
+    public OutComeFragment() {
     }
     ListView lisViewChonNhomKhoanChi;
-    AdapterThuChi adapterThuChiKhoanChi;
+    AdapterTransaction adapterTransaction;
     ArrayList<String> arrayListChonNhomKhoanChi =new ArrayList<>();
     @Nullable
     @Override
@@ -28,8 +30,8 @@ public class KhoanChiFragment extends Fragment {
         View view=inflater.inflate(R.layout.minh_khoanthu_fragment,container,false);
         lisViewChonNhomKhoanChi =view.findViewById(R.id.lvChonNhomKhoanThu);
         addEvents();
-        adapterThuChiKhoanChi =new AdapterThuChi(getActivity(),R.layout.minh_custom_listview, arrayListChonNhomKhoanChi);
-        lisViewChonNhomKhoanChi.setAdapter(adapterThuChiKhoanChi);
+        adapterTransaction =new AdapterTransaction(getActivity(),R.layout.minh_custom_listview, arrayListChonNhomKhoanChi);
+        lisViewChonNhomKhoanChi.setAdapter(adapterTransaction);
         getEventItem();
         return view;
     }
@@ -38,9 +40,9 @@ public class KhoanChiFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bitmap bitmap= GetImage.getBitmapFromString(getContext(), arrayListChonNhomKhoanChi.get(position));
-                XuLyThuChi.supportCheckNull(ThuChiActivity.edtChonNhom,ThuChiActivity.imgchonNhom,bitmap,arrayListChonNhomKhoanChi.get(position));
-                XuLyThuChi.supportCheckNull(DocActivity.edtEditNhom,DocActivity.imageViewEditNhom,bitmap,arrayListChonNhomKhoanChi.get(position));
-                XuLyThuChi.supportCheckNull(EditThuChiActivity.edtChonNhom,EditThuChiActivity.imgchonNhom,bitmap,arrayListChonNhomKhoanChi.get(position));
+                TransactionManager.supportCheckNull(TransactionActivity.edtChonNhom, TransactionActivity.imgchonNhom,bitmap,arrayListChonNhomKhoanChi.get(position));
+                TransactionManager.supportCheckNull(DetailTransactionActivity.edtEditNhom, DetailTransactionActivity.imageViewEditNhom,bitmap,arrayListChonNhomKhoanChi.get(position));
+                TransactionManager.supportCheckNull(EditTransactionActivity.edtChonNhom, EditTransactionActivity.imgchonNhom,bitmap,arrayListChonNhomKhoanChi.get(position));
                 getActivity().finish();
             }
         });

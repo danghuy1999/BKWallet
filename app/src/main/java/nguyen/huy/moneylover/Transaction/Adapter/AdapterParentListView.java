@@ -1,17 +1,14 @@
-package nguyen.huy.moneylover.MinhLayout;
+package nguyen.huy.moneylover.Transaction.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.support.annotation.NonNull;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -23,22 +20,20 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import nguyen.huy.moneylover.MainLayout.MyListview;
-import nguyen.huy.moneylover.Model.ThuChi;
+import nguyen.huy.moneylover.Transaction.Model.Transaction;
+import nguyen.huy.moneylover.Transaction.Controller.DayTimeManager;
+import nguyen.huy.moneylover.Transaction.View.DetailTransactionActivity;
+import nguyen.huy.moneylover.Transaction.Controller.TransactionManager;
 import nguyen.huy.moneylover.R;
 import nguyen.huy.moneylover.Tool.Convert;
 
-public class AdapterParentListView extends ArrayAdapter<ArrayList<ThuChi>> {
+public class AdapterParentListView extends ArrayAdapter<ArrayList<Transaction>> {
     Context context;
     int resource;
-    ArrayList<ArrayList<ThuChi>> objests;
-    public AdapterParentListView(@NonNull Context context, int resource, @NonNull ArrayList<ArrayList<ThuChi>> objects) {
+    ArrayList<ArrayList<Transaction>> objests;
+    public AdapterParentListView(@NonNull Context context, int resource, @NonNull ArrayList<ArrayList<Transaction>> objects) {
         super(context, resource, objects);
         this.context=context;
         this.resource=resource;
@@ -46,7 +41,6 @@ public class AdapterParentListView extends ArrayAdapter<ArrayList<ThuChi>> {
 
     }
 
-    XuLyThuChi xuLyThuChi=new XuLyThuChi();
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -56,7 +50,7 @@ public class AdapterParentListView extends ArrayAdapter<ArrayList<ThuChi>> {
         TextView txtThuListView = view.findViewById(R.id.txtThuLV);
         TextView txtThangNamLV = view.findViewById(R.id.txtThangNamLV);
         TextView txtSoTienLV = view.findViewById(R.id.txtSoTienLV);
-        final ArrayList<ThuChi> item = objests.get(position);
+        final ArrayList<Transaction> item = objests.get(position);
         if(!item.isEmpty())
             xuLyDinhDangNgay(txtNgayListview,txtThuListView,txtThangNamLV,item.get(0));
         AdapterChildListView adapterChildListView = new AdapterChildListView( context,R.layout.minh_custom_listview_child,item);
@@ -65,7 +59,7 @@ public class AdapterParentListView extends ArrayAdapter<ArrayList<ThuChi>> {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent;
-                intent=new Intent(context.getApplicationContext(), DocActivity.class);
+                intent=new Intent(context.getApplicationContext(), DetailTransactionActivity.class);
 
                 intent.putExtra("Item",item.get(position));
                 context.startActivity(intent);
@@ -75,8 +69,8 @@ public class AdapterParentListView extends ArrayAdapter<ArrayList<ThuChi>> {
             getMoneyRefunDay(txtSoTienLV,item.get(0));
         return view;
     }
-    private void xuLyDinhDangNgay(TextView txtNgay,TextView txtThu,TextView txtThangNam,ThuChi thuChi){
-        String[] words=thuChi.getNgay().split("[/]");
+    private void xuLyDinhDangNgay(TextView txtNgay, TextView txtThu, TextView txtThangNam, Transaction transaction){
+        String[] words= transaction.getNgay().split("[/]");
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("EEEE");
         int ngay=Integer.parseInt(words[0]);
         int thang=Integer.parseInt(words[1]);
@@ -94,9 +88,9 @@ public class AdapterParentListView extends ArrayAdapter<ArrayList<ThuChi>> {
 
     //Đọc số tiền dư trong ngày
 
-    private void getMoneyRefunDay(final TextView txtSoTienLV, ThuChi thuChi){
-        final String[] result=XuLyChuoiThuChi.chuyenDinhDangNgay(thuChi.getNgay());
-        final DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child(XuLyThuChi.user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]);
+    private void getMoneyRefunDay(final TextView txtSoTienLV, Transaction transaction){
+        final String[] result= DayTimeManager.ConvertFormatDay(transaction.getNgay());
+        final DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child(TransactionManager.user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

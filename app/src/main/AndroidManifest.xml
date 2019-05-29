@@ -16,7 +16,7 @@
         <activity
             android:name=".Report.ReportActivity" />
         <activity android:name=".Authentication.UserInfoActivity" />
-        <activity android:name=".MinhLayout.PhuongThucThanhToanActivity"></activity>
+        <activity android:name=".Transaction.View.PaymentMethodActivity"></activity>
         <activity
             android:name=".QRCodeModule.QRCodeScannerActivity"
             android:theme="@style/AppTheme" />
@@ -52,7 +52,7 @@
             android:name=".MainTietKiem.SuaVaXoaTietKiem"
             android:theme="@style/Theme.AppCompat.Light" />
         <activity
-            android:name=".MinhLayout.DocActivity"
+            android:name=".Transaction.View.DetailTransactionActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity android:name=".MainSuKien.ActivityMainSuKien" />
         <activity android:name=".MainSuKien.ActivityThemSuKien" />
@@ -61,9 +61,9 @@
         <activity
             android:name=".MainSuKien.ActivityChiTietSuKien"
             android:theme="@style/Theme.AppCompat.Light" />
-        <activity android:name=".MinhLayout.ThuChiActivity" />
-        <activity android:name=".MinhLayout.ChonNhomActivity" />
-        <activity android:name=".MinhLayout.EditThuChiActivity" />
+        <activity android:name=".Transaction.View.TransactionActivity" />
+        <activity android:name=".Transaction.View.SelectGroupActivity" />
+        <activity android:name=".Transaction.View.EditTransactionActivity" />
 
         <activity android:name=".MainBill.ActivitySelectGroup"/>
         <activity android:name=".MainBill.ActivityAddBill" />

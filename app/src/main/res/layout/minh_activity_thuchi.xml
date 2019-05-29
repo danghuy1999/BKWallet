@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/colorbackgroundActionbar"
     android:orientation="vertical"
-    tools:context=".MinhLayout.ThuChiActivity">
+    tools:context=".Transaction.View.TransactionActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

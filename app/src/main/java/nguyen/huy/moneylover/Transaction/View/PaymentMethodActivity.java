@@ -1,4 +1,4 @@
-package nguyen.huy.moneylover.MinhLayout;
+package nguyen.huy.moneylover.Transaction.View;
 
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
@@ -9,13 +9,15 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import nguyen.huy.moneylover.Transaction.Adapter.AdapterPaymentMethod;
+import nguyen.huy.moneylover.Transaction.Controller.TransactionManager;
 import nguyen.huy.moneylover.R;
 import nguyen.huy.moneylover.Tool.GetImage;
 
-public class PhuongThucThanhToanActivity extends AppCompatActivity {
+public class PaymentMethodActivity extends AppCompatActivity {
 
     ListView lvPhuongThucThanhToan;
-    AdapterPhuongThucTT adapterPhuongThucThanhToan;
+    AdapterPaymentMethod adapterPhuongThucThanhToan;
     ArrayList<String> arrayListPhuongThucThanhToan=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +25,7 @@ public class PhuongThucThanhToanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_phuong_thuc_thanh_toan);
         addListView();
         lvPhuongThucThanhToan=findViewById(R.id.lvPhuongThucThanhToan);
-        adapterPhuongThucThanhToan=new AdapterPhuongThucTT(this,R.layout.minh_custom_listview,arrayListPhuongThucThanhToan);
+        adapterPhuongThucThanhToan=new AdapterPaymentMethod(this,R.layout.minh_custom_listview,arrayListPhuongThucThanhToan);
         lvPhuongThucThanhToan.setAdapter(adapterPhuongThucThanhToan);
         getEventItems();
     }
@@ -33,9 +35,9 @@ public class PhuongThucThanhToanActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bitmap bitmap= GetImage.getBitmapFromString(getApplicationContext(),arrayListPhuongThucThanhToan.get(position));
-                XuLyThuChi.supportCheckNull(ThuChiActivity.edtChonPhuongThuc,ThuChiActivity.imgChonPhuongThuc,bitmap,arrayListPhuongThucThanhToan.get(position));
-                XuLyThuChi.supportCheckNull(DocActivity.edtPhuongThuc,DocActivity.imgPhuongThuc,bitmap,arrayListPhuongThucThanhToan.get(position));
-                XuLyThuChi.supportCheckNull(EditThuChiActivity.edtPhuongThucTT,EditThuChiActivity.imgPhuongThucTT,bitmap,arrayListPhuongThucThanhToan.get(position));
+                TransactionManager.supportCheckNull(TransactionActivity.edtChonPhuongThuc, TransactionActivity.imgChonPhuongThuc,bitmap,arrayListPhuongThucThanhToan.get(position));
+                TransactionManager.supportCheckNull(DetailTransactionActivity.edtPhuongThuc, DetailTransactionActivity.imgPhuongThuc,bitmap,arrayListPhuongThucThanhToan.get(position));
+                TransactionManager.supportCheckNull(EditTransactionActivity.edtPhuongThucTT, EditTransactionActivity.imgPhuongThucTT,bitmap,arrayListPhuongThucThanhToan.get(position));
                 finish();
             }
         });

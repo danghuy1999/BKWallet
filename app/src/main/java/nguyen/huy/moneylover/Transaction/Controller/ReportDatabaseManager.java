@@ -1,13 +1,9 @@
-package nguyen.huy.moneylover.MinhLayout;
+package nguyen.huy.moneylover.Transaction.Controller;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -16,33 +12,31 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.List;
 
-import nguyen.huy.moneylover.Model.ThuChi;
+import nguyen.huy.moneylover.Transaction.Model.Transaction;
 
-public class XuLyDatabaseSupport {
+public class ReportDatabaseManager {
     static DatabaseReference databaseReference;
     static String user=FirebaseAuth.getInstance().getCurrentUser().getUid();
     static AlertDialog.Builder dialog;
 
     //Xử lý khi có giao dịch mới được lưu vào database
-    public static void SaveToDatabase(final ThuChi thuChi){
-        final String[] result=XuLyChuoiThuChi.chuyenDinhDangNgay(thuChi.getNgay());
-        if(XuLyThuChi.checkMoneyIO(thuChi)){
-            databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch vào").child(thuChi.getNhom()).child("Ngày").child(result[1]);
+    public static void SaveToDatabase(final Transaction transaction){
+        final String[] result= DayTimeManager.ConvertFormatDay(transaction.getNgay());
+        if(TransactionManager.checkMoneyIO(transaction)){
+            databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch vào").child(transaction.getNhom()).child("Ngày").child(result[1]);
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     long money=0;
                     if(dataSnapshot.getValue()==null){
-                        money=Long.parseLong(thuChi.getSotien());
-                        setMoneyIn(thuChi.getNhom(),result,money);
+                        money=Long.parseLong(transaction.getSotien());
+                        setMoneyIn(transaction.getNhom(),result,money);
                     }
                     else {
-                        money=Long.parseLong(dataSnapshot.getValue().toString())+Long.parseLong(thuChi.getSotien());
-                        setMoneyIn(thuChi.getNhom(),result,money);
+                        money=Long.parseLong(dataSnapshot.getValue().toString())+Long.parseLong(transaction.getSotien());
+                        setMoneyIn(transaction.getNhom(),result,money);
                     }
                 }
 
@@ -53,18 +47,18 @@ public class XuLyDatabaseSupport {
             });
         }
         else {
-            databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch ra").child(thuChi.getNhom()).child("Ngày").child(result[1]);
+            databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch ra").child(transaction.getNhom()).child("Ngày").child(result[1]);
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     long money=0;
                     if(dataSnapshot.getValue()==null){
-                        money=Long.parseLong(thuChi.getSotien());
-                        setMoneyOut(thuChi.getNhom(),result,money);
+                        money=Long.parseLong(transaction.getSotien());
+                        setMoneyOut(transaction.getNhom(),result,money);
                     }
                     else {
-                        money=Long.parseLong(dataSnapshot.getValue().toString())+Long.parseLong(thuChi.getSotien());
-                        setMoneyOut(thuChi.getNhom(),result,money);
+                        money=Long.parseLong(dataSnapshot.getValue().toString())+Long.parseLong(transaction.getSotien());
+                        setMoneyOut(transaction.getNhom(),result,money);
                     }
                 }
 
@@ -74,25 +68,25 @@ public class XuLyDatabaseSupport {
                 }
             });
         }
-        SetSumTransactionInOut(thuChi.getNgay(),thuChi.getNhom());
+        SetSumTransactionInOut(transaction.getNgay(), transaction.getNhom());
     }
 
     //Hàm lưu vào database của QR
-    public static void SaveDataInQR(ArrayList<ThuChi> listThuChi){
+    public static void SaveDataInQR(ArrayList<Transaction> listTransaction){
         ArrayList<String> arrayListNhom=new ArrayList<>();
-        arrayListNhom.add(listThuChi.get(0).getNhom());
-        for(int i=1;i<listThuChi.size();i++){
+        arrayListNhom.add(listTransaction.get(0).getNhom());
+        for(int i = 1; i< listTransaction.size(); i++){
             for(int j=0;j<arrayListNhom.size();j++){
-                if(!listThuChi.get(i).getNhom().equals(arrayListNhom.get(j)))
-                    arrayListNhom.add(listThuChi.get(i).getNhom());
+                if(!listTransaction.get(i).getNhom().equals(arrayListNhom.get(j)))
+                    arrayListNhom.add(listTransaction.get(i).getNhom());
             }
         }
-        String ngay=listThuChi.get(0).getNgay();
+        String ngay= listTransaction.get(0).getNgay();
         for(int i=0;i<arrayListNhom.size();i++){
             long money=0;
-            for(int j=0;j<listThuChi.size();j++){
-                if(arrayListNhom.get(i).equals(listThuChi.get(j).getNhom())){
-                    money=money+Long.parseLong(listThuChi.get(j).getSotien());
+            for(int j = 0; j< listTransaction.size(); j++){
+                if(arrayListNhom.get(i).equals(listTransaction.get(j).getNhom())){
+                    money=money+Long.parseLong(listTransaction.get(j).getSotien());
                 }
             }
             SupportSaveDataInQR(ngay,arrayListNhom.get(i),money);
@@ -104,8 +98,8 @@ public class XuLyDatabaseSupport {
 
     //Hàm hỗ trợ hàm SaveDataInQR
     private static void SupportSaveDataInQR(String ngay, final String nhom,final long money){
-        final String[] result=XuLyChuoiThuChi.chuyenDinhDangNgay(ngay);
-        if(XuLyThuChi.checkMoneyIOString(nhom)){
+        final String[] result= DayTimeManager.ConvertFormatDay(ngay);
+        if(TransactionManager.checkMoneyIOString(nhom)){
             databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch vào").child(nhom).child("Ngày").child(result[1]);
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -151,10 +145,10 @@ public class XuLyDatabaseSupport {
     }
 
     //Xử lý khi xóa giao dịch
-    public static void DeleteFromDatabase(final ThuChi thuChi){
-        final String[] result=XuLyChuoiThuChi.chuyenDinhDangNgay(thuChi.getNgay());
-        if(XuLyThuChi.checkMoneyIO(thuChi)){
-            databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch vào").child(thuChi.getNhom()).child("Ngày").child(result[1]);
+    public static void DeleteFromDatabase(final Transaction transaction){
+        final String[] result= DayTimeManager.ConvertFormatDay(transaction.getNgay());
+        if(TransactionManager.checkMoneyIO(transaction)){
+            databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch vào").child(transaction.getNhom()).child("Ngày").child(result[1]);
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -163,12 +157,12 @@ public class XuLyDatabaseSupport {
 
                     }
                     else {
-                        money=Long.parseLong(dataSnapshot.getValue().toString())- Long.parseLong(thuChi.getSotien());
+                        money=Long.parseLong(dataSnapshot.getValue().toString())- Long.parseLong(transaction.getSotien());
                         if(money==0){
-                            setNullWhenSumEqualZero(thuChi,result);
+                            setNullWhenSumEqualZero(transaction,result);
                         }
                         else
-                            setMoneyIn(thuChi.getNhom(),result,money);
+                            setMoneyIn(transaction.getNhom(),result,money);
                     }
                 }
 
@@ -179,7 +173,7 @@ public class XuLyDatabaseSupport {
             });
         }
         else {
-            databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch ra").child(thuChi.getNhom()).child("Ngày").child(result[1]);
+            databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch ra").child(transaction.getNhom()).child("Ngày").child(result[1]);
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -188,12 +182,12 @@ public class XuLyDatabaseSupport {
 
                     }
                     else {
-                        money=Long.parseLong(dataSnapshot.getValue().toString())-Long.parseLong(thuChi.getSotien());
+                        money=Long.parseLong(dataSnapshot.getValue().toString())-Long.parseLong(transaction.getSotien());
                         if(money==0){
-                            setNullWhenSumEqualZero(thuChi,result);
+                            setNullWhenSumEqualZero(transaction,result);
                         }
                         else
-                            setMoneyOut(thuChi.getNhom(),result,money);
+                            setMoneyOut(transaction.getNhom(),result,money);
                     }
                 }
 
@@ -203,18 +197,18 @@ public class XuLyDatabaseSupport {
                 }
             });
         }
-        SetSumTransactionInOut(thuChi.getNgay(),thuChi.getNhom());
+        SetSumTransactionInOut(transaction.getNgay(), transaction.getNhom());
     }
 
     //Tạo rỗng khi xóa về 0
-    private static void setNullWhenSumEqualZero(ThuChi thuChi,String[] result){
-        if(XuLyThuChi.checkMoneyIO(thuChi)){
-            databaseReference= FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch vào").child(thuChi.getNhom());
+    private static void setNullWhenSumEqualZero(Transaction transaction, String[] result){
+        if(TransactionManager.checkMoneyIO(transaction)){
+            databaseReference= FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch vào").child(transaction.getNhom());
             databaseReference.child("Ngày").child(result[1]).setValue(null);
             //databaseReference.child("Tổng").setValue(null);
         }
         else {
-            databaseReference = FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch ra").child(thuChi.getNhom());
+            databaseReference = FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch ra").child(transaction.getNhom());
             databaseReference.child("Ngày").child(result[1]).setValue(null);
             //databaseReference.child("Tổng").setValue(null);
         }
@@ -222,7 +216,7 @@ public class XuLyDatabaseSupport {
 
 
     //Xử lý khi sửa giao dịch
-    public static void EditToDatabase(ThuChi thuChilOld, final ThuChi thuChiNew, final Activity activity){
+    public static void EditToDatabase(Transaction thuChilOld, final Transaction transactionNew, final Activity activity){
         DeleteFromDatabase(thuChilOld);
 
         dialog=new AlertDialog.Builder(activity);
@@ -233,28 +227,28 @@ public class XuLyDatabaseSupport {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                SaveToDatabase(thuChiNew);
+                SaveToDatabase(transactionNew);
                 activity.finish();
             }
         });
         AlertDialog alertDialog=dialog.create();
         alertDialog.show();
 
-        //SaveToDatabase(thuChiNew);
+        //SaveTransactionToDatabase(transactionNew);
     }
 
-    public static void supportEditToDatabase(final ThuChi thuChiOld, final ThuChi thuChiNew){
-        final String[] result=XuLyChuoiThuChi.chuyenDinhDangNgay(thuChiOld.getNgay());
-        if(thuChiOld.getNhom().equals(thuChiNew.getNhom()) && thuChiOld.getNgay().equals(thuChiNew.getNgay())){
-            if(XuLyThuChi.checkMoneyIOString(thuChiOld.getNhom())){
-                databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch vào").child(thuChiOld.getNhom()).child("Ngày").child(result[1]);
+    public static void supportEditToDatabase(final Transaction transactionOld, final Transaction transactionNew){
+        final String[] result= DayTimeManager.ConvertFormatDay(transactionOld.getNgay());
+        if(transactionOld.getNhom().equals(transactionNew.getNhom()) && transactionOld.getNgay().equals(transactionNew.getNgay())){
+            if(TransactionManager.checkMoneyIOString(transactionOld.getNhom())){
+                databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch vào").child(transactionOld.getNhom()).child("Ngày").child(result[1]);
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         long money=0;
                         if(dataSnapshot.getValue()!=null){
-                            money=Long.parseLong(dataSnapshot.getValue().toString())-Long.parseLong(thuChiOld.getSotien())+Long.parseLong(thuChiNew.getSotien());
-                            setMoneyIn(thuChiNew.getNhom(),result,money);
+                            money=Long.parseLong(dataSnapshot.getValue().toString())-Long.parseLong(transactionOld.getSotien())+Long.parseLong(transactionNew.getSotien());
+                            setMoneyIn(transactionNew.getNhom(),result,money);
                         }
                     }
 
@@ -265,14 +259,14 @@ public class XuLyDatabaseSupport {
                 });
             }
             else {
-                databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch ra").child(thuChiOld.getNhom()).child("Ngày").child(result[1]);
+                databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch ra").child(transactionOld.getNhom()).child("Ngày").child(result[1]);
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         long money=0;
                         if(dataSnapshot.getValue()!=null){
-                            money=Long.parseLong(dataSnapshot.getValue().toString())-Long.parseLong(thuChiOld.getSotien())+Long.parseLong(thuChiNew.getSotien());
-                            setMoneyOut(thuChiNew.getNhom(),result,money);
+                            money=Long.parseLong(dataSnapshot.getValue().toString())-Long.parseLong(transactionOld.getSotien())+Long.parseLong(transactionNew.getSotien());
+                            setMoneyOut(transactionNew.getNhom(),result,money);
                         }
                     }
 
@@ -282,12 +276,12 @@ public class XuLyDatabaseSupport {
                     }
                 });
             }
-            SetSumTransactionInOut(thuChiNew.getNgay(),thuChiNew.getNhom());
+            SetSumTransactionInOut(transactionNew.getNgay(), transactionNew.getNhom());
         }
         else {
-            DeleteFromDatabase(thuChiOld);
+            DeleteFromDatabase(transactionOld);
 
-            SaveToDatabase(thuChiNew);
+            SaveToDatabase(transactionNew);
         }
     }
 
@@ -304,8 +298,8 @@ public class XuLyDatabaseSupport {
 
     //Tính tổng của từng loại giao dịch
     private static void SetSumTransactionInOut(final String ngay, final String nhom){
-        final String[] result=XuLyChuoiThuChi.chuyenDinhDangNgay(ngay);
-        if(XuLyThuChi.checkMoneyIOString(nhom)){
+        final String[] result= DayTimeManager.ConvertFormatDay(ngay);
+        if(TransactionManager.checkMoneyIOString(nhom)){
            databaseReference=FirebaseDatabase.getInstance().getReference().child(user).child("Thu chi").child(result[0]).child("Giao dịch vào").child(nhom);
            databaseReference.addValueEventListener(new ValueEventListener() {
                @Override

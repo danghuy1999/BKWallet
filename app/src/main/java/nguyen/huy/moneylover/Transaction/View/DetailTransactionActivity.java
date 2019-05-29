@@ -1,4 +1,4 @@
-package nguyen.huy.moneylover.MinhLayout;
+package nguyen.huy.moneylover.Transaction.View;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,13 +16,16 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 
-import nguyen.huy.moneylover.Model.ThuChi;
+import nguyen.huy.moneylover.Transaction.Model.Transaction;
+import nguyen.huy.moneylover.Transaction.Controller.DayTimeManager;
+import nguyen.huy.moneylover.Transaction.Controller.ReportDatabaseManager;
+import nguyen.huy.moneylover.Transaction.Controller.TransactionManager;
 import nguyen.huy.moneylover.R;
 import nguyen.huy.moneylover.Tool.GetImage;
 
-public class DocActivity extends AppCompatActivity {
+public class DetailTransactionActivity extends AppCompatActivity {
     Intent intent;
-    ThuChi thuChi;
+    Transaction transaction;
     DatabaseReference reference;
     DatabaseReference delReference;
     String ngay;
@@ -42,10 +45,10 @@ public class DocActivity extends AppCompatActivity {
 
         addEvents();
 
-        int[] ngaythangnam=XuLyChuoiThuChi.tachNgayThangNam(thuChi.getNgay());
-        XuLyThuChi.calendar.set(Calendar.DAY_OF_MONTH,ngaythangnam[0]);
-        XuLyThuChi.calendar.set(Calendar.MONTH,ngaythangnam[1]-1);
-        XuLyThuChi.calendar.set(Calendar.YEAR,ngaythangnam[2]);
+        int[] ngaythangnam= DayTimeManager.splitDayMonthYear(transaction.getNgay());
+        TransactionManager.calendar.set(Calendar.DAY_OF_MONTH,ngaythangnam[0]);
+        TransactionManager.calendar.set(Calendar.MONTH,ngaythangnam[1]-1);
+        TransactionManager.calendar.set(Calendar.YEAR,ngaythangnam[2]);
     }
 
     private void addControls() {
@@ -57,10 +60,10 @@ public class DocActivity extends AppCompatActivity {
         imgPhuongThuc=findViewById(R.id.imgPhuongThucDoc);
 
         intent = getIntent();
-        thuChi = (ThuChi) intent.getSerializableExtra("Item");
+        transaction = (Transaction) intent.getSerializableExtra("Item");
         reference = FirebaseDatabase.getInstance().getReference();
-        ngay = thuChi.getNgay();
-        result=XuLyChuoiThuChi.chuyenDinhDangNgay(ngay);
+        ngay = transaction.getNgay();
+        result= DayTimeManager.ConvertFormatDay(ngay);
     }
 
     private void addEvents() {
@@ -68,30 +71,30 @@ public class DocActivity extends AppCompatActivity {
     }
 
     private void ganThongTin() {
-        edtPhuongThuc.setText(thuChi.getThanhtoan());
-        txtEditNgay.setText(thuChi.getNgay());
-        edtEditNhom.setText(thuChi.getNhom());
-        edtEditSoTien.setText(thuChi.getSotien());
+        edtPhuongThuc.setText(transaction.getThanhtoan());
+        txtEditNgay.setText(transaction.getNgay());
+        edtEditNhom.setText(transaction.getNhom());
+        edtEditSoTien.setText(transaction.getSotien());
 
         /*Resources resources=getResources();
         Drawable drawable=resources.getDrawable(R.drawable.question2);
-        if(thuChi.getNhom().equals("Rút tiền"))
+        if(transaction.getNhom().equals("Rút tiền"))
             drawable=resources.getDrawable(R.drawable.ruttien);
-        else if(thuChi.getNhom().equals("Gửi tiền"))
+        else if(transaction.getNhom().equals("Gửi tiền"))
             drawable=resources.getDrawable(R.drawable.guitien);
-        else if(thuChi.getNhom().equals("Tiền lãi"))
+        else if(transaction.getNhom().equals("Tiền lãi"))
             drawable=resources.getDrawable(R.drawable.tienlai);
         imageViewEditNhom.setImageDrawable(drawable);*/
-        Bitmap bitmap= GetImage.getBitmapFromString(this,thuChi.getNhom());
+        Bitmap bitmap= GetImage.getBitmapFromString(this, transaction.getNhom());
         imageViewEditNhom.setImageBitmap(bitmap);
 
-        Bitmap bitmap1=GetImage.getBitmapFromString(this,thuChi.getThanhtoan());
+        Bitmap bitmap1=GetImage.getBitmapFromString(this, transaction.getThanhtoan());
         imgPhuongThuc.setImageBitmap(bitmap1);
     }
 
     public void xuLyXoaThuChi() {
-        reference.child(XuLyThuChi.user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").child(thuChi.getThuchiKey()).removeValue();
-        XuLyDatabaseSupport.DeleteFromDatabase(thuChi);
+        reference.child(TransactionManager.user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").child(transaction.getThuchiKey()).removeValue();
+        ReportDatabaseManager.DeleteFromDatabase(transaction);
         finish();
     }
 
@@ -119,48 +122,48 @@ public class DocActivity extends AppCompatActivity {
     }
 
     public void xuLyHienThiNgay(View view) {
-        XuLyThuChi.xuLyHienThiNgayTextView(view,txtEditNgay,DocActivity.this);
+        TransactionManager.displayDayTextView(view,txtEditNgay, DetailTransactionActivity.this);
     }
 
     public void xuLySua(View view) {
-        Intent intent=new Intent(DocActivity.this,EditThuChiActivity.class);
-        intent.putExtra("Item1",thuChi);
+        Intent intent=new Intent(DetailTransactionActivity.this, EditTransactionActivity.class);
+        intent.putExtra("Item1", transaction);
         startActivity(intent);
         finish();
     }
 
     public void xuLyChonNhom(View view) {
-        Intent intent=new Intent(DocActivity.this,ChonNhomActivity.class);
+        Intent intent=new Intent(DetailTransactionActivity.this, SelectGroupActivity.class);
         startActivity(intent);
     }
 
     public void xuLyLuu(View view) {
-        /*reference= FirebaseDatabase.getInstance().getReference().child(XuLyThuChi.user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").child(thuChi.getThuchiKey());
+        /*reference= FirebaseDatabase.getInstance().getReference().child(TransactionManager.user).child("Thu chi").child(result[0]).child("Ngày").child(result[1]).child("Giao dịch").child(transaction.getThuchiKey());
         reference.child("nhom").setValue(edtEditNhom.getText().toString());
         reference.child("sotien").setValue(edtEditSoTien.getText().toString());
         reference.child("ngay").setValue(txtEditNgay.getText().toString());*/
-        XuLyThuChi.xuLyLuuVaoDatabaseKhiEdit(thuChi,CreateTempTrans());
-        //XuLyDatabaseSupport.EditToDatabase(thuChi,CreateTempTrans(),DocActivity.this);
-        XuLyDatabaseSupport.supportEditToDatabase(thuChi,CreateTempTrans());
+        TransactionManager.SaveTransactionToDatabaseEdit(transaction,CreateTempTrans());
+        //ReportDatabaseManager.EditToDatabase(transaction,CreateTempTrans(),DetailTransactionActivity.this);
+        ReportDatabaseManager.supportEditToDatabase(transaction,CreateTempTrans());
         finish();
     }
 
-    private ThuChi CreateTempTrans() {
+    private Transaction CreateTempTrans() {
         String SoTien=edtEditSoTien.getText().toString();
         String Nhom=edtEditNhom.getText().toString();
-        String GhiChu=thuChi.getGhichu();
+        String GhiChu= transaction.getGhichu();
         String Ngay=txtEditNgay.getText().toString();
         String PhuongThuc=edtPhuongThuc.getText().toString();
-        String Banbe=thuChi.getBanbe();
-        String NhacNho=thuChi.getNhacnho();
-        String SuKien=thuChi.getSukien();
+        String Banbe= transaction.getBanbe();
+        String NhacNho= transaction.getNhacnho();
+        String SuKien= transaction.getSukien();
         //Khởi tạo giao dịch mới
-        ThuChi giaodich=new ThuChi(SoTien,Nhom,GhiChu,Ngay,PhuongThuc,Banbe,NhacNho,SuKien);
+        Transaction giaodich=new Transaction(SoTien,Nhom,GhiChu,Ngay,PhuongThuc,Banbe,NhacNho,SuKien);
         return giaodich;
     }
 
     public void xuLyChonPhuongThucDoc(View view) {
-        Intent intent=new Intent(DocActivity.this,PhuongThucThanhToanActivity.class);
+        Intent intent=new Intent(DetailTransactionActivity.this, PaymentMethodActivity.class);
         startActivity(intent);
     }
 }
