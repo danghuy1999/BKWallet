@@ -81,18 +81,18 @@ public class FragmentLastMonth extends Fragment implements FirebaseAuth.AuthStat
         txtSoTienRa=view.findViewById(R.id.txtSoTienRaListViewLastMonth);
         txtSoDu=view.findViewById(R.id.txtSoTienDuListViewLastMonth);
 
-        lyReportLastMonth=view.findViewById(R.id.lyReportLastMonth);
+        //lyReportLastMonth=view.findViewById(R.id.lyReportLastMonth);
 
         readTienVaoTienRa(result);
 
-        addEvents();
+        //addEvents();
 
         XuLyThuChi.setBalance();
 
         return view;
     }
 
-    private void addEvents() {
+    /*private void addEvents() {
         lyReportLastMonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,7 +101,7 @@ public class FragmentLastMonth extends Fragment implements FirebaseAuth.AuthStat
                 startActivity(intent);
             }
         });
-    }
+    }*/
 
     private void readAllDayinThisMonth(final String thang){
         databaseReference=FirebaseDatabase.getInstance().getReference().child(XuLyThuChi.user).child("Thu chi").child(thang).child("Ngày");
