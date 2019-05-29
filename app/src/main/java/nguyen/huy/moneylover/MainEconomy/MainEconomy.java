@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -32,6 +33,20 @@ public class MainEconomy extends AppCompatActivity {
         addEvents();
 
 
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case android.R.id.home: {
+                onBackPressed();
+                return true;
+            }
+
+            default:break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void addEvents() {
