@@ -30,8 +30,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -48,11 +51,11 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import nguyen.huy.moneylover.Authentication.LogInActivity;
 import nguyen.huy.moneylover.Authentication.UserInfoActivity;
+import nguyen.huy.moneylover.MainEconomy.MainEconomy;
 import nguyen.huy.moneylover.MainLayout.TabAdapter;
 import nguyen.huy.moneylover.MainSuKien.ActivityMainSuKien;
 import nguyen.huy.moneylover.Transaction.Controller.ReportDatabaseManager;
 import nguyen.huy.moneylover.Transaction.View.TransactionActivity;
-import nguyen.huy.moneylover.MainTietKiem.MainTietKiem;
 import nguyen.huy.moneylover.Transaction.Controller.TransactionManager;
 import nguyen.huy.moneylover.Transaction.Controller.DayTimeManager;
 import nguyen.huy.moneylover.Transaction.Model.Transaction;
@@ -71,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     private CircleImageView imgUserAvatarMain;
     private TextView txtUserNameMain;
 
+    public static long balance = 0;
     Bitmap bitmap;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
@@ -112,7 +116,26 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         createTabLayout();
         addControls();
         addEvent();
+        getBalance();
     }
+
+    private void getBalance() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Long bl = dataSnapshot.getValue(Long.class);
+                balance = bl;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        reference.child(user.getUid()).child("Balance").addValueEventListener(valueEventListener);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_actionbar,menu);
@@ -299,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
     private void doTietKiem() {
-        Intent intent=new Intent(MainActivity.this, MainTietKiem.class);
+        Intent intent=new Intent(MainActivity.this, MainEconomy.class);
         startActivity(intent);
     }
 

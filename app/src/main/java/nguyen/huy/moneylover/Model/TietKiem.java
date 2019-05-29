@@ -9,7 +9,6 @@ public class TietKiem {
     private String SoTienHienCo;
     private String NgayThangNam;
     private boolean ThongBao;
-    private boolean LoaiTienTe;
 
     public TietKiem(String mucDichTietKiem, String mucTieuTietKiem, String soTienHienCo, String ngayThangNam, boolean thongBao, boolean loaiTienTe) {
         MucDichTietKiem = mucDichTietKiem;
@@ -17,7 +16,6 @@ public class TietKiem {
         SoTienHienCo = soTienHienCo;
         NgayThangNam = ngayThangNam;
         ThongBao = thongBao;
-        LoaiTienTe = loaiTienTe;
     }
 
     public TietKiem() {
@@ -78,14 +76,6 @@ public class TietKiem {
 
     public void setThongBao(boolean thongBao) {
         ThongBao = thongBao;
-    }
-
-    public boolean isLoaiTienTe() {
-        return LoaiTienTe;
-    }
-
-    public void setLoaiTienTe(boolean loaiTienTe) {
-        LoaiTienTe = loaiTienTe;
     }
 
     @Override
