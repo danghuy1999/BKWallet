@@ -40,11 +40,11 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity
-            android:name=".MainEconomy.MainEconomy" />
+            android:name=".MainEconomy.View.MainEconomy" />
         <activity
-            android:name=".MainEconomy.EditAndDeleteEconomy" />
+            android:name=".MainEconomy.View.EditAndDeleteEconomy" />
         <activity
-            android:name=".MainEconomy.AddEconomy" />
+            android:name=".MainEconomy.View.AddEconomy" />
         <activity
             android:name=".Transaction.View.DetailTransactionActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />

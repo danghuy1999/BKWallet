@@ -1,4 +1,4 @@
-package nguyen.huy.moneylover.MainEconomy;
+package nguyen.huy.moneylover.MainEconomy.View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import nguyen.huy.moneylover.Model.TietKiem;
+import nguyen.huy.moneylover.MainEconomy.Adapter.AdapterEconomyApplying;
+import nguyen.huy.moneylover.MainEconomy.Model.Economy;
 import nguyen.huy.moneylover.R;
 
 public class FragmentApplying extends Fragment implements ChildEventListener {
@@ -30,9 +31,9 @@ public class FragmentApplying extends Fragment implements ChildEventListener {
 
     View view;
     ListView lvEconomyApplying;
-    ArrayList<TietKiem> arrEconomyAppling;
+    ArrayList<Economy> arrEconomyAppling;
     AdapterEconomyApplying adapterEconomyApplying;
-    TietKiem tietKiem;
+    Economy economy;
     List<String> keyList=new ArrayList<String>();
     FirebaseAuth auth=FirebaseAuth.getInstance();
     String UserID=auth.getCurrentUser().getUid();
@@ -56,9 +57,9 @@ public class FragmentApplying extends Fragment implements ChildEventListener {
         lvEconomyApplying.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                tietKiem = adapterEconomyApplying.getItem(position);
+                economy = adapterEconomyApplying.getItem(position);
                 Intent intent=new Intent(getActivity(), EditAndDeleteEconomy.class);
-                intent.putExtra("TietKiemID",tietKiem.getTietKiemID());
+                intent.putExtra("TietKiemID", economy.getTietKiemID());
                 startActivity(intent);
             }
         });
@@ -74,8 +75,8 @@ public class FragmentApplying extends Fragment implements ChildEventListener {
 
     @Override
     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-        TietKiem tietKiem = dataSnapshot.getValue(TietKiem.class);
-        arrEconomyAppling.add(tietKiem);
+        Economy economy = dataSnapshot.getValue(Economy.class);
+        arrEconomyAppling.add(economy);
         keyList.add(dataSnapshot.getKey());
         if(arrEconomyAppling.size()>0)
             adapterEconomyApplying.notifyDataSetChanged();
@@ -83,10 +84,10 @@ public class FragmentApplying extends Fragment implements ChildEventListener {
 
     @Override
     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-        TietKiem tietKiem=dataSnapshot.getValue(TietKiem.class);
+        Economy economy =dataSnapshot.getValue(Economy.class);
         String key=dataSnapshot.getKey();
         int index=keyList.indexOf(key);
-        arrEconomyAppling.set(index,tietKiem);
+        arrEconomyAppling.set(index, economy);
         adapterEconomyApplying.notifyDataSetChanged();
     }
 

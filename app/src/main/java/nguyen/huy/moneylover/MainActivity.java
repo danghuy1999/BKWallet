@@ -51,7 +51,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import nguyen.huy.moneylover.Authentication.LogInActivity;
 import nguyen.huy.moneylover.Authentication.UserInfoActivity;
-import nguyen.huy.moneylover.MainEconomy.MainEconomy;
+import nguyen.huy.moneylover.MainEconomy.View.MainEconomy;
 import nguyen.huy.moneylover.MainLayout.TabAdapter;
 import nguyen.huy.moneylover.MainSuKien.ActivityMainSuKien;
 import nguyen.huy.moneylover.Transaction.Controller.ReportDatabaseManager;

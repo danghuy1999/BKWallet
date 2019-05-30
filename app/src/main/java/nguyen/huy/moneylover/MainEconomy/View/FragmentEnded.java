@@ -1,4 +1,4 @@
-package nguyen.huy.moneylover.MainEconomy;
+package nguyen.huy.moneylover.MainEconomy.View;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -24,7 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nguyen.huy.moneylover.MainActivity;
-import nguyen.huy.moneylover.Model.TietKiem;
+import nguyen.huy.moneylover.MainEconomy.Adapter.AdapterEconomyApplying;
+import nguyen.huy.moneylover.MainEconomy.Model.Economy;
 import nguyen.huy.moneylover.R;
 import nguyen.huy.moneylover.Tool.AddSaveMoney;
 
@@ -37,7 +38,7 @@ public class FragmentEnded extends Fragment implements ChildEventListener {
     Button btnMakeThuChi;
     Button btnCloseDialog;
     private Dialog dialog;
-    ArrayList<TietKiem> arrEconomyEnded;
+    ArrayList<Economy> arrEconomyEnded;
     AdapterEconomyApplying adapterEconomyEnded;
     List<String> keyList=new ArrayList<String>();
     FirebaseAuth auth=FirebaseAuth.getInstance();
@@ -60,13 +61,13 @@ public class FragmentEnded extends Fragment implements ChildEventListener {
         lvEconomyEnded.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                final TietKiem tietKiem = adapterEconomyEnded.getItem(position);
+                final Economy economy = adapterEconomyEnded.getItem(position);
                 btnMakeThuChi.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(MainActivity.balance > (Long.parseLong(tietKiem.getMucTieuTietKiem()) - Long.parseLong(tietKiem.getSoTienHienCo()))) {
-                            AddSaveMoney.SaveMoney(tietKiem.getNgayThangNam(), tietKiem.getMucDichTietKiem(), Long.parseLong(tietKiem.getMucTieuTietKiem()) - Long.parseLong(tietKiem.getSoTienHienCo()));
-                            myRef.child(tietKiem.getTietKiemID()).removeValue();
+                        if(MainActivity.balance > (Long.parseLong(economy.getMucTieuTietKiem()) - Long.parseLong(economy.getSoTienHienCo()))) {
+                            AddSaveMoney.SaveMoney(economy.getNgayThangNam(), economy.getMucDichTietKiem(), Long.parseLong(economy.getMucTieuTietKiem()) - Long.parseLong(economy.getSoTienHienCo()));
+                            myRef.child(economy.getTietKiemID()).removeValue();
                             dialog.dismiss();
                         }
                         else{
@@ -100,8 +101,8 @@ public class FragmentEnded extends Fragment implements ChildEventListener {
 
     @Override
     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-        TietKiem tietKiem=dataSnapshot.getValue(TietKiem.class);
-        arrEconomyEnded.add(tietKiem);
+        Economy economy =dataSnapshot.getValue(Economy.class);
+        arrEconomyEnded.add(economy);
         keyList.add(dataSnapshot.getKey());
         if(arrEconomyEnded.size()>=0)
             adapterEconomyEnded.notifyDataSetChanged();
@@ -109,10 +110,10 @@ public class FragmentEnded extends Fragment implements ChildEventListener {
 
     @Override
     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-        TietKiem tietKiem=dataSnapshot.getValue(TietKiem.class);
+        Economy economy =dataSnapshot.getValue(Economy.class);
         String key=dataSnapshot.getKey();
         int index=keyList.indexOf(key);
-        arrEconomyEnded.set(index,tietKiem);
+        arrEconomyEnded.set(index, economy);
         adapterEconomyEnded.notifyDataSetChanged();
     }
 

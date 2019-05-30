@@ -1,8 +1,8 @@
-package nguyen.huy.moneylover.Model;
+package nguyen.huy.moneylover.MainEconomy.Model;
 
 
 
-public class TietKiem {
+public class Economy {
     private String TietKiemID;
     private String MucDichTietKiem;
     private String MucTieuTietKiem;
@@ -10,7 +10,7 @@ public class TietKiem {
     private String NgayThangNam;
     private boolean ThongBao;
 
-    public TietKiem(String mucDichTietKiem, String mucTieuTietKiem, String soTienHienCo, String ngayThangNam, boolean thongBao, boolean loaiTienTe) {
+    public Economy(String mucDichTietKiem, String mucTieuTietKiem, String soTienHienCo, String ngayThangNam, boolean thongBao, boolean loaiTienTe) {
         MucDichTietKiem = mucDichTietKiem;
         MucTieuTietKiem = mucTieuTietKiem;
         SoTienHienCo = soTienHienCo;
@@ -18,11 +18,11 @@ public class TietKiem {
         ThongBao = thongBao;
     }
 
-    public TietKiem() {
+    public Economy() {
         super();
     }
 
-    public TietKiem(String mucDichTietKiem, String mucTieuTietKiem, String soTienHienCo, String ngayThangNam)
+    public Economy(String mucDichTietKiem, String mucTieuTietKiem, String soTienHienCo, String ngayThangNam)
     {
         MucDichTietKiem = mucDichTietKiem;
         MucTieuTietKiem = mucTieuTietKiem;

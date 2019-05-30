@@ -1,4 +1,4 @@
-package nguyen.huy.moneylover.MainEconomy;
+package nguyen.huy.moneylover.MainEconomy.View;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
@@ -27,11 +27,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import nguyen.huy.moneylover.Model.TietKiem;
+import nguyen.huy.moneylover.MainEconomy.Model.Economy;
 import nguyen.huy.moneylover.R;
 
 public class AddEconomy extends AppCompatActivity {
-    TietKiem tk;
+    Economy tk;
     EditText edtMucDichTietKiem, edtMucTieuTietKiem, edtTienHienTai;
     TextView tvNgayThangNam;
     Toolbar toolbarSaveTietKiem;
@@ -41,7 +41,7 @@ public class AddEconomy extends AppCompatActivity {
     public static String user;
     FirebaseDatabase database;
     DatabaseReference myRef;
-    ArrayList<TietKiem> arrTietKiem;
+    ArrayList<Economy> arrEconomy;
 
 
     @Override
@@ -185,7 +185,7 @@ public class AddEconomy extends AppCompatActivity {
         if(Long.parseLong(edtTienHienTai.getText().toString()) < Long.parseLong(edtMucTieuTietKiem.getText().toString())) {
             tk.setSoTienHienCo(edtTienHienTai.getText().toString());
             tk.setNgayThangNam(tvNgayThangNam.getText().toString());
-            arrTietKiem.add(tk);
+            arrEconomy.add(tk);
 
             if (checkTimeUp())
                 myRef = myRef.child(user).child("Tiết kiệm").child("Đang áp dụng");
@@ -235,7 +235,7 @@ public class AddEconomy extends AppCompatActivity {
         edtMucDichTietKiem= this.<EditText>findViewById(R.id.edtMucDichTietKiem);
         edtMucTieuTietKiem= this.<EditText>findViewById(R.id.edtMucTieuTietKiem);
         edtTienHienTai= this.<EditText>findViewById(R.id.edtTienHienTai);
-        tk =new TietKiem();
+        tk =new Economy();
         cal=Calendar.getInstance();
         tvNgayThangNam= this.<TextView>findViewById(R.id.tvNgayThangNam);
         toolbarSaveTietKiem = this.<Toolbar>findViewById(R.id.toolbarSaveTietKiem);
@@ -248,6 +248,6 @@ public class AddEconomy extends AppCompatActivity {
         user=mAuth.getCurrentUser().getUid();
         database=FirebaseDatabase.getInstance();
         myRef=database.getReference();
-        arrTietKiem= new ArrayList<TietKiem>();
+        arrEconomy = new ArrayList<Economy>();
     }
 }

@@ -1,4 +1,4 @@
-package nguyen.huy.moneylover.MainEconomy;
+package nguyen.huy.moneylover.MainEconomy.View;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
@@ -30,11 +30,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import nguyen.huy.moneylover.Model.TietKiem;
+import nguyen.huy.moneylover.MainEconomy.Adapter.AdapterEconomyApplying;
+import nguyen.huy.moneylover.MainEconomy.Model.Economy;
 import nguyen.huy.moneylover.R;
 
 public class EditAndDeleteEconomy extends AppCompatActivity {
-    ArrayList<TietKiem> arrSuaTietKiem;
+    ArrayList<Economy> arrSuaEconomy;
     AdapterEconomyApplying adapterSuaTietKiem;
     Toolbar toolbarSuaVaXoaTietKiem;
 
@@ -42,7 +43,7 @@ public class EditAndDeleteEconomy extends AppCompatActivity {
     TextView tvSuaNgayThangNam;
     Intent intent;
     String TietKiemID;
-    TietKiem tk;
+    Economy tk;
 
 
     Calendar cal;
@@ -189,7 +190,7 @@ public class EditAndDeleteEconomy extends AppCompatActivity {
     private void addControl() {
         intent = getIntent();
         TietKiemID = intent.getStringExtra("TietKiemID");
-        tk = new TietKiem();
+        tk = new Economy();
         edtSuaMucDichTietKiem = EditAndDeleteEconomy.this.<EditText>findViewById(R.id.edtSuaMucDichTietKiem);
         edtSuaMucTieuTietKiem = EditAndDeleteEconomy.this.<EditText>findViewById(R.id.edtSuaMucTieuTietKiem);
         edtSuaTienHienTai = EditAndDeleteEconomy.this.<EditText>findViewById(R.id.edtSuaTienHienTai);
@@ -240,7 +241,7 @@ public class EditAndDeleteEconomy extends AppCompatActivity {
         myRef.child(user).child("Tiết kiệm").child("Đang áp dụng").child(TietKiemID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                TietKiem value = dataSnapshot.getValue(TietKiem.class);
+                Economy value = dataSnapshot.getValue(Economy.class);
                 edtSuaMucDichTietKiem.setText(value.getMucDichTietKiem());
             }
 
@@ -252,7 +253,7 @@ public class EditAndDeleteEconomy extends AppCompatActivity {
         myRef.child(user).child("Tiết kiệm").child("Đang áp dụng").child(TietKiemID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                TietKiem value = dataSnapshot.getValue(TietKiem.class);
+                Economy value = dataSnapshot.getValue(Economy.class);
                 edtSuaMucTieuTietKiem.setText(value.getMucTieuTietKiem());
             }
 
@@ -264,7 +265,7 @@ public class EditAndDeleteEconomy extends AppCompatActivity {
         myRef.child(user).child("Tiết kiệm").child("Đang áp dụng").child(TietKiemID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                TietKiem value = dataSnapshot.getValue(TietKiem.class);
+                Economy value = dataSnapshot.getValue(Economy.class);
                 edtSuaTienHienTai.setText(value.getSoTienHienCo());
             }
 
@@ -276,7 +277,7 @@ public class EditAndDeleteEconomy extends AppCompatActivity {
         myRef.child(user).child("Tiết kiệm").child("Đang áp dụng").child(TietKiemID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                TietKiem value = dataSnapshot.getValue(TietKiem.class);
+                Economy value = dataSnapshot.getValue(Economy.class);
                 tvSuaNgayThangNam.setText(value.getNgayThangNam());
             }
 
