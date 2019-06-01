@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainSuKien.ActivityThemSuKien">
+    tools:context=".MainEvent.View.AddEventActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarEditEvent"
@@ -83,6 +83,31 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/imgVi"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="22dp"
+                android:src="@drawable/ic_truong_edit1" />
+
+            <EditText
+                android:id="@+id/editNoteEventEdit"
+                style="@style/TextAppearance.AppCompat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
                 android:id="@+id/imgCurrency1"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
@@ -113,39 +138,7 @@
 
         </TableRow>
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/imgVi"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="22dp"
-                android:src="@drawable/ic_bk_cashbook" />
-
-            <EditText
-                android:id="@+id/editChonVi"
-                style="@style/TextAppearance.AppCompat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="16dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:focusable="false"
-                android:inputType="textPersonName"
-                android:text="Tất cả các ví"
-                android:textColor="@color/colorbackground" />
-
-            <ImageView
-                android:id="@+id/imageView10"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginTop="20dp"
-                app:srcCompat="@drawable/ic_truong_lock" />
-        </TableRow>
 
     </TableLayout>
 

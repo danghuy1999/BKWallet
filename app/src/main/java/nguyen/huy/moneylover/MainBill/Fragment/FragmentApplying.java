@@ -1,8 +1,7 @@
-package nguyen.huy.moneylover.MainLayout;
+package nguyen.huy.moneylover.MainBill.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,22 +25,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import nguyen.huy.moneylover.MainBill.View.DetailBillActivity;
 import nguyen.huy.moneylover.MainBill.Adapter.AdapterApplying;
+import nguyen.huy.moneylover.MainBill.View.DetailBillActivity;
 import nguyen.huy.moneylover.MainBill.Model.Bill;
 import nguyen.huy.moneylover.R;
 import nguyen.huy.moneylover.Tool.Convert;
 
-public class FragmentFuture extends Fragment {
-    public FragmentFuture() {}
+public class FragmentApplying extends Fragment {
+    public FragmentApplying(){}
+
     View view;
-
-    ListView lvFuture;
-    TextView txtMoneyIn,txtMoneyOut,txtMoneyAbout;
-    long totalBalance=0;
     long totalMoneyFuture=0;
-    long totalMoneyAbout=0;
-
+    TextView txtMoneyTotal,txtMoneyFuture;
+    ListView lvApplyingFuture;
     ArrayList<Bill>arrBillApplying;
     AdapterApplying adapterApplying;
     List<String> keyList= new ArrayList<>();
@@ -51,10 +47,9 @@ public class FragmentFuture extends Fragment {
     DatabaseReference refBalance=database.getReference().child(UserID);
     DatabaseReference refApplying=database.getReference().child(UserID).child("Hóa đơn").child("Đang áp dụng");
 
-    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_future, container,false);
+        view=inflater.inflate(R.layout.bill_fragment_applying, container,false);
 
         addControls();
 
@@ -63,7 +58,6 @@ public class FragmentFuture extends Fragment {
 
         addEvents();
 
-
         return view;
     }
 
@@ -71,9 +65,8 @@ public class FragmentFuture extends Fragment {
         refBalance.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child("Balance").getValue()!=null)
-                    totalBalance=Long.parseLong(Objects.requireNonNull(dataSnapshot.child("Balance").getValue()).toString());
-                txtMoneyIn.setText(Convert.Money(totalBalance));
+                txtMoneyTotal.setText(Convert.Money(Long.parseLong(
+                        Objects.requireNonNull(dataSnapshot.child("Balance").getValue()).toString())));
             }
 
             @Override
@@ -90,14 +83,9 @@ public class FragmentFuture extends Fragment {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Bill bill=dataSnapshot.getValue(Bill.class);
                 totalMoneyFuture+=Long.parseLong(Objects.requireNonNull(bill).getAmount());
-                txtMoneyOut.setText(Convert.Money(totalMoneyFuture));
-                totalMoneyAbout=totalBalance-totalMoneyFuture;
-                txtMoneyAbout.setText(Convert.Money(totalMoneyAbout));
+                txtMoneyFuture.setText(Convert.Money(totalMoneyFuture));
                 arrBillApplying.add(bill);
                 keyList.add(dataSnapshot.getKey());
-                txtMoneyIn.setTextColor(Color.BLUE);
-                txtMoneyOut.setTextColor(Color.RED);
-                txtMoneyAbout.setTextColor(Color.BLACK);
                 adapterApplying.notifyDataSetChanged();
             }
 
@@ -115,7 +103,7 @@ public class FragmentFuture extends Fragment {
                 int index=keyList.indexOf(dataSnapshot.getKey());
                 Bill bill=arrBillApplying.get(index);
                 totalMoneyFuture-=Long.parseLong(bill.getAmount());
-                txtMoneyOut.setText(Convert.Money(totalMoneyFuture));
+                txtMoneyFuture.setText(Convert.Money(totalMoneyFuture));
                 arrBillApplying.remove(index);
                 keyList.remove(index);
                 adapterApplying.notifyDataSetChanged();
@@ -131,10 +119,11 @@ public class FragmentFuture extends Fragment {
 
             }
         });
+
     }
 
     private void addEvents() {
-        lvFuture.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvApplyingFuture.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent=new Intent(getActivity(), DetailBillActivity.class);
@@ -145,12 +134,13 @@ public class FragmentFuture extends Fragment {
     }
 
     private void addControls() {
-        txtMoneyIn=view.findViewById(R.id.txtMoneyIn);
-        txtMoneyOut=view.findViewById(R.id.txtMoneyOut);
-        txtMoneyAbout=view.findViewById(R.id.txtMoneyAbout);
-        lvFuture=view.findViewById(R.id.lvFuture);
+        txtMoneyTotal=view.findViewById(R.id.txtMoneyTotal);
+        txtMoneyFuture=view.findViewById(R.id.txtMoneyFuture);
+        lvApplyingFuture=view.findViewById(R.id.lvApplyingFuture);
         arrBillApplying=new ArrayList<>();
         adapterApplying=new AdapterApplying(getActivity(),R.layout.bill_custom_listview_applying,arrBillApplying);
-        lvFuture.setAdapter(adapterApplying);
+        lvApplyingFuture.setAdapter(adapterApplying);
     }
+
+
 }

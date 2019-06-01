@@ -48,25 +48,27 @@
         <activity
             android:name=".Transaction.View.DetailTransactionActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
-        <activity android:name=".MainSuKien.ActivityMainSuKien" />
-        <activity android:name=".MainSuKien.ActivityThemSuKien" />
-        <activity android:name=".MainSuKien.ActivityBieuTuongSuKien" />
-        <activity android:name=".MainSuKien.ActivitySuaSuKien" />
+        <activity android:name=".MainEvent.View.MainEventActivity" />
+        <activity android:name=".MainEvent.View.AddEventActivity" />
+        <activity android:name=".MainEvent.View.SymbolEventActivity" />
+        <activity android:name=".MainEvent.View.EditEventActivity" />
         <activity
-            android:name=".MainSuKien.ActivityChiTietSuKien"
+            android:name=".MainEvent.View.DetailEventActivity"
             android:theme="@style/Theme.AppCompat.Light" />
         <activity android:name=".Transaction.View.TransactionActivity" />
         <activity android:name=".Transaction.View.SelectGroupActivity" />
         <activity android:name=".Transaction.View.EditTransactionActivity" />
 
-        <activity android:name=".MainBill.ActivitySelectGroup"/>
-        <activity android:name=".MainBill.ActivityAddBill" />
-        <activity android:name=".MainBill.MainBill" />
-        <activity android:name=".MainBill.ActivityDialogRepeat"
+        <activity android:name=".MainBill.View.SelectGroupActivity"/>
+        <activity android:name=".MainBill.View.AddBillActivity" />
+        <activity android:name=".MainBill.View.MainBillActivity" />
+        <activity android:name=".MainBill.View.DialogRepeatActivity"
             android:theme="@style/Theme.AppCompat.Dialog.Alert"/>
-        <activity android:name=".MainBill.ActivityDetailBill"
+        <activity android:name=".MainBill.View.DetailBillActivity"
             android:theme="@style/Theme.AppCompat.Light"/>
-        <activity android:name=".MainBill.ActivityEditBill"
+        <activity android:name=".MainBill.View.EditBillActivity"
+            android:theme="@style/Theme.AppCompat.Light"/>
+        <activity android:name=".MainBill.View.PaymentFormActivity"
             android:theme="@style/Theme.AppCompat.Light"/>
     </application>
 

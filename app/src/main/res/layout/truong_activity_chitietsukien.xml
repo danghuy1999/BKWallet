@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainSuKien.ActivityChiTietSuKien">
+    tools:context=".MainEvent.View.DetailEventActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -83,35 +83,15 @@
             android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_cash_color" />
+            android:src="@drawable/ic_truong_edit1" />
 
         <TextView
-            android:id="@+id/textView15"
+            android:id="@+id/txtNoteEventDetail"
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
-            android:text="Cash" />
+            android:gravity="center_vertical" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btnChuaHoanTat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:background="@color/colorChonVi"
-        android:text=" Đánh dấu chưa hoàn tất "
-        android:textColor="@color/colorbackgroundBack" />
-
-    <Button
-        android:id="@+id/btnDSGiaoDich"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/colorChonVi"
-        android:text=" Danh sách giao dịch "
-        android:textColor="@color/colorLayoutTaskbar" />
 
 </LinearLayout>

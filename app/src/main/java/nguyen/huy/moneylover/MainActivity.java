@@ -53,7 +53,8 @@ import nguyen.huy.moneylover.Authentication.LogInActivity;
 import nguyen.huy.moneylover.Authentication.UserInfoActivity;
 import nguyen.huy.moneylover.MainEconomy.View.MainEconomy;
 import nguyen.huy.moneylover.MainLayout.TabAdapter;
-import nguyen.huy.moneylover.MainSuKien.ActivityMainSuKien;
+import nguyen.huy.moneylover.MainEvent.View.MainEventActivity;
+import nguyen.huy.moneylover.MainBill.View.MainBillActivity;
 import nguyen.huy.moneylover.Transaction.Controller.ReportDatabaseManager;
 import nguyen.huy.moneylover.Transaction.View.TransactionActivity;
 import nguyen.huy.moneylover.Transaction.Controller.TransactionManager;
@@ -61,7 +62,6 @@ import nguyen.huy.moneylover.Transaction.Controller.DayTimeManager;
 import nguyen.huy.moneylover.Transaction.Model.Transaction;
 import nguyen.huy.moneylover.QRCodeModule.QRCodeScannerActivity;
 
-import nguyen.huy.moneylover.MainBill.MainBill;
 
 public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
     private DrawerLayout drawerLayout;
@@ -327,12 +327,12 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
     private void doSuKien() {
-        Intent intent=new Intent(MainActivity.this, ActivityMainSuKien.class);
+        Intent intent=new Intent(MainActivity.this, MainEventActivity.class);
         startActivity(intent);
     }
 
     private void doBill() {
-        Intent intent= new Intent(MainActivity.this,MainBill.class);
+        Intent intent= new Intent(MainActivity.this,MainBillActivity.class);
         startActivity(intent);
     }
     @Override

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainBill.ActivityAddBill">
+    tools:context=".MainBill.View.AddBillActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarAddBill"
@@ -108,6 +108,33 @@
                 android:text="Hôm nay"
                 android:ems="10"
                 android:focusable="false"
+                android:inputType="textPersonName" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imgIcForm"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/wallet_picture" />
+
+            <EditText
+                android:id="@+id/editFormPay"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Chọn hình thức thanh toán"
                 android:inputType="textPersonName" />
         </LinearLayout>
 
