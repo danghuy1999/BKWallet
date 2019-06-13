@@ -135,8 +135,6 @@ public class AddEventActivity extends AppCompatActivity {
                 startActivityForResult(intent,INTENT_ACTIVITY_BIEUTUONG);
             }
         });
-
-
     }
 
 

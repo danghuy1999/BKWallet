@@ -13,10 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity
-            android:name=".Report.View.ReportActivity" />
+        <activity android:name=".MainEvent.View.ListEventActivity"
+            android:theme="@style/Theme.AppCompat.Light">
+        </activity>
+        <activity android:name=".Report.View.ReportActivity" />
         <activity android:name=".Authentication.UserInfoActivity" />
-        <activity android:name=".Transaction.View.PaymentMethodActivity"></activity>
+        <activity android:name=".Transaction.View.PaymentMethodActivity" />
         <activity
             android:name=".QRCodeModule.QRCodeScannerActivity"
             android:theme="@style/AppTheme" />
@@ -39,12 +41,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity
-            android:name=".MainEconomy.View.MainEconomy" />
-        <activity
-            android:name=".MainEconomy.View.EditAndDeleteEconomy" />
-        <activity
-            android:name=".MainEconomy.View.AddEconomy" />
+        <activity android:name=".MainEconomy.View.MainEconomy" />
+        <activity android:name=".MainEconomy.View.EditAndDeleteEconomy" />
+        <activity android:name=".MainEconomy.View.AddEconomy" />
         <activity
             android:name=".Transaction.View.DetailTransactionActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
@@ -58,18 +57,21 @@
         <activity android:name=".Transaction.View.TransactionActivity" />
         <activity android:name=".Transaction.View.SelectGroupActivity" />
         <activity android:name=".Transaction.View.EditTransactionActivity" />
-
-        <activity android:name=".MainBill.View.SelectGroupActivity"/>
+        <activity android:name=".MainBill.View.SelectGroupActivity" />
         <activity android:name=".MainBill.View.AddBillActivity" />
         <activity android:name=".MainBill.View.MainBillActivity" />
-        <activity android:name=".MainBill.View.DialogRepeatActivity"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert"/>
-        <activity android:name=".MainBill.View.DetailBillActivity"
-            android:theme="@style/Theme.AppCompat.Light"/>
-        <activity android:name=".MainBill.View.EditBillActivity"
-            android:theme="@style/Theme.AppCompat.Light"/>
-        <activity android:name=".MainBill.View.PaymentFormActivity"
-            android:theme="@style/Theme.AppCompat.Light"/>
+        <activity
+            android:name=".MainBill.View.DialogRepeatActivity"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert" />
+        <activity
+            android:name=".MainBill.View.DetailBillActivity"
+            android:theme="@style/Theme.AppCompat.Light" />
+        <activity
+            android:name=".MainBill.View.EditBillActivity"
+            android:theme="@style/Theme.AppCompat.Light" />
+        <activity
+            android:name=".MainBill.View.PaymentFormActivity"
+            android:theme="@style/Theme.AppCompat.Light" />
     </application>
 
 </manifest>
