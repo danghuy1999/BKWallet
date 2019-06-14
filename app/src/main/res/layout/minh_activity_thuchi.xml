@@ -179,13 +179,13 @@
 
                     <ImageView
                         android:id="@+id/imgPhuongThucTT"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
                         android:layout_gravity="center"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:onClick="xuLyChonPhuongThuc"
-                        android:scaleType="fitXY"
+                        android:scaleType="fitCenter"
                         app:srcCompat="@drawable/wallet_picture" />
 
                     <EditText
@@ -272,23 +272,26 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:onClick="xuLyChonSuKien"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/colorbackgroundchonsukien"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/imageView6"
-                        android:layout_width="30dp"
-                        android:layout_height="23dp"
+                        android:id="@+id/imageChonSuKien"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
                         android:layout_gravity="center"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        android:layout_weight="1"
+                        android:onClick="xuLyChonSuKien"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/calendar_picture" />
 
                     <EditText
+                        android:onClick="xuLyChonSuKien"
+                        android:focusable="false"
                         android:id="@+id/edtChonSuKien"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"

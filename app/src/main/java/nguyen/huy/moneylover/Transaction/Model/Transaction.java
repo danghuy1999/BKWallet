@@ -13,6 +13,15 @@ public class Transaction implements Serializable {
     private String banbe;
     private String nhacnho;
     private String sukien;
+    private int IDSuKien;
+
+    public int getIDSuKien() {
+        return IDSuKien;
+    }
+
+    public void setIDSuKien(int IDSuKien) {
+        this.IDSuKien = IDSuKien;
+    }
 
     public Transaction(){
 

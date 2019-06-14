@@ -139,4 +139,10 @@ public class GetImage {
         }
         return res.getString(R.string.ts_income);
     }
+    public static Bitmap getBitmapForEvents(Context context,String BitmapString) {
+        Resources res = context.getResources();
+        Bitmap bitmap = null;
+
+        return bitmap;
+    }
 }

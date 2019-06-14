@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/imgic"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             app:srcCompat="@drawable/icon_not_selected" />
 
         <TextView
@@ -25,6 +25,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:gravity="center_vertical"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused" />
     </LinearLayout>
 </LinearLayout>

@@ -2,12 +2,14 @@ package nguyen.huy.moneylover.Transaction.View;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import nguyen.huy.moneylover.MainEvent.View.ListEventActivity;
 import nguyen.huy.moneylover.Transaction.Model.Transaction;
 import nguyen.huy.moneylover.Transaction.Controller.DayTimeManager;
 import nguyen.huy.moneylover.Transaction.Controller.ReportDatabaseManager;
@@ -17,13 +19,16 @@ import nguyen.huy.moneylover.Tool.GetImage;
 
 public class EditTransactionActivity extends AppCompatActivity {
 
-    EditText edtNhapSoTien,edtThemGhiChu ,edtThemBan,edtDatNhacNho,edtChonSuKien;
+    EditText edtNhapSoTien,edtThemGhiChu ,edtThemBan,edtDatNhacNho;
     public static EditText edtChonNhom;
     public static ImageView imgchonNhom;
     public static EditText edtChonNgay;
 
     public static EditText edtPhuongThucTT;
     public static ImageView imgPhuongThucTT;
+    public static EditText edtChonSuKien;
+    public static ImageView imgChonSuKien;
+    public static int IDSuKien=0;
     Transaction transaction;
     Intent intent;
     //TransactionManager transactionManager =new TransactionManager();
@@ -54,8 +59,10 @@ public class EditTransactionActivity extends AppCompatActivity {
 
         Bitmap bitmap= GetImage.getBitmapFromString(this,edtChonNhom.getText().toString());
         imgchonNhom.setImageBitmap(bitmap);
-        Bitmap bitmap1=GetImage.getBitmapFromString(this, transaction.getThanhtoan());
-        imgPhuongThucTT.setImageBitmap(bitmap1);
+        Bitmap bitmapPT=GetImage.getBitmapFromString(this, transaction.getThanhtoan());
+        imgPhuongThucTT.setImageBitmap(bitmapPT);
+        Bitmap bitmapSuKien= BitmapFactory.decodeResource(getResources(),transaction.getIDSuKien());
+        imgChonSuKien.setImageBitmap(bitmapSuKien);
     }
 
     private void setThuChiToEdit() {
@@ -82,6 +89,7 @@ public class EditTransactionActivity extends AppCompatActivity {
         imgPhuongThucTT=findViewById(R.id.imgPhuongThucTTEdit);
         intent = getIntent();
         transaction = (Transaction) intent.getSerializableExtra("Item1");
+        imgChonSuKien=findViewById(R.id.imgChonSuKienEdit);
     }
 
     private Transaction TaoGiaoDich(){
@@ -95,6 +103,7 @@ public class EditTransactionActivity extends AppCompatActivity {
         String SuKien=edtChonSuKien.getText().toString();
         //Khởi tạo giao dịch mới
         Transaction giaodich=new Transaction(SoTien,Nhom,GhiChu,Ngay,Vi,Banbe,NhacNho,SuKien);
+        giaodich.setIDSuKien(IDSuKien);
         return giaodich;
     }
 
@@ -136,6 +145,11 @@ public class EditTransactionActivity extends AppCompatActivity {
 
     public void xuLyChonPhuongThucEdit(View view) {
         Intent intent=new Intent(EditTransactionActivity.this, PaymentMethodActivity.class);
+        startActivity(intent);
+    }
+
+    public void xuLyChonSuKienEdit(View view) {
+        Intent intent=new Intent(EditTransactionActivity.this, ListEventActivity.class);
         startActivity(intent);
     }
 }
