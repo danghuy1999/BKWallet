@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="16dp"
         android:background="@color/colorLayoutTaskbar"
-        android:orientation="horizontal"></LinearLayout>
+        android:orientation="horizontal" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,10 +30,10 @@
             android:id="@+id/editAmount"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:layout_marginLeft="64dp"
-            android:textSize="32dp"
+            android:layout_marginStart="64dp"
+            android:textSize="32sp"
             android:ems="10"
-            android:hint="Nhập số tiền "
+            android:hint="@string/bill_enter_amount"
             android:inputType="number" />
 
         <LinearLayout
@@ -45,18 +45,19 @@
                 android:id="@+id/imgIc"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                app:srcCompat="@drawable/icon_not_selected" />
+                app:srcCompat="@drawable/icon_not_selected"
+                android:contentDescription="@string/bill_symbol_group" />
 
             <EditText
                 android:id="@+id/editGroup"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:ems="10"
                 android:focusable="false"
-                android:hint="Chọn nhóm"
+                android:hint="@string/bill_select_group"
                 android:inputType="textPersonName" />
         </LinearLayout>
 
@@ -70,18 +71,19 @@
                 android:id="@+id/imageView8"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                app:srcCompat="@drawable/ic_truong_edit1" />
+                app:srcCompat="@drawable/ic_truong_edit1"
+                android:contentDescription="@string/bill_note" />
 
             <EditText
                 android:id="@+id/editNote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginLeft="16dp"
+                android:layout_gravity="end"
+                android:layout_marginStart="16dp"
                 android:ems="10"
-                android:hint="Ghi chú"
+                android:hint="@string/bill_note"
                 android:inputType="textPersonName" />
 
         </LinearLayout>
@@ -96,16 +98,17 @@
                 android:id="@+id/imageView15"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                app:srcCompat="@drawable/ic_bk_events" />
+                app:srcCompat="@drawable/ic_bk_events"
+                android:contentDescription="@string/bill_calendar" />
 
             <EditText
                 android:id="@+id/editRepeat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:text="Hôm nay"
+                android:layout_marginStart="16dp"
+                android:text="@string/bill_today"
                 android:ems="10"
                 android:focusable="false"
                 android:inputType="textPersonName" />
@@ -125,16 +128,17 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/wallet_picture" />
+                app:srcCompat="@drawable/wallet_picture"
+                android:contentDescription="@string/bill_payment_form" />
 
             <EditText
                 android:id="@+id/editFormPay"
-                android:layout_width="300dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
                 android:focusable="false"
-                android:hint="Chọn hình thức thanh toán"
+                android:hint="@string/bill_payment_form"
                 android:inputType="textPersonName" />
         </LinearLayout>
 
@@ -144,6 +148,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorLayoutTaskbar"
-        android:orientation="horizontal"></LinearLayout>
+        android:orientation="horizontal" />
 
 </LinearLayout>

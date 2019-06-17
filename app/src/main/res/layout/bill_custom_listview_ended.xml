@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,22 +10,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="UselessParent">
 
         <ImageView
-            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:id="@+id/imgIcEnded"/>
+            android:id="@+id/imgIcEnded"
+            android:contentDescription="@string/bill_symbol" />
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"
                 android:textColor="@android:color/black"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:id="@+id/txtNameBill"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp" />
@@ -36,24 +39,26 @@
                 <TextView
                     android:id="@+id/txtNote"
                     android:layout_marginTop="8dp"
-                    android:layout_marginLeft="12dp"
+                    android:layout_marginStart="12dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="RelativeOverlap" />
 
                 <ImageView
-                    android:layout_marginRight="20dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_alignParentEnd="true"
                     android:id="@+id/imgDelete"
                     android:src="@drawable/ic_delete"
                     android:layout_width="32dp"
-                    android:layout_height="32dp" />
+                    android:layout_height="32dp"
+                    android:contentDescription="@string/bill_delete" />
             </RelativeLayout>
 
 
             <TextView
                 android:layout_marginTop="12dp"
-                android:layout_marginLeft="12dp"
-                android:textSize="15dp"
+                android:layout_marginStart="12dp"
+                android:textSize="15sp"
                 android:textColor="@android:color/holo_green_dark"
                 android:id="@+id/txtAmount"
                 android:layout_width="match_parent"

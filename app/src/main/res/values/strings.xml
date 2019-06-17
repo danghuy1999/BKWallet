@@ -80,4 +80,21 @@
     <string name="report">Báo cáo</string>
     <string name="txt_allIncome">Tổng lượng thu : </string>
     <string name="txt_allOutcome">Tổng lượng chi : </string>
+
+    <!--Strings for Bill-->
+    <string name="bill_enter_amount">Nhập số tiền</string>
+    <string name="bill_select_group">Chọn nhóm</string>
+    <string name="bill_note">Ghi chú</string>
+    <string name="bill_today">Hôm nay</string>
+    <string name="bill_payment_form">Chọn hình thức thanh toán</string>
+    <string name="bill_calendar">Calendar</string>
+    <string name="bill_0">0</string>
+    <string name="bill_symbol_group">Biểu tượng nhóm</string>
+    <string name="bill_symbol">Biểu tượng hóa đơn</string>
+    <string name="bill_delete">Delete</string>
+    <string name="bill_remain">Các hóa đơn còn lại</string>
+    <string name="bill_about">SỐ DƯ</string>
+    <string name="bill_this_term">Kì này</string>
+    <string name="bill_payed">Các hóa đơn đã thanh toán</string>
+
 </resources>

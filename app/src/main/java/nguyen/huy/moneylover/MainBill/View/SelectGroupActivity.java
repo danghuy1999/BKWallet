@@ -45,6 +45,7 @@ public class SelectGroupActivity extends AppCompatActivity {
         toolbarSelectGroup=findViewById(R.id.toolbarSelectGroup);
         setSupportActionBar(toolbarSelectGroup);
         ActionBar actionBar=getSupportActionBar();
+        assert actionBar != null;
         actionBar.setTitle("Chọn nhóm");
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));

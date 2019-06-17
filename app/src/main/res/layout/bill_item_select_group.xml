@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,23 +10,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables,UselessParent">
 
         <ImageView
             android:id="@+id/imgic"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:srcCompat="@drawable/icon_not_selected" />
+            app:srcCompat="@drawable/icon_not_selected"
+            android:contentDescription="@string/bill_select_group" />
 
         <TextView
             android:id="@+id/txtdetail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:gravity="center_vertical"
-            android:text="TextView"
             android:textColor="@color/common_google_signin_btn_text_dark_focused" />
     </LinearLayout>
 </LinearLayout>

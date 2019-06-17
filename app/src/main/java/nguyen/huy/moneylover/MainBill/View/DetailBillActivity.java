@@ -80,6 +80,7 @@ public class DetailBillActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==INTENT_ACTIVITY_EDITBILL){
             if(resultCode== RESULT_OK){
+                assert data != null;
                 Bill bill1= (Bill) data.getSerializableExtra("BILL_EDITED" );
                 Bitmap bitmap= GetImage.getBitmapFromString(DetailBillActivity.this,bill1.getGroup());
                 imgIconBillDetail.setImageBitmap(bitmap);

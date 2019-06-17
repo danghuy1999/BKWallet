@@ -3,6 +3,7 @@ package nguyen.huy.moneylover.MainEvent.View;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,8 +11,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -85,6 +89,7 @@ public class AddEventActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.save:{
                 toProcessSave();
+                return true;
             }
 
             case android.R.id.home:{
@@ -140,26 +145,50 @@ public class AddEventActivity extends AppCompatActivity {
 
 
     private void toProcessSave() {
+        Log.e("pos",pos+"");
+        Log.e("length",editTen.length()+"");
+        if(pos==0){
+            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            builder.setMessage("Bạn chưa chọn biểu tượng tương ứng cho sự kiện");
+            builder.setCancelable(false);
+            builder.setPositiveButton("Trở về", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-        sk.setIcon(pos);
-        sk.setTen(editTen.getText().toString());
-        sk.setNgayketthuc(editNgayKetThuc.getText().toString());
-        sk.setDonvitiente(editDonViTienTe.getText().toString());
-        sk.setNote(editNote.getText().toString());
-        arrSuKien.add(sk);
-
-        if (xuLyKhoangThoiGian() >= 0)
-            myRef = myRef.child(UserID).child("Sự kiện").child("Đang áp dụng");
-        else
-            myRef = myRef.child(UserID).child("Sự kiện").child("Đã kết thúc");
-        String key = myRef.push().getKey();
-        sk.setId(key);
-
-        if (key != null) {
-            myRef.child(key).setValue(sk);
+                }
+            });
+            AlertDialog alertDialog=builder.create();
+            alertDialog.show();
+            return;
         }
-        Intent intent = new Intent(AddEventActivity.this, MainEventActivity.class);
-        startActivity(intent);
+
+        else if(TextUtils.isEmpty(editTen.getText().toString())){
+            editTen.setError("Bạn chưa nhập tên sự kiện");
+            return;
+        }
+
+        else {
+            sk.setIcon(pos);
+            sk.setTen(editTen.getText().toString());
+            sk.setNgayketthuc(editNgayKetThuc.getText().toString());
+            sk.setDonvitiente(editDonViTienTe.getText().toString());
+            sk.setNote(editNote.getText().toString());
+            arrSuKien.add(sk);
+
+            if (xuLyKhoangThoiGian() >= 0)
+                myRef = myRef.child(UserID).child("Sự kiện").child("Đang áp dụng");
+            else
+                myRef = myRef.child(UserID).child("Sự kiện").child("Đã kết thúc");
+            String key = myRef.push().getKey();
+            sk.setId(key);
+
+            if (key != null) {
+                myRef.child(key).setValue(sk);
+            }
+            Intent intent = new Intent(AddEventActivity.this, MainEventActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private Long xuLyKhoangThoiGian() {

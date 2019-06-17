@@ -18,8 +18,6 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -48,12 +46,10 @@ public class AddBillActivity extends AppCompatActivity {
     SimpleDateFormat sdf1=new SimpleDateFormat("E, dd/MM/yyyy");
     Calendar cal;
 
-    private String namegroup="",form="";
+    private String namegroup="";
     Toolbar toolbarAddBill;
-    private EditText editAmout,editGroup,editNote,editRepeat,editLastDate,editFormPay;
-    private TextView txtMoneyTotal,getTxtMoneyToDay,getTxtMoneyFuture;
+    private EditText editAmout,editGroup,editNote,editRepeat,editFormPay;
     private ImageView imgIc,imgIcForm;
-    private ListView lvApplyingToDay,getLvApplyingFuture;
 
     private Bill bill=new Bill();
     ArrayList<Bill>arrBill= new ArrayList<>();
@@ -112,15 +108,17 @@ public class AddBillActivity extends AppCompatActivity {
         }
         if(requestCode==INTENT_ACTIVITY_SELECT_FORM){
             if(resultCode==Activity.RESULT_OK){
-                form=data.getStringExtra("Form");
+                assert data != null;
+                String form = data.getStringExtra("Form");
                 Log.e("RUN","OK");
                 editFormPay.setText(form);
-                Bitmap bitmap1=GetImage.getBitmapFromString(AddBillActivity.this,form);
+                Bitmap bitmap1=GetImage.getBitmapFromString(AddBillActivity.this, form);
                 imgIcForm.setImageBitmap(bitmap1);
             }
         }
         if(requestCode==INTENT_ACTIVITY_SELECT_REPEAT){
             if(resultCode==INTENT_ACTIVITY_RESULT0){
+                assert data != null;
                 editRepeat.setText(data.getStringExtra("DAY"));
             }
         }
@@ -138,6 +136,7 @@ public class AddBillActivity extends AppCompatActivity {
         }
         if(requestCode==INTENT_ACTIVITY_SELECT_REPEAT){
             if(resultCode==INTENT_ACTIVITY_RESULT3){
+                assert data != null;
                 editRepeat.setText(data.getStringExtra("YEAR"));
             }
         }

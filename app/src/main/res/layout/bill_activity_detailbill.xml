@@ -15,25 +15,26 @@
 
         <ImageView
             android:src="@drawable/icon_not_selected"
-            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
             android:id="@+id/imgIconBillDetail"
             android:layout_width="48dp"
-            android:layout_height="48dp" />
+            android:layout_height="48dp"
+            android:contentDescription="@string/bill_symbol_group" />
 
         <TextView
-            android:textSize="24dp"
+            android:textSize="24sp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
             android:id="@+id/txtNameBillDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
     <TextView
-        android:textSize="36dp"
-        android:layout_marginLeft="84dp"
+        android:textSize="36sp"
+        android:layout_marginStart="84dp"
         android:layout_marginTop="24dp"
-        android:text="0"
+        android:text="@string/bill_0"
         android:id="@+id/txtAmountBillDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -44,14 +45,15 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:src="@drawable/ic_truong_edit1"
             android:layout_width="32dp"
-            android:layout_height="32dp" />
+            android:layout_height="32dp"
+            android:contentDescription="@string/bill_note" />
 
         <TextView
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="36dp"
+            android:layout_marginStart="36dp"
             android:id="@+id/txtNoteBillDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -64,14 +66,15 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:src="@drawable/ic_bk_events"
             android:layout_width="32dp"
-            android:layout_height="32dp" />
+            android:layout_height="32dp"
+            android:contentDescription="@string/bill_calendar" />
 
         <TextView
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="36dp"
+            android:layout_marginStart="36dp"
             android:id="@+id/txtDateBillDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -86,14 +89,15 @@
 
         <ImageView
             android:id="@+id/imgTypePayDetail"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:src="@drawable/icon_not_selected"
             android:layout_width="32dp"
-            android:layout_height="32dp" />
+            android:layout_height="32dp"
+            android:contentDescription="@string/bill_payment_form" />
 
         <TextView
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="36dp"
+            android:layout_marginStart="36dp"
             android:id="@+id/txtTypePayDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
