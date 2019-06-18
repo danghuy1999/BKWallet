@@ -20,7 +20,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import nguyen.huy.moneylover.Transaction.Model.Transaction;
 import nguyen.huy.moneylover.Transaction.Adapter.AdapterParentListView;
@@ -41,6 +43,8 @@ public class FragmentLastMonth extends Fragment implements FirebaseAuth.AuthStat
     FirebaseAuth auth;
     FirebaseUser user;
     String[] result;
+    Calendar calendar=Calendar.getInstance();
+    SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy");
 
     @Override
     public void onStart() {
@@ -64,7 +68,7 @@ public class FragmentLastMonth extends Fragment implements FirebaseAuth.AuthStat
         listView=view.findViewById(R.id.listGiaoDichThuChiLastMonth);
         adapterParentListView=new AdapterParentListView(getActivity(),R.layout.minh_custom_listview_parent,arrayObjest);
         listView.setAdapter(adapterParentListView);
-        String ngaythangnam= TransactionManager.simpleDateFormat.format(TransactionManager.calendar.getTime());
+        String ngaythangnam= simpleDateFormat.format(calendar.getTime());
 
         result= DayTimeManager.splitDayGetPreviousMonth(ngaythangnam);
         readAllDayinThisMonth(result[0]);

@@ -185,7 +185,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:onClick="xuLyChonPhuongThuc"
-                        android:scaleType="fitCenter"
+                        android:scaleType="fitXY"
                         app:srcCompat="@drawable/wallet_picture" />
 
                     <EditText
@@ -286,7 +286,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:onClick="xuLyChonSuKien"
-                        android:scaleType="fitCenter"
+                        android:scaleType="fitXY"
                         app:srcCompat="@drawable/calendar_picture" />
 
                     <EditText

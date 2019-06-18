@@ -24,7 +24,7 @@ public class Transaction implements Serializable {
     }
 
     public Transaction(){
-
+        this.IDSuKien=0;
     }
     public Transaction(String sotien, String nhom, String ghichu, String ngay, String thanhtoan, String banbe, String nhacnho, String sukien) {
         this.sotien = sotien;
