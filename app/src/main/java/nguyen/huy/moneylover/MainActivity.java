@@ -125,7 +125,8 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Long bl = dataSnapshot.getValue(Long.class);
-                balance = bl;
+                if (bl!=null) balance = bl;
+                else balance = 0;
             }
 
             @Override
